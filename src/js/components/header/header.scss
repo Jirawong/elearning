@@ -1,0 +1,19 @@
+.header {
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  box-shadow: 0 1px 2px #ccc;
+
+  .header-inner {
+    padding: 0 5px;
+    border-top: 4px solid #17aa1c;
+    height: 52px;
+
+    &.flex {
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+  }
+}
