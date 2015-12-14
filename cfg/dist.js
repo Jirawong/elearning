@@ -7,7 +7,7 @@ var baseConfig = require('./base');
 
 var config = _.merge(
     {
-        entry: path.join(__dirname, '../src/js/components/run'),
+        entry: path.join(__dirname, '../src/js/app'),
         cache: false,
         devtool: 'hidden-source-map',
         plugins: [
