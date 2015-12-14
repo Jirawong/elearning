@@ -37,7 +37,7 @@ module.exports = {
         ],
         loaders: [
             {
-                test: /\.(png|jpg|gif|eot|woff|woff2|ttf|svg|eot|eot\?v=4.4.0|woff\?v=4.4.0|woff2\?v=4.4.0|ttf\?v=4.4.0|svg\?v=4.4.0)$/,
+                test: /\.(png|jpg|gif|eot|woff|woff2|ttf|svg|eot|eot\?v=4.5.0|woff\?v=4.5.0|woff2\?v=4.5.0|ttf\?v=4.5.0|svg\?v=4.5.0)$/,
                 loader: 'url-loader'
             }
         ]
