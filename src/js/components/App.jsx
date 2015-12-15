@@ -9,7 +9,7 @@ export default class App extends React.Component {
     }
 
     _getLoginState() {
-        return {'isLoggedIn': false};
+        return {'isLoggedIn': true};
     }
 
     render() {
