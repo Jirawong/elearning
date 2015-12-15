@@ -8,7 +8,7 @@ class Button extends React.Component {
     render(){
 
         return (
-            <Link to="home" className="button link" href="#">
+            <Link to="home" className="button link no-underline" href="#">
                 {this.getIcon()}
                 {this.props.children}
             </Link>

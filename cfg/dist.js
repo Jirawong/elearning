@@ -19,7 +19,8 @@ var config = _.merge(
             }),
             new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.optimize.AggressiveMergingPlugin(),
-            new webpack.NoErrorsPlugin()
+            new webpack.NoErrorsPlugin(),
+            new ExtractTextPlugin('style.css', {allChunks: true})
         ]
     },
     baseConfig
@@ -28,11 +29,11 @@ var config = _.merge(
 config.module.loaders.push(
     {
         test: /\.css$/,
-        loader: 'style!css?sourceMap'
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
     },
     {
         test: /\.scss$/,
-        loader: 'style!css?sourceMap!sass?sourceMap'
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')
     },
     {
         test: /\.(js|jsx)$/,

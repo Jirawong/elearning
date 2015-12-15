@@ -1,7 +1,8 @@
 /*eslint no-unused-vars: 0*/
 
-import 'normalize.css'
+//import 'normalize.css'
 import 'font-awesome/scss/font-awesome.scss';
+import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 import 'styles/app.scss';
 
 import React from 'react'

@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/header/Header';
+import Login from '../components/login/Login';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ export default class App extends React.Component {
     }
 
     _getLoginState() {
-        return {'isLoggedIn': true};
+        return {'isLoggedIn': false};
     }
 
     render() {
@@ -20,11 +21,7 @@ export default class App extends React.Component {
                 </div>
             );
         } else {
-            return (
-                <div>
-                    Login Page here.
-                </div>
-            );
+            return <Login />
         }
     }
 }
