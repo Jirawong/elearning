@@ -1,17 +1,16 @@
 import './button.scss';
 
 import React from 'react';
-import { Link } from 'react-router'
 
 class Button extends React.Component {
 
     render(){
 
         return (
-            <Link to="home" className="button link no-underline" href="#">
+            <a className="button link no-underline" onClick={this.props.onClick}>
                 {this.getIcon()}
                 {this.props.children}
-            </Link>
+            </a>
         );
     }
 
