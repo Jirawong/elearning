@@ -18,10 +18,16 @@ module.exports = {
         hot: true,
         port: port,
         publicPath: publicPath,
-        noInfo: false
+        noInfo: false,
+        proxy: {
+            '*': {
+                target: 'http://localhost:8080',
+                secure: false
+            }
+        }
     },
     resolve: {
-        extensions: ['', '.js', '.jsx','.css','.scss'],
+        extensions: ['', '.js', '.jsx', '.css', '.scss'],
         alias: {
             components: srcPath + '/components/',
             styles: srcPath + '/styles/'
@@ -35,8 +41,6 @@ module.exports = {
                 loader: 'eslint-loader'
             }
         ],
-        loaders: [
-
-        ]
+        loaders: []
     }
 };

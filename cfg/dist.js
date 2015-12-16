@@ -20,6 +20,10 @@ var config = _.merge(
             new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.optimize.AggressiveMergingPlugin(),
             new webpack.NoErrorsPlugin(),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery'
+            }),
             new ExtractTextPlugin('style.css', {allChunks: true})
         ]
     },

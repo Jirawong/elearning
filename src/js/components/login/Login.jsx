@@ -1,17 +1,19 @@
 import './login.scss';
 
 import React from 'react';
+import AuthenService from '../../services/AuthenService';
 
 
 export default class Login extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-    _login(e) {
+    login(e) {
         e.preventDefault();
-        console.log(this.refs.username.value+" "+this.refs.password.value);
+        AuthenService.login(
+            this.refs.username.value,
+            this.refs.password.value
+        ).catch(function () {
+            alert('Please check username and password!!');
+        });
     }
 
     render() {
@@ -40,7 +42,7 @@ export default class Login extends React.Component {
                                         </div>
                                         <button type="submit"
                                                 className="btn btn-lg btn-success btn-block"
-                                                onClick={this._login.bind(this)}>
+                                                onClick={this.login.bind(this)}>
                                             Login
                                         </button>
                                     </fieldset>

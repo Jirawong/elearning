@@ -15,7 +15,11 @@ var config = _.merge(
         devtool: 'eval',
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin()
+            new webpack.NoErrorsPlugin(),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery'
+            })
         ]
     },
     baseConfig

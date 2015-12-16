@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../components/header/Header';
 import Login from '../components/login/Login';
 
+import LoginStore from '../stores/LoginStore';
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -9,7 +11,20 @@ export default class App extends React.Component {
     }
 
     _getLoginState() {
-        return {'isLoggedIn': false};
+        return {'isLoggedIn': LoginStore.isLoggedIn()};
+    }
+
+    _onChange(){
+        this.setState(this._getLoginState());
+    }
+
+    componentDidMount(){
+        this.changeListener = this._onChange.bind(this);
+        LoginStore.addChangeListener(this.changeListener);
+    }
+
+    componentWillUnmount(){
+        LoginStore.removeChangeListener(this.changeListener);
     }
 
     render() {
