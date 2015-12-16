@@ -3,23 +3,53 @@ import './login.scss';
 import React from 'react';
 
 
-export default class Login extends React.Component{
-    render(){
+export default class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    _login(e) {
+        e.preventDefault();
+        console.log(this.refs.username.value+" "+this.refs.password.value);
+    }
+
+    render() {
         return (
-            <div className="login flex">
-                <div className="box box-shadow">
-                    <div className="login-box">
-                        <h2 className="box-heading">Mitrphol Competency Lance</h2>
-                        <div className="box-wrapper">
-                            <div className="box-cols fx">
-                                <a href="#"><span className="glyphicon glyphicon-star"></span> Star</a>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4 col-md-offset-4">
+                        <div className="login-panel panel panel-default">
+                            <div className="panel-heading">
+                                <h3 className="panel-title">Mitrphol Competency Lance</h3>
                             </div>
-                            <div className="box-seperator"></div>
-                            <div className="box-cols fx">b</div>
+                            <div className="panel-body">
+                                <form role="form">
+                                    <fieldset>
+                                        <div className="form-group">
+                                            <input className="form-control"
+                                                   placeholder="Username"
+                                                   name="username"
+                                                   type="text" ref="username"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <input className="form-control"
+                                                   placeholder="Password"
+                                                   name="password"
+                                                   type="password" ref="password"/>
+                                        </div>
+                                        <button type="submit"
+                                                className="btn btn-lg btn-success btn-block"
+                                                onClick={this._login.bind(this)}>
+                                            Login
+                                        </button>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
