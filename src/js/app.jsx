@@ -12,8 +12,7 @@ import { Router, Route } from 'react-router'
 import {createHistory} from 'history'
 
 import App from './components/App';
-import Header from './components/header/Header';
-import Content from './components/content/Content';
+import CourseScreen from './components/coursescreen/CourseScreen';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -29,7 +28,8 @@ if(localStorage.getItem('access_token')){
 ReactDOM.render((
     <Router history={history}>
         <Route component={App}>
-            <Route path="/" component={Content} />
+            <Route path="/" component={CourseScreen} />
+            <Route path="/courses" component={CourseScreen} />
         </Route>
     </Router>
 ), document.getElementById('app'));

@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/header/Header';
+import Content from '../components/content/Content';
 import Footer from '../components/footer/Footer';
 import Login from '../components/login/Login';
 
@@ -33,7 +34,7 @@ export default class App extends React.Component {
             return (
                 <div id='app-component'>
                     <Header />
-                    {this.props.children}
+                    <Content {...this.props} />
                     <Footer />
                 </div>
             );
