@@ -9,7 +9,7 @@ module.exports = {
     debug: true,
     output: {
         path: path.join(__dirname, '../src/main/webapp/assets'),
-        filename: 'app.js',
+        filename: 'bundle.js',
         publicPath: publicPath
     },
     devServer: {
