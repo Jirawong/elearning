@@ -1,8 +1,20 @@
 import './menu.scss';
 
 import React from 'react';
+import HistoryService from '../../services/HistoryService';
 
 export default class Menu extends React.Component {
+
+    _changePage(e) {
+        e.preventDefault();
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                e.currentTarget.getAttribute('href')
+            );
+    }
+
     render() {
         return (
             <div className="btn-group cats-dropdown">
@@ -19,7 +31,8 @@ export default class Menu extends React.Component {
                                     <h4>Cane Academy</h4>
                                     <ul className="sub-list">
                                         <li>
-                                            <a href="#" className="no-underline">
+                                            <a href="/courses" className="no-underline"
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การจัดการฟาร์มสมัยใหม่
                                             </a>
