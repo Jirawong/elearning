@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 import Login from '../components/login/Login';
 
 import LoginStore from '../stores/LoginStore';
@@ -33,6 +34,7 @@ export default class App extends React.Component {
                 <div id='app-component'>
                     <Header />
                     {this.props.children}
+                    <Footer />
                 </div>
             );
         } else {

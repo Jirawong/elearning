@@ -1,3 +1,5 @@
+/*global $ */
+
 import './header.scss';
 import logo from '../../images/logo.png';
 
@@ -12,12 +14,23 @@ export default class Header extends React.Component {
         AuthenService.logout()
     }
 
+    _toggleMenu(e){
+        e.preventDefault();
+        if($('.browse-courses').is('.on')){
+            $('.browse-courses').removeClass('on');
+            $('.content').addClass('hide-wrapper-left');
+        }else{
+            $('.browse-courses').addClass('on');
+            $('.content').removeClass('hide-wrapper-left');
+        }
+    }
+
     render() {
         return (
             <div className="header">
                 <div className="header-inner flex-align-center">
                     <div className="flex-align-center flex">
-                        <a className="button-link button-link-btn no-underline on" href="#">
+                        <a className="browse-courses button-link button-link-btn no-underline on" href="#" onClick={this._toggleMenu.bind(this)}>
                             <i className="fa fa-bars mr5"></i>Browse Courses
                         </a>
                         <div className="search-wrap">
