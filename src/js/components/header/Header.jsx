@@ -6,6 +6,7 @@ import logo from '../../images/logo.png';
 import React from 'react';
 
 import AuthenService from '../../services/AuthenService';
+import HistoryService from '../../services/HistoryService';
 
 export default class Header extends React.Component {
 
@@ -14,15 +15,25 @@ export default class Header extends React.Component {
         AuthenService.logout()
     }
 
-    _toggleMenu(e){
+    _toggleMenu(e) {
         e.preventDefault();
-        if($('.browse-courses').is('.on')){
+        if ($('.browse-courses').is('.on')) {
             $('.browse-courses').removeClass('on');
             $('.content').addClass('hide-wrapper-left');
-        }else{
+        } else {
             $('.browse-courses').addClass('on');
             $('.content').removeClass('hide-wrapper-left');
         }
+    }
+
+    _changePage(e) {
+        e.preventDefault();
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                e.currentTarget.getAttribute('href')
+            );
     }
 
     render() {
@@ -30,7 +41,8 @@ export default class Header extends React.Component {
             <div className="header">
                 <div className="header-inner flex-align-center">
                     <div className="flex-align-center flex">
-                        <a className="browse-courses button-link button-link-btn no-underline on" href="#" onClick={this._toggleMenu.bind(this)}>
+                        <a className="browse-courses button-link button-link-btn no-underline on" href="#"
+                           onClick={this._toggleMenu.bind(this)}>
                             <i className="fa fa-bars mr5"></i>Browse Courses
                         </a>
                         <div className="search-wrap">
@@ -43,12 +55,13 @@ export default class Header extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <img src={logo} />
+                    <a href="/" onClick={this._changePage.bind(this)}>
+                        <img src={logo}/>
                     </a>
                     <div className="flex flex-align-center flex-justify">
                         <div className="btn-group">
-                            <div className="dropdown-toggle flex-align-center" data-toggle="dropdown" aria-expanded="true">
+                            <div className="dropdown-toggle flex-align-center" data-toggle="dropdown"
+                                 aria-expanded="true">
                                 <a className="button-link button-link-btn no-underline" href="#">
                                     Admin
                                     <i className="fa fa-caret-down ml5"></i>
@@ -56,7 +69,8 @@ export default class Header extends React.Component {
                             </div>
                             <ul className="dropdown-menu pull-right">
                                 <li><a href="#">Profile</a></li>
-                                <li><a href="#">Create Course</a></li>
+                                <li><a href="/course-manage" onClick={this._changePage.bind(this)}>Course Manage</a>
+                                </li>
                                 <li className="divider"></li>
                                 <li>
                                     <a href="#" onClick={this._logout.bind(this)}>
