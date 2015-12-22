@@ -23,7 +23,7 @@ public class IndexController {
         this.reactRenderService = reactRenderService;
     }
 
-    @RequestMapping(value = "/**", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         //String content = reactRenderService.render("renderServer", commentService.findAll());
         //model.addAttribute("content", content);
