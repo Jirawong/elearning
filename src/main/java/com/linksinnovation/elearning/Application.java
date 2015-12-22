@@ -14,17 +14,6 @@ import org.springframework.http.HttpStatus;
 @SpringBootApplication
 public class Application {
 
-    @Bean
-    public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
-        return new EmbeddedServletContainerCustomizer() {
-            @Override
-            public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
-                configurableEmbeddedServletContainer
-                        .addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
-            }
-        };
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

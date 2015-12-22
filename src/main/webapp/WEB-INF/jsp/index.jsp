@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="shortcut icon" href="favicon.ico"/>
-    <link rel="stylesheet" href="assets/style.css"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="/assets/style.css"/>
 </head>
 <body>
 <div id="app"></div>
-<script type="text/javascript" src="assets/bundle.js"></script>
+<script type="text/javascript" src="/assets/bundle.js"></script>
 </body>
 </html>
