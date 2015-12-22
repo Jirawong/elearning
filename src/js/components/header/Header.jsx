@@ -43,7 +43,7 @@ export default class Header extends React.Component {
                     <div className="flex-align-center flex">
                         <a className="browse-courses button-link button-link-btn no-underline on" href="#"
                            onClick={this._toggleMenu.bind(this)}>
-                            <i className="fa fa-bars"></i>Browse Courses
+                            <i className="fa fa-bars mr5"></i>Browse Courses
                         </a>
 
                         <div className="search-wrap">
