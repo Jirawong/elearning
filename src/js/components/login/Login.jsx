@@ -23,7 +23,7 @@ export default class Login extends React.Component {
                     <div className="col-md-4 col-md-offset-4">
                         <div className="login-panel panel panel-default">
                             <div className="panel-heading">
-                                <h3 className="panel-title">Mitrphol Competency Lance</h3>
+                                <h3 className="panel-title">Mitrphol Competency Lane</h3>
                             </div>
                             <div className="panel-body">
                                 <form role="form">

@@ -31,9 +31,9 @@ export default class Header extends React.Component {
         HistoryService
             .get()
             .pushState(
-                null,
-                e.currentTarget.getAttribute('href')
-            );
+            null,
+            e.currentTarget.getAttribute('href')
+        );
     }
 
     render() {
@@ -43,8 +43,9 @@ export default class Header extends React.Component {
                     <div className="flex-align-center flex">
                         <a className="browse-courses button-link button-link-btn no-underline on" href="#"
                            onClick={this._toggleMenu.bind(this)}>
-                            <i className="fa fa-bars mr5"></i>Browse Courses
+                            <i className="fa fa-bars"></i>Browse Courses
                         </a>
+
                         <div className="search-wrap">
                             <div className="search">
                                 <form>
@@ -58,6 +59,7 @@ export default class Header extends React.Component {
                     <a href="/" onClick={this._changePage.bind(this)}>
                         <img src={logo}/>
                     </a>
+
                     <div className="flex flex-align-center flex-justify">
                         <div className="btn-group">
                             <div className="dropdown-toggle flex-align-center" data-toggle="dropdown"
@@ -68,15 +70,16 @@ export default class Header extends React.Component {
                                 </a>
                             </div>
                             <ul className="dropdown-menu pull-right">
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="/course-manage" onClick={this._changePage.bind(this)}>Course Manage</a>
+                                <li><a href="#"><i className="fa fa-user fa-al"></i>My Profile</a></li>
+                                <li><a href="#"><i className="fa fa-graduation-cap fa-al"></i>My Courses</a></li>
+                                <li><a href="#"><i className="fa fa-heart fa-al"></i>My Wishlist</a></li>
+                                <li><a href="/course-manage" onClick={this._changePage.bind(this)}><i className="fa fa-users fa-al"></i>Instructor</a>
                                 </li>
                                 <li className="divider"></li>
-                                <li>
-                                    <a href="#" onClick={this._logout.bind(this)}>
-                                        <i className="fa fa-power-off mr5"></i>
-                                        Logout
-                                    </a>
+                                <li><a href="#"><i className="fa fa-user-secret fa-al"></i>Admin Console</a>
+                                </li>
+                                <li className="divider"></li>
+                                <li><a href="#" onClick={this._logout.bind(this)}><i className="fa fa-power-off fa-al"></i>Logout</a>
                                 </li>
                             </ul>
                         </div>

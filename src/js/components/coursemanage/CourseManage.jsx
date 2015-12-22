@@ -12,6 +12,12 @@ export default class CourseManage extends React.Component {
                             <div className="side-nav">
                                 <ul>
                                     <li>
+                                        <span>COURSE CONTENT</span>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="no-underline"><i className="fa fa-book"></i>Curriculum</a>
+                                    </li>
+                                    <li>
                                         <span>COURSE INFO</span>
                                     </li>
                                     <li>
@@ -25,9 +31,6 @@ export default class CourseManage extends React.Component {
                                     </li>
                                     <li>
                                         <a href="#" className="no-underline"><i className="fa fa-file-video-o"></i>Course Video</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="no-underline"><i className="fa fa-question"></i>Quiz</a>
                                     </li>
                                 </ul>
                             </div>
