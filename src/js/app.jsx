@@ -14,6 +14,7 @@ import {createHistory} from 'history'
 import App from './components/App';
 import CourseScreen from './components/coursescreen/CourseScreen';
 import CourseManage from './components/coursemanage/CourseManage';
+import CourseVideo from './components/coursevideo/CourseVideo';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -31,7 +32,9 @@ ReactDOM.render((
         <Route component={App}>
             <Route path="/" component={CourseScreen} />
             <Route path="/courses" component={CourseScreen} />
-            <Route path="/course-manage" component={CourseManage} />
+            <Route path="/coursemanage" component={CourseManage}>
+                <Route path="/coursevideo" component={CourseVideo} />
+            </Route>
         </Route>
     </Router>
 ), document.getElementById('app'));

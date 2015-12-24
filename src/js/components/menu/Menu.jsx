@@ -3,17 +3,16 @@ import './menu.scss';
 import React from 'react';
 import HistoryService from '../../services/HistoryService';
 
-export default
-class Menu extends React.Component {
+export default class Menu extends React.Component {
 
     _changePage(e) {
         e.preventDefault();
         HistoryService
             .get()
             .pushState(
-            null,
-            e.currentTarget.getAttribute('href')
-        );
+                null,
+                e.currentTarget.getAttribute('href')
+            );
     }
 
     render() {
@@ -27,69 +26,69 @@ class Menu extends React.Component {
                                 <span className="cat-title">Cane Academy</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin1">
+                            <div className="dropdown-menu sub skin5">
                                 <div className="flex-direction-column h100p">
                                     <h4>Cane Academy</h4>
                                     <ul className="sub-list">
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การจัดการฟาร์มสมัยใหม่
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การส่งเสริมชาวไร
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การบริหารความสัมพันธ์กับชาวไร่
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การชลประทาน
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การเก็บเกี่ยวและการขนส่ง
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 เทคโนโลยีสารสนเทสงานอ้อย
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การประเมินและติดตามอ้อย
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การบริหารสินเชื่อ
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/courses" className="no-underline"
-                                                onClick={this._changePage.bind(this)}>
+                                               onClick={this._changePage.bind(this)}>
                                                 <i className="cat-icon fa fa-university"></i>
                                                 การจัดทำงบประมาณด้านอ้อย
                                             </a>
@@ -104,7 +103,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">Sugar Product Academy</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin2">
+                            <div className="dropdown-menu sub skin4">
                                 <div className="flex-direction-column h100p">
                                     <h4>Sugar Product Academy</h4>
                                     <ul className="sub-list">
@@ -174,7 +173,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">Marketing Academy</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin4">
+                            <div className="dropdown-menu sub skin2">
                                 <div className="flex-direction-column h100p">
                                     <h4>Marketing Academy</h4>
                                     <ul className="sub-list">
@@ -242,7 +241,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">Financial Academy</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin5">
+                            <div className="dropdown-menu sub skin1">
                                 <div className="flex-direction-column h100p">
                                     <h4>Financial Academy</h4>
                                     <ul className="sub-list">
@@ -354,7 +353,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">People Academy</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin5">
+                            <div className="dropdown-menu sub skin4">
                                 <div className="flex-direction-column h100p">
                                     <h4>People Academy</h4>
                                     <ul className="sub-list">
@@ -446,7 +445,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">Safety & Productivity</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin5">
+                            <div className="dropdown-menu sub skin3">
                                 <div className="flex-direction-column h100p">
                                     <h4>Financial Academy</h4>
                                     <ul className="sub-list">
@@ -490,7 +489,7 @@ class Menu extends React.Component {
                                 <span className="cat-title">Technical & Engineering</span>
                                 <i className="fa fa-angle-right"></i>
                             </a>
-                            <div className="dropdown-menu sub skin5">
+                            <div className="dropdown-menu sub skin2">
                                 <div className="flex-direction-column h100p">
                                     <h4>Technical & Engineering</h4>
                                     <ul className="sub-list">
