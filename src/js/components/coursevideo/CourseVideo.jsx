@@ -3,6 +3,7 @@
 import './coursevideo.scss';
 
 import React from 'react'
+import UploadProgress from '../uploadprogress/UploadProgress';
 
 export default class CourseVideo extends React.Component {
 
@@ -18,26 +19,24 @@ export default class CourseVideo extends React.Component {
 
     _onFileSelected(e) {
         var files = e.target.files;
-        var fileList = this.state.files;
-        for (var i = 0; i < files.length; i++) {
-            fileList[i] = files[i];
+        var fileList = [];
+        var len = this.state.files.length;
+
+        for (var i = len; i < files.length+len; i++) {
+            var file = files[i-len];
+            file.id = i;
+            fileList[i-len] = file;
         }
 
-        this.setState({files: fileList});
+        var concat = this.state.files.concat(fileList);
+        this.setState({files: concat});
     }
 
 
     render() {
-        console.log(this.state.files);
-
         var fileNodes = this.state.files.map(function (file) {
             return (
-                <div key={file.name} className="progress" style={{height:'40px'}}>
-                    <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                         aria-valuemax="100" style={{width: '60%'}}>
-                        {file.name} 60%
-                    </div>
-                </div>
+                <UploadProgress key={file.id} file={file}/>
             );
         });
 
@@ -52,7 +51,7 @@ export default class CourseVideo extends React.Component {
                         CHOOSE FILES TO UPLOAD
                     </button>
                 </div>
-                <div id="filelist">
+                <div className="filelist">
                     {fileNodes}
                 </div>
             </div>
