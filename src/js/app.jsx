@@ -13,8 +13,10 @@ import {createHistory} from 'history'
 
 import App from './components/App';
 import CourseScreen from './components/coursescreen/CourseScreen';
+import ManageBox from './components/managebox/ManageBox';
 import CourseManage from './components/coursemanage/CourseManage';
 import CourseVideo from './components/coursevideo/CourseVideo';
+import AdminConsole from './components/adminconsole/AdminConsole';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -23,17 +25,21 @@ const history = createHistory();
 
 HistoryService.set(history);
 
-if(localStorage.getItem('access_token')){
+if (localStorage.getItem('access_token')) {
     LoginAction.checkToken();
 }
 
 ReactDOM.render((
     <Router history={history}>
         <Route component={App}>
-            <Route path="/" component={CourseScreen} />
-            <Route path="/courses" component={CourseScreen} />
-            <Route path="/coursemanage" component={CourseManage}>
-                <Route path="/coursevideo" component={CourseVideo} />
+            <Route path="/" component={CourseScreen}/>
+            <Route path="/courses" component={CourseScreen}/>
+            <Route component={ManageBox}>
+                <Route path="/course-manage" component={CourseManage}>
+                    <Route path="/course-video" component={CourseVideo}/>
+                </Route>
+                <Route path="/admin-console" component={AdminConsole}>
+                </Route>
             </Route>
         </Route>
     </Router>
