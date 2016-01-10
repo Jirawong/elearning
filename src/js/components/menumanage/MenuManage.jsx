@@ -40,7 +40,6 @@ export default class MenuManage extends React.Component {
 
     _move() {
         this.positions.map(function (pos, index) {
-            console.log(pos);
             if (pos.indexOf('.') === -1) {
                 var menu = this.state.data[pos];
                 menu.ordered = index;

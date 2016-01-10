@@ -2,7 +2,20 @@ import './coursebox.scss';
 
 import React from 'react'
 
+import HistoryService from '../../services/HistoryService';
+
 export default class CourseScreen extends React.Component {
+
+    _changePage(e) {
+        e.preventDefault();
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                e.currentTarget.getAttribute('href')
+            );
+    }
+
     render() {
         return (
             <div className="course-box">
@@ -14,11 +27,11 @@ export default class CourseScreen extends React.Component {
                         <div className="tooltip-inner not-in-wishlist">Wishlist</div>
                     </div>
                 </div>
-                <a href="#" className="mask no-underline">
+                <a href={this.props.data.url} onClick={this._changePage.bind(this)} className="mask no-underline">
                             <span>
                                 <span className="course-info flex-direction-column">
-                                    <span className="row-one">35 lectures</span>
-                                    <span className="row-two">7 hours video</span>
+                                    <span className="row-one">{this.props.data.lectures}</span>
+                                    <span className="row-two">{this.props.data.hours}</span>
                                 </span>
                                 <span className="course-thumb pos-relative">
                                     <img
@@ -34,8 +47,8 @@ export default class CourseScreen extends React.Component {
                                 </span>
                                 <span className="flex">
                                     <span
-                                        className="title ellipsis-2lines">Mastering HTML5 Programming - The Easier Way</span>
-                                    <span className="body ellipsis-2lines">EDUmobile Academy, High Quality Mobile Training</span>
+                                        className="title ellipsis-2lines">{this.props.data.title}</span>
+                                    <span className="body ellipsis-2lines">{this.props.data.subtitle}</span>
                                     <span className="review flex-box">
                                         <span className="review-count">
                                             <span className="rating">
@@ -45,8 +58,8 @@ export default class CourseScreen extends React.Component {
                                         </span>
                                     </span>
                                     <span className="flex-align-center mh36">
-                                        <span className="promotion hot">
-                                            Hot
+                                        <span className={this.props.data.classname}>
+                                            {this.props.data.promotion}
                                         </span>
                                     </span>
                                 </span>

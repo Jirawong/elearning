@@ -2,19 +2,7 @@ import './managebox.scss';
 
 import React from 'react';
 
-import HistoryService from '../../services/HistoryService';
-
 export default class CourseManage extends React.Component {
-
-    _changePage(e) {
-        e.preventDefault();
-        HistoryService
-            .get()
-            .pushState(
-                null,
-                e.currentTarget.getAttribute('href')
-            );
-    }
 
     render() {
         return (

@@ -29,6 +29,7 @@ public class Menu {
     private Menu parent;
 
     @JsonManagedReference
+    @OrderBy("ordered ASC")
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Menu> childs;
 

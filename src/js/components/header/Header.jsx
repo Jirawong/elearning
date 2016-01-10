@@ -73,7 +73,7 @@ export default class Header extends React.Component {
                                 <li><a href="#"><i className="fa fa-user fa-al"></i>My Profile</a></li>
                                 <li><a href="#"><i className="fa fa-graduation-cap fa-al"></i>My Courses</a></li>
                                 <li><a href="#"><i className="fa fa-heart fa-al"></i>My Wishlist</a></li>
-                                <li><a href="/course-manage" onClick={this._changePage.bind(this)}><i className="fa fa-users fa-al"></i>Instructor Dashboard</a>
+                                <li><a href="/instructor-dashboard" onClick={this._changePage.bind(this)}><i className="fa fa-users fa-al"></i>Instructor Dashboard</a>
                                 </li>
                                 <li className="divider"></li>
                                 <li><a href="/admin-console" onClick={this._changePage.bind(this)}><i className="fa fa-user-secret fa-al"></i>Admin Console</a>

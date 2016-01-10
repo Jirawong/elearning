@@ -1,11 +1,16 @@
 .menumanage {
     padding: 10px;
 
-    .panel-group{
+    .panel-group {
         margin-bottom: 5px;
     }
 
-    .panel-heading{
+    .panel-heading {
         padding: 5px 15px;
+    }
+
+    .panel-title {
+        margin-top: 3px;
+        font-size: 14px;
     }
 }

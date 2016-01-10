@@ -20,6 +20,8 @@ import CourseManage from './components/coursemanage/CourseManage';
 import CourseVideo from './components/coursevideo/CourseVideo';
 import AdminConsole from './components/adminconsole/AdminConsole';
 import MenuManage from './components/menumanage/MenuManage';
+import DashBoard from './components/dashboard/DashBoard';
+import Curriculum from './components/curriculum/Curriculum';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -44,6 +46,8 @@ ReactDOM.render((
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage} />
                 </Route>
+                <Route path="/instructor-dashboard" component={DashBoard}/>
+                <Route path="/curriculum" component={Curriculum} />
             </Route>
         </Route>
     </Router>
