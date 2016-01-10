@@ -20,6 +20,8 @@ public class Menu {
     private Long id;
     private String name;
     private String url;
+    @Column(nullable = false)
+    private Double ordered = 999999D;
 
     @ManyToOne
     @JoinColumn(name = "PARENT_ID")

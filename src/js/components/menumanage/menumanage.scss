@@ -1,19 +1,11 @@
 .menumanage {
     padding: 10px;
 
-    .sortmenu {
-        .alert {
-            min-height: 31px;
-            padding: 5px;
-            margin-bottom: 5px;
-        }
+    .panel-group{
+        margin-bottom: 5px;
+    }
 
-        .place-holder {
-            border: 1px dashed #faebcc;
-        }
-
-        .sub-menu {
-            margin-left: 15px;
-        }
+    .panel-heading{
+        padding: 5px 15px;
     }
 }

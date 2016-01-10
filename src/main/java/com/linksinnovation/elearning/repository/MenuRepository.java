@@ -9,5 +9,5 @@ import java.util.List;
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
  */
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    List<Menu> findByParentIsNull();
+    List<Menu> findByParentIsNullOrderByOrderedAsc();
 }

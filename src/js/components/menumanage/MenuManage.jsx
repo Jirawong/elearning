@@ -17,87 +17,144 @@ export default class MenuManage extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer '+localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
             },
             success: function (data) {
-                console.log(data);
                 this.setState({data: data});
+                this._sortable();
             }.bind(this)
         });
-
-        var self = this;
-
-        $('.sortmenu').sortable({
-            placeholder: 'alert alert-warning place-holder',
-            update: function () {
-                console.log($('.sortmenu').sortable('toArray', {attribute: 'value'}));
-                this.positions = $('.sortmenu').sortable('toArray', {attribute: 'value'});
-                self._move();
-            }.bind(this)
-        }).disableSelection();
 
     }
 
+    _sortable() {
+        var self = this;
+        $('.sortmenu,.sortsubmenu').sortable({
+            placeholder: 'alert alert-warning place-holder',
+            update: function () {
+                self.positions = $(this).sortable('toArray', {attribute: 'value'});
+                self._move();
+            }
+        }).disableSelection();
+    }
+
     _move() {
-        var moveMenu = [];
-        this.positions.map(function (pos) {
+        this.positions.map(function (pos, index) {
+            console.log(pos);
             if (pos.indexOf('.') === -1) {
-                var menu = $.extend(true,{},this.state.data[pos]);
-                menu.childs = [];
-                moveMenu.push(menu);
+                var menu = this.state.data[pos];
+                menu.ordered = index;
             } else {
                 var position = pos.split('.');
-                var menu = $.extend(true,{},this.state.data[position[0]].childs[position[1]]);
-                moveMenu[moveMenu.length - 1].childs.push(menu);
+                var menu = this.state.data[position[0]].childs[position[1]];
+                menu.ordered = position[0]+'.'+index;
             }
         }.bind(this));
-        //this.setState({data:moveMenu});
-        console.log(moveMenu);
-        console.log(JSON.stringify(moveMenu));
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            contentType:"application/json; charset=utf-8",
-            method: 'POST',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer '+localStorage.getItem('access_token')
-            },
-            data: JSON.stringify(moveMenu)
-        });
+        this.setState({data: this.state.data});
     }
 
     _add() {
         var newMenu = {
-            name: 'new',
+            name: 'New Menu',
             url: 'url',
             childs: []
         };
         this.state.data.push(newMenu);
         this.setState(this.state.data);
-        console.log(this.state.data);
+    }
+
+    _addSub(id) {
+        var newMenu = {
+            name: 'New SubMenu',
+            url: 'url',
+            childs: []
+        };
+        this.state.data[id].childs.push(newMenu);
+        this.setState(this.state.data);
+        this._sortable();
+    }
+
+    _delete(id) {
         $.ajax({
             url: '/api/menu',
             dataType: 'json',
-            contentType:"application/json; charset=utf-8",
+            contentType: 'application/json; charset=utf-8',
+            method: 'DELETE',
+            cache: false,
+            headers: {
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+            },
+            data: JSON.stringify({id: id}),
+            success: function (data) {
+                this.setState({data: data});
+            }.bind(this)
+        });
+    }
+
+    _save() {
+        $.ajax({
+            url: '/api/menu',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
             method: 'POST',
             cache: false,
             headers: {
-                'Authorization': 'bearer '+localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
             },
-            data: JSON.stringify(this.state.data)
+            data: JSON.stringify(this.state.data),
+            success: function (data) {
+                this.setState({data: data});
+            }.bind(this)
         });
     }
 
     render() {
-        var nodes = [];
-        this.state.data.map(function (main, index) {
-            nodes.push(<div key={index} value={index} className="alert alert-info">{main.name}</div>);
-            main.childs.map(function (sub, subindex) {
-                nodes.push(<div key={index +"."+subindex}
-                                value={index +"."+subindex}
-                                className="alert alert-warning sub-menu">{sub.name}</div>);
+
+        var self = this;
+
+        var nodes = this.state.data.map(function (main, index) {
+
+            var subNodes = main.childs.map(function (sub, subIndex) {
+                return (
+                    <li key={index+'.'+subIndex} value={index+'.'+subIndex} className="list-group-item">
+                        <div className="btn-group pull-right">
+                            <button className="btn btn-default btn-xs">Edit</button>
+                            <button onClick={self._delete.bind(self,sub.id)} className="btn btn-default btn-xs">
+                                Delete
+                            </button>
+                        </div>
+                        {sub.name}
+                    </li>
+                );
             });
+
+            return (
+                <div className="panel-group" key={index} value={index}>
+                    <div className="panel panel-default">
+                        <div className="panel-heading clearfix">
+                            <div className="btn-group pull-right">
+                                <button className="btn btn-default btn-xs">Edit</button>
+                                <button onClick={self._delete.bind(self,main.id)} className="btn btn-default btn-xs">
+                                    Delete
+                                </button>
+                            </div>
+                            <h4 className="panel-title">
+                                <a data-toggle="collapse" href={'#collapse'+index}>{main.name}</a>
+                            </h4>
+                        </div>
+                        <div id={'collapse'+index} className="panel-collapse collapse">
+                            <ul className="list-group sortsubmenu">
+                                {subNodes}
+                            </ul>
+                            <div className="panel-footer">
+                                <button onClick={self._addSub.bind(self,index)} className="btn btn-default btn-xs">Add
+                                    SubMenu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
         });
 
         return (
@@ -105,7 +162,10 @@ export default class MenuManage extends React.Component {
                 <div className="sortmenu">
                     {nodes}
                 </div>
-                <button onClick={this._add.bind(this)}>Add</button>
+                <div className="btn-group">
+                    <button onClick={this._add.bind(this)} className="btn btn-default btn-sm">Add Menu</button>
+                    <button onClick={this._save.bind(this)} className="btn btn-default btn-sm">Save</button>
+                </div>
             </div>
         );
     }
