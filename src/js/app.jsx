@@ -3,8 +3,10 @@
 import 'font-awesome/scss/font-awesome.scss';
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 import 'styles/app.scss';
+import 'jquery-ui/themes/smoothness/jquery-ui';
 
 import 'bootstrap-sass/assets/javascripts/bootstrap';
+import 'jquery-ui/sortable';
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -17,6 +19,7 @@ import ManageBox from './components/managebox/ManageBox';
 import CourseManage from './components/coursemanage/CourseManage';
 import CourseVideo from './components/coursevideo/CourseVideo';
 import AdminConsole from './components/adminconsole/AdminConsole';
+import MenuManage from './components/menumanage/MenuManage';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -39,6 +42,7 @@ ReactDOM.render((
                     <Route path="/course-video" component={CourseVideo}/>
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
+                    <Route path="/menu-manage" component={MenuManage} />
                 </Route>
             </Route>
         </Route>

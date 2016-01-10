@@ -1,6 +1,18 @@
 import React from 'react';
+import HistoryService from '../../services/HistoryService';
 
 export default class AdminConsole extends React.Component {
+
+    _changePage(e) {
+        e.preventDefault();
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                e.currentTarget.getAttribute('href')
+            );
+    }
+
     render() {
         return (
             <div className="main">
@@ -10,7 +22,7 @@ export default class AdminConsole extends React.Component {
                             <span>ADMIN CONSOLE</span>
                         </li>
                         <li>
-                            <a href="#" className="no-underline"><i className="fa fa-book"></i>Menu Manage</a>
+                            <a href="/menu-manage" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i>Menu Manage</a>
                         </li>
                     </ul>
                 </div>
