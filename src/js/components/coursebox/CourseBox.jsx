@@ -48,7 +48,7 @@ export default class CourseScreen extends React.Component {
                                 <span className="flex">
                                     <span
                                         className="title ellipsis-2lines">{this.props.data.title}</span>
-                                    <span className="body ellipsis-2lines">{this.props.data.subtitle}</span>
+                                    <span className="body ellipsis-2lines">{this.props.data.subTitle}</span>
                                     <span className="review flex-box">
                                         <span className="review-count">
                                             <span className="rating">
@@ -59,7 +59,7 @@ export default class CourseScreen extends React.Component {
                                     </span>
                                     <span className="flex-align-center mh36">
                                         <span className={this.props.data.classname}>
-                                            {this.props.data.promotion}
+                                            {this.props.data.status}
                                         </span>
                                     </span>
                                 </span>

@@ -1,3 +1,4 @@
+/*global $ */
 import './dashboard.scss';
 
 import React from 'react';
@@ -9,7 +10,41 @@ export default class DashBoard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: {}, publish: {}};
+        this.state = {data: []};
+    }
+
+    _createCourse(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/api/course/create',
+            dataType: 'json',
+            cache: false,
+            headers: {
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+            },
+            success: function (data) {
+                HistoryService
+                    .get()
+                    .pushState(
+                        null,
+                        '/course-basic/' + data
+                    );
+            }.bind(this)
+        });
+    }
+
+    _loadCourse() {
+        $.ajax({
+            url: '/api/course',
+            dataType: 'json',
+            cache: false,
+            headers: {
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+            },
+            success: function (data) {
+                this.setState({data: data});
+            }.bind(this)
+        });
     }
 
     componentDidMount() {
@@ -20,50 +55,45 @@ export default class DashBoard extends React.Component {
             lectures: '0 lectures',
             hours: '0 hours video',
             promotion: 'Draft',
-            classname:'promotion recommend'
+            classname: 'promotion recommend'
         }
         var publish = {
             url: '/course-manage',
             title: 'Mastering HTML5 Programming - The Easier Way',
-            subtitle:'EDUmobile Academy, High Quality Mobile Training',
+            subtitle: 'EDUmobile Academy, High Quality Mobile Training',
             lectures: '35 lectures',
             hours: '7 hours video',
             promotion: 'Published',
-            classname:'promotion new'
+            classname: 'promotion new'
         }
-        this.setState({
-            data: data,
-            publish: publish
-        });
-    }
 
-    _changePage(e) {
-        e.preventDefault();
-        HistoryService
-            .get()
-            .pushState(
-                null,
-                e.currentTarget.getAttribute('href')
-            );
+        this._loadCourse();
     }
 
     render() {
+
+        var nodes = this.state.data.map(function (course) {
+            course.url = '/course-basic/' + course.id;
+            course.classname = 'promotion recommend';
+
+            return (
+                <div key={course.id} className="col-xs-3 col-align-center">
+                    <CourseBox data={course}/>
+                </div>
+            );
+        });
+
         return (
             <div className="dashboard">
                 <div className="btn-group pull-right">
-                    <a href="/course-manage" onClick={this._changePage.bind(this)} className="btn btn-primary">
+                    <button onClick={this._createCourse.bind(this)} className="btn btn-primary">
                         Create Course
-                    </a>
+                    </button>
                 </div>
 
                 <div className="card-box">
                     <div className="row carousel">
-                        <div className="col-xs-3 col-align-center">
-                            <CourseBox data={this.state.data}/>
-                        </div>
-                        <div className="col-xs-3 col-align-center">
-                            <CourseBox data={this.state.publish}/>
-                        </div>
+                        {nodes}
                     </div>
                 </div>
             </div>

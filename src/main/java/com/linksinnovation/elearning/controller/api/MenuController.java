@@ -13,24 +13,24 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/menu")
 public class MenuController {
 
     @Autowired
     private MenuRepository menuRepository;
 
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Menu> get() {
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public List<Menu> post(@RequestBody List<Menu> menus) {
         menuRepository.save(menus);
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public List<Menu> delete(@RequestBody Map<String,Long> map){
         menuRepository.delete(map.get("id"));
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
