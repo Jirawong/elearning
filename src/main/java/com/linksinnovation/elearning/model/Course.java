@@ -1,8 +1,10 @@
 package com.linksinnovation.elearning.model;
 
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -25,6 +27,9 @@ public class Course {
     @ManyToOne
     private Menu subCategory;
     @ManyToOne
+    @JsonIgnore
     private UserDetails user;
+    @OneToMany
+    private List<Section> sections;
 
 }

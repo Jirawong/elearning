@@ -48,24 +48,24 @@ export default class DashBoard extends React.Component {
     }
 
     componentDidMount() {
-        var data = {
-            url: '/course-manage',
-            title: 'Draft Course',
-            subtitle: 'Draft Course SubTitle',
-            lectures: '0 lectures',
-            hours: '0 hours video',
-            promotion: 'Draft',
-            classname: 'promotion recommend'
-        }
-        var publish = {
-            url: '/course-manage',
-            title: 'Mastering HTML5 Programming - The Easier Way',
-            subtitle: 'EDUmobile Academy, High Quality Mobile Training',
-            lectures: '35 lectures',
-            hours: '7 hours video',
-            promotion: 'Published',
-            classname: 'promotion new'
-        }
+        //var data = {
+        //    url: '/course-manage',
+        //    title: 'Draft Course',
+        //    subtitle: 'Draft Course SubTitle',
+        //    lectures: '0 lectures',
+        //    hours: '0 hours video',
+        //    promotion: 'Draft',
+        //    classname: 'promotion recommend'
+        //}
+        //var publish = {
+        //    url: '/course-manage',
+        //    title: 'Mastering HTML5 Programming - The Easier Way',
+        //    subtitle: 'EDUmobile Academy, High Quality Mobile Training',
+        //    lectures: '35 lectures',
+        //    hours: '7 hours video',
+        //    promotion: 'Published',
+        //    classname: 'promotion new'
+        //}
 
         this._loadCourse();
     }

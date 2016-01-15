@@ -16,7 +16,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Id
     private String username;
-    @JsonIgnore
     private String password;
 
     @Override
@@ -54,6 +53,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

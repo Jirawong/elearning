@@ -25,7 +25,7 @@ export default class CourseManage extends React.Component {
                             <span>COURSE CONTENT</span>
                         </li>
                         <li>
-                            <a href="#" className="no-underline"><i className="fa fa-book"></i>Curriculum</a>
+                            <a href={'/course-curriculum/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i>Curriculum</a>
                         </li>
                         <li>
                             <span>COURSE INFO</span>

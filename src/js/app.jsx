@@ -17,6 +17,7 @@ import App from './components/App';
 import CourseScreen from './components/coursescreen/CourseScreen';
 import ManageBox from './components/managebox/ManageBox';
 import CourseManage from './components/coursemanage/CourseManage';
+import CourseCurriculum from './components/coursecurriculum/CourseCurriculum';
 import CourseBasic from './components/coursebasic/CourseBasic';
 import CourseVideo from './components/coursevideo/CourseVideo';
 import AdminConsole from './components/adminconsole/AdminConsole';
@@ -42,6 +43,7 @@ ReactDOM.render((
             <Route path="/courses" component={CourseScreen}/>
             <Route component={ManageBox}>
                 <Route path="/course-manage" component={CourseManage}>
+                    <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
                     <Route path="/course-basic/:courseId" component={CourseBasic}/>
                     <Route path="/course-video/:courseId" component={CourseVideo}/>
                 </Route>
