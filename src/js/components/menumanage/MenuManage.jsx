@@ -46,7 +46,7 @@ export default class MenuManage extends React.Component {
             } else {
                 var position = pos.split('.');
                 var menu = this.state.data[position[0]].childs[position[1]];
-                menu.ordered = position[0]+'.'+index;
+                menu.ordered = position[0] + '.' + index;
             }
         }.bind(this));
         this.setState({data: this.state.data});
@@ -107,6 +107,34 @@ export default class MenuManage extends React.Component {
         });
     }
 
+    _edit(e) {
+        e.preventDefault();
+        $(e.target).parent().parent().addClass('hide');
+        $(e.target).parent().parent().next().removeClass('hide');
+    }
+
+    _saveEdit(index, e) {
+        e.preventDefault();
+        var menu;
+
+        if (index.indexOf('-') === -1) {
+            menu = this.state.data[index];
+        } else {
+            var position = index.split('-');
+            menu = this.state.data[position[0]].childs[position[1]];
+        }
+
+        menu.name = $('#editbox-' + index).val();
+        this.setState(this.state.data);
+        this._cancle(e);
+    }
+
+    _cancle(e) {
+        e.preventDefault();
+        $(e.target).parent().parent().parent().parent().addClass('hide');
+        $(e.target).parent().parent().parent().parent().prev().removeClass('hide');
+    }
+
     render() {
 
         var self = this;
@@ -116,13 +144,34 @@ export default class MenuManage extends React.Component {
             var subNodes = main.childs.map(function (sub, subIndex) {
                 return (
                     <li key={index+'.'+subIndex} value={index+'.'+subIndex} className="list-group-item">
-                        <div className="btn-group pull-right">
-                            <button className="btn btn-default btn-xs">Edit</button>
-                            <button onClick={self._delete.bind(self,sub.id)} className="btn btn-default btn-xs">
-                                Delete
-                            </button>
+                        <div>
+                            <div className="btn-group pull-right">
+                                <button onClick={self._edit.bind(this)} className="btn btn-default btn-xs">
+                                    Edit
+                                </button>
+                                <button onClick={self._delete.bind(self,sub.id)} className="btn btn-default btn-xs">
+                                    Delete
+                                </button>
+                            </div>
+                            {sub.name}
                         </div>
-                        {sub.name}
+                        <div className="hide">
+                            <div className="row">
+                                <div className="col-xs-8">
+                                    <input id={'editbox-'+index+'-'+subIndex} className="form-group" type="text" defaultValue={sub.name} onChange={function(){}}/>
+                                </div>
+                                <div className="col-xs-4">
+                                    <div className="btn-group pull-right">
+                                        <button className="btn btn-default btn-xs" onClick={self._saveEdit.bind(self,index+'-'+subIndex)}>
+                                            Save
+                                        </button>
+                                        <button className="btn btn-default btn-xs" onClick={self._cancle.bind(this)}>
+                                            Cancle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 );
             });
@@ -130,9 +179,9 @@ export default class MenuManage extends React.Component {
             return (
                 <div className="panel-group" key={index} value={index}>
                     <div className="panel panel-default">
-                        <div className="panel-heading clearfix">
+                        <div className="panel-heading clearfix display">
                             <div className="btn-group pull-right">
-                                <button className="btn btn-default btn-xs">Edit</button>
+                                <button className="btn btn-default btn-xs" onClick={self._edit.bind(this)}>Edit</button>
                                 <button onClick={self._delete.bind(self,main.id)} className="btn btn-default btn-xs">
                                     Delete
                                 </button>
@@ -141,13 +190,34 @@ export default class MenuManage extends React.Component {
                                 <a data-toggle="collapse" href={'#collapse'+index}>{main.name}</a>
                             </h4>
                         </div>
+
+                        <div className="panel-heading clearfix editable hide">
+                            <div className="row">
+                                <div className="col-xs-8">
+                                    <input id={'editbox-'+index} className="form-group" type="text"
+                                           defaultValue={main.name} onChange={function(){}}/>
+                                </div>
+                                <div className="col-xs-4">
+                                    <div className="btn-group pull-right">
+                                        <button className="btn btn-default btn-xs"
+                                                onClick={self._saveEdit.bind(self,index)}>
+                                            Save
+                                        </button>
+                                        <button className="btn btn-default btn-xs" onClick={self._cancle.bind(this)}>
+                                            Cancle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id={'collapse'+index} className="panel-collapse collapse">
                             <ul className="list-group sortsubmenu">
                                 {subNodes}
                             </ul>
                             <div className="panel-footer">
-                                <button onClick={self._addSub.bind(self,index)} className="btn btn-default btn-xs">Add
-                                    SubMenu
+                                <button onClick={self._addSub.bind(self,index)} className="btn btn-default btn-xs">
+                                    Add SubMenu
                                 </button>
                             </div>
                         </div>

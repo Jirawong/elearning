@@ -7,7 +7,7 @@ var baseConfig = require('./base');
 var config = _.merge(
     {
         entry: [
-            'webpack-dev-server/client?http://172.16.0.225:8000',
+            'webpack-dev-server/client?http://172.16.0.172:8000',
             'webpack/hot/only-dev-server',
             './src/js/app'
         ],
