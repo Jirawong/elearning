@@ -36,10 +36,6 @@ export default class CourseManage extends React.Component {
                         <li>
                             <a href="#" className="no-underline"><i className="fa fa-picture-o"></i>Image Cover</a>
                         </li>
-                        <li>
-                            <a href={'/course-video/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i
-                                className="fa fa-file-video-o"></i>Course Video</a>
-                        </li>
                     </ul>
                 </div>
                 <div className="form-wrapper">

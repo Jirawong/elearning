@@ -58,7 +58,10 @@ export default class UploadProgress extends React.Component {
         self.uploadRequest.overrideMimeType('application/octet-stream');
 
         if (self.rangeStart !== 0) {
+            self.uploadRequest.setRequestHeader('Content-Lecture', this.props.lecture);
             self.uploadRequest.setRequestHeader('Content-Name', this.props.file.name);
+            self.uploadRequest.setRequestHeader('Content-End', self.rangeEnd);
+            self.uploadRequest.setRequestHeader('Content-FileSize', self.fileSize);
             self.uploadRequest.setRequestHeader('Content-Range', 'bytes ' + self.rangeStart + '-' + self.rangeEnd + '/' + self.fileSize);
         }
         self.uploadRequest.send(chunk);

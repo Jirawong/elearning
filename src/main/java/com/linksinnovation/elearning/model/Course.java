@@ -29,7 +29,7 @@ public class Course {
     @ManyToOne
     @JsonIgnore
     private UserDetails user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Section> sections;
 
 }

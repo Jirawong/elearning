@@ -30,7 +30,7 @@ public class Menu {
 
     @JsonManagedReference
     @OrderBy("ordered ASC")
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> childs;
 
     @PrePersist
@@ -42,4 +42,20 @@ public class Menu {
         }
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Menu menu = (Menu) o;
+
+        return id != null ? id.equals(menu.id) : menu.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

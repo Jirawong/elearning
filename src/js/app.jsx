@@ -45,7 +45,6 @@ ReactDOM.render((
                 <Route path="/course-manage" component={CourseManage}>
                     <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
                     <Route path="/course-basic/:courseId" component={CourseBasic}/>
-                    <Route path="/course-video/:courseId" component={CourseVideo}/>
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage} />

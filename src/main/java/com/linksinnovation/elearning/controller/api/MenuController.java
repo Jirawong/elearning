@@ -2,6 +2,7 @@ package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.model.Menu;
 import com.linksinnovation.elearning.repository.MenuRepository;
+import com.linksinnovation.elearning.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,8 @@ public class MenuController {
 
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private MenuService menuService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Menu> get() {
@@ -26,7 +29,7 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.POST)
     public List<Menu> post(@RequestBody List<Menu> menus) {
-        menuRepository.save(menus);
+        menuService.update(menus);
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
     }
 

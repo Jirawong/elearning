@@ -51,14 +51,16 @@ export default class CourseBasic extends React.Component {
         e.preventDefault();
 
         var self = this;
-        var category = $.grep(this.state.category, function (e) {
-            return e.id == self.refs.category.value;
+        var category = $.grep(this.state.category, function (c) {
+            return c.id == self.refs.category.value;
         });
         if (self.refs.category.value == -1) {
             this.setState({subcategory: []});
         } else {
             this.setState({subcategory: category[0].childs});
         }
+
+
     }
 
     _save(e) {
@@ -98,7 +100,6 @@ export default class CourseBasic extends React.Component {
         var self = this;
         var category = this.state.category.map(function (cat) {
             if (self.state.data.category != null && self.state.data.category.id == cat.id) {
-                self.state.subcategory = cat.childs;
                 return (<option key={cat.id} value={cat.id} selected>{cat.name}</option>);
             } else {
                 return (<option key={cat.id} value={cat.id}>{cat.name}</option>);
@@ -113,6 +114,8 @@ export default class CourseBasic extends React.Component {
             }
 
         });
+
+
 
         return (
             <div className="course-basic">

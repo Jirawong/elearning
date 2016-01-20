@@ -73,24 +73,19 @@ export default class MenuManage extends React.Component {
         this._sortable();
     }
 
-    _delete(id) {
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            method: 'DELETE',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
-            },
-            data: JSON.stringify({id: id}),
-            success: function (data) {
-                this.setState({data: data});
-            }.bind(this)
-        });
+    _delete(index) {
+        if (index.indexOf('.') === -1) {
+            this.state.data.splice(index, 1);
+        } else {
+            var position = index.split('.');
+            this.state.data[position[0]].childs.splice(position[1], 1);
+        }
+        this.setState(this.state.data);
     }
 
     _save() {
+        var $btn = $('#saveBtn').button('loading');
+
         $.ajax({
             url: '/api/menu',
             dataType: 'json',
@@ -102,9 +97,13 @@ export default class MenuManage extends React.Component {
             },
             data: JSON.stringify(this.state.data),
             success: function (data) {
-                this.setState({data: data});
+                //this.setState({data: data});
+                setTimeout(function () {
+                    $btn.button('reset');
+                }, 2000);
             }.bind(this)
         });
+
     }
 
     _edit(e) {
@@ -146,10 +145,8 @@ export default class MenuManage extends React.Component {
                     <li key={index+'.'+subIndex} value={index+'.'+subIndex} className="list-group-item">
                         <div>
                             <div className="btn-group pull-right">
-                                <button onClick={self._edit.bind(this)} className="btn btn-default btn-xs">
-                                    Edit
-                                </button>
-                                <button onClick={self._delete.bind(self,sub.id)} className="btn btn-default btn-xs">
+                                <button onClick={self._edit.bind(this)} className="btn btn-default btn-xs">Edit</button>
+                                <button onClick={self._delete.bind(self,index+'.'+subIndex)} className="btn btn-default btn-xs">
                                     Delete
                                 </button>
                             </div>
@@ -182,7 +179,7 @@ export default class MenuManage extends React.Component {
                         <div className="panel-heading clearfix display">
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default btn-xs" onClick={self._edit.bind(this)}>Edit</button>
-                                <button onClick={self._delete.bind(self,main.id)} className="btn btn-default btn-xs">
+                                <button onClick={self._delete.bind(self,index+'')} className="btn btn-default btn-xs">
                                     Delete
                                 </button>
                             </div>
@@ -200,7 +197,7 @@ export default class MenuManage extends React.Component {
                                 <div className="col-xs-4">
                                     <div className="btn-group pull-right">
                                         <button className="btn btn-default btn-xs"
-                                                onClick={self._saveEdit.bind(self,index)}>
+                                                onClick={self._saveEdit.bind(self,index+'')}>
                                             Save
                                         </button>
                                         <button className="btn btn-default btn-xs" onClick={self._cancle.bind(this)}>
@@ -233,7 +230,7 @@ export default class MenuManage extends React.Component {
                 </div>
                 <div className="btn-group">
                     <button onClick={this._add.bind(this)} className="btn btn-default btn-sm">Add Menu</button>
-                    <button onClick={this._save.bind(this)} className="btn btn-default btn-sm">Save</button>
+                    <button onClick={this._save.bind(this)} id="saveBtn" data-loading-text="Saving..." className="btn btn-default btn-sm">Save</button>
                 </div>
             </div>
         );
