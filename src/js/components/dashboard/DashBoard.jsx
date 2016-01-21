@@ -5,6 +5,7 @@ import React from 'react';
 import CourseBox from '../coursebox/CourseBox';
 
 import HistoryService from '../../services/HistoryService';
+import LoginStore from '../../stores/LoginStore';
 
 export default class DashBoard extends React.Component {
 
@@ -20,7 +21,7 @@ export default class DashBoard extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             success: function (data) {
                 HistoryService
@@ -39,7 +40,7 @@ export default class DashBoard extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             success: function (data) {
                 this.setState({data: data});

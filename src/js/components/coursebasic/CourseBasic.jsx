@@ -2,6 +2,7 @@
 import './coursebasic.scss';
 
 import React from 'react';
+import LoginStore from '../../stores/LoginStore';
 
 export default class CourseBasic extends React.Component {
 
@@ -25,7 +26,7 @@ export default class CourseBasic extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             success: function (data) {
                 this.setState({category: data});
@@ -39,7 +40,7 @@ export default class CourseBasic extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             success: function (data) {
                 this.setState({data: data});
@@ -84,7 +85,7 @@ export default class CourseBasic extends React.Component {
             method: 'POST',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             data: JSON.stringify(course),
             success: function (data) {

@@ -8,12 +8,14 @@ class LoginStore extends BaseStore {
         super();
         this.subscribe(() => this._registerAction.bind(this));
         this._username;
+        this._token;
     }
 
     _registerAction(action) {
         switch (action.actionType) {
             case LOGIN_USER:
                 this._username = 'admin';
+                this._token = action.token;
                 this.emitChange();
                 break;
             case LOGOUT_USER:
@@ -21,6 +23,10 @@ class LoginStore extends BaseStore {
                 this.emitChange();
                 break;
         }
+    }
+
+    get token(){
+        return this._token;
     }
 
     get username() {

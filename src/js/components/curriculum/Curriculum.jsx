@@ -2,6 +2,7 @@ import './curriculum.scss';
 import React from 'react'
 
 import HistoryService from '../../services/HistoryService';
+import LoginStore from '../../stores/LoginStore';
 
 export default class Curriculum extends React.Component {
 
@@ -44,7 +45,7 @@ export default class Curriculum extends React.Component {
             dataType: 'json',
             cache: false,
             headers: {
-                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+                'Authorization': 'bearer ' + LoginStore.token
             },
             success: function (data) {
                 this.setState({data: data, vdo: data.sections[0].lectures[0].vdo});
