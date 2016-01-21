@@ -40,7 +40,7 @@ ReactDOM.render((
     <Router history={history}>
         <Route component={App}>
             <Route path="/" component={CourseScreen}/>
-            <Route path="/courses" component={CourseScreen}/>
+            <Route path="/category/:categoryId" component={CourseScreen}/>
             <Route component={ManageBox}>
                 <Route path="/course-manage" component={CourseManage}>
                     <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
@@ -50,7 +50,8 @@ ReactDOM.render((
                     <Route path="/menu-manage" component={MenuManage} />
                 </Route>
                 <Route path="/instructor-dashboard" component={DashBoard}/>
-                <Route path="/curriculum" component={Curriculum} />
+                <Route path="/curriculum/:courseId" component={Curriculum} />
+                <Route path="/lecture/:lectureId" component={Curriculum} />
             </Route>
         </Route>
     </Router>

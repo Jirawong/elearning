@@ -24,7 +24,6 @@ export default class MenuManage extends React.Component {
                 this._sortable();
             }.bind(this)
         });
-
     }
 
     _sortable() {

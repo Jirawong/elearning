@@ -52,9 +52,9 @@ export default class CourseScreen extends React.Component {
                                     <span className="review flex-box">
                                         <span className="review-count">
                                             <span className="rating">
-                                                <span style={{width:'90.585%'}}></span>
+                                                <span style={{width:'0%'}}></span>
                                             </span>
-                                            <span> (70)</span>
+                                            <span> (0)</span>
                                         </span>
                                     </span>
                                     <span className="flex-align-center mh36">

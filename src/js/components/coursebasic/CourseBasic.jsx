@@ -65,12 +65,10 @@ export default class CourseBasic extends React.Component {
 
     _save(e) {
         e.preventDefault();
-        var course = {
-            id: this.props.params.courseId,
-            title: this.refs.title.value,
-            subTitle: this.refs.subtitle.value,
-            details: this.refs.details.value
-        };
+        var course = this.state.data;
+        course.title = this.refs.title.value;
+        course.subTitle = this.refs.subtitle.value;
+        course.details = this.refs.details.value;
 
         if (this.refs.category.value != -1) {
             course.category = {id: this.refs.category.value};
@@ -114,7 +112,6 @@ export default class CourseBasic extends React.Component {
             }
 
         });
-
 
 
         return (
@@ -191,9 +188,14 @@ export default class CourseBasic extends React.Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-xs-12 input-group-sm col-align-center">
+                    <div className="col-xs-5"></div>
+                    <div className="col-xs-1 input-group-sm col-align-center">
                         <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
                     </div>
+                    <div className="col-xs-1 input-group-sm col-align-center">
+                        <button className="btn btn-primary btn-sm" onClick={this._save.bind(this)}>Publish</button>
+                    </div>
+                    <div className="col-xs-5"></div>
                 </div>
 
             </div>

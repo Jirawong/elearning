@@ -5,67 +5,63 @@ export default class CourseScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: {}};
+        this.state = {data: []};
+    }
+
+    shouldComponentUpdate(){
+        return true;
     }
 
     componentDidMount() {
-        var data = {
-            url: '/curriculum',
-            title: 'Mastering HTML5 Programming - The Easier Way',
-            subtitle: 'EDUmobile Academy, High Quality Mobile Training',
-            lectures: '35 lectures',
-            hours: '7 hours video',
-            promotion: 'Hot',
-            classname: 'promotion hot'
+        this._loadCourse();
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.params.categoryId !== this.props.params.categoryId){
+            this._loadCourse()
         }
-        this.setState({data: data});
+    }
+
+    _loadCourse(){
+
+        var url;
+        if (this.props.params.categoryId) {
+            url = '/api/category/' + this.props.params.categoryId;
+        } else {
+            url = '/api/category';
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            cache: false,
+            headers: {
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+            },
+            success: function (data) {
+                this.setState({data: data});
+            }.bind(this)
+        });
     }
 
     render() {
+        var nodes = this.state.data.map(function (course, index) {
+            course.url = '/curriculum/' + course.id;
+            course.classname = 'promotion new';
+            course.status = 'New';
+            return (
+                <div key={index} className="col-xs-3 col-align-center">
+                    <CourseBox data={course}/>
+                </div>
+            );
+        });
+
         return (
             <div>
                 <div className="row carousel">
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
+                    {nodes}
                 </div>
-                <div className="row carousel">
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                </div>
-                <div className="row carousel">
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                    <div className="col-xs-3 col-align-center">
-                        <CourseBox data={this.state.data}/>
-                    </div>
-                </div>
+
             </div>
         );
     }

@@ -74,7 +74,12 @@ export default class DashBoard extends React.Component {
 
         var nodes = this.state.data.map(function (course) {
             course.url = '/course-basic/' + course.id;
-            course.classname = 'promotion recommend';
+            if(course.status == 'Draft'){
+                course.classname = 'promotion recommend';
+            }else{
+                course.classname = 'promotion new';
+            }
+
 
             return (
                 <div key={course.id} className="col-xs-3 col-align-center">

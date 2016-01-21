@@ -1,130 +1,123 @@
 import './curriculum.scss';
 import React from 'react'
 
+import HistoryService from '../../services/HistoryService';
+
 export default class Curriculum extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {sections: []},
+            vdo: ''
+        };
+    }
+
+    componentDidMount() {
+        this._loadCourse();
+    }
+
+    _changePage(e) {
+        e.preventDefault();
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                e.currentTarget.getAttribute('href')
+            );
+    }
+
+    _changeVdo(index, subIndex, e) {
+        e.preventDefault();
+        var $vid_obj = videojs('my-video');
+        $vid_obj.pause();
+        $vid_obj.src([
+            {
+                type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[index].lectures[subIndex].vdo
+            }
+        ]);
+    }
+
+    _loadCourse() {
+        $.ajax({
+            url: '/api/course/basic/' + this.props.params.courseId,
+            dataType: 'json',
+            cache: false,
+            headers: {
+                'Authorization': 'bearer ' + localStorage.getItem('access_token')
+            },
+            success: function (data) {
+                this.setState({data: data, vdo: data.sections[0].lectures[0].vdo});
+
+                var $vid_obj = videojs('my-video');
+                $vid_obj.pause();
+                $vid_obj.src([
+                    {
+                        type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[0].lectures[0].vdo
+                    }
+                ]);
+            }.bind(this)
+        });
+    }
+
     render() {
+        var self = this;
+        var nodes = this.state.data.sections.map(function (main, index) {
+
+            var subNodes = main.lectures.map(function (sub, subIndex) {
+                return (
+                    <li key={subIndex} className="curriculum-item-container">
+                        <a className="curriculum-item clearfix" href="#" onClick={self._changeVdo.bind(self,index,subIndex)}>
+                            <div className="ci-progress-container"></div>
+                            <div className="ci-info">
+                                <div className="ci-title">
+                                    {sub.name}
+                                </div>
+                                <div className="ci-details-container clearfix">
+                                    <span className="ci-details">
+                                        <i className="fa fa-play-circle"></i> 0:00
+                                     </span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                );
+            });
+
+            return (
+                <li key={index} className="curriculum-section-container">
+                    <ul>
+                        <li className="section-title">
+                            <h5>{main.name}</h5>
+                        </li>
+                        {subNodes}
+                    </ul>
+                </li>
+            );
+
+        });
         return (
             <div className="curriculum">
                 <div className="row">
                     <div className="col-xs-6">
-                        <div className="embed-responsive embed-responsive-16by9"> <iframe className="embed-responsive-item" src="//www.youtube.com/embed/zpOULjyy-n8?rel=0" allowFullScreen></iframe> </div>
+
+                        <video id="my-video" className="video-js" controls preload="auto" width="470" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+                            <source src={'http://52.77.227.171/'+this.state.vdo} type='video/mp4'/>
+                            <p className="vjs-no-js">
+                                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                            </p>
+                        </video>
+
                     </div>
                     <div className="col-xs-6">
-                        <ul className="nav nav-tabs">
-                          <li role="presentation" class="active"><a href="#">Discussions</a></li>
-                          <li role="presentation"><a href="#">Announcements</a></li>
-                          <li role="presentation"><a href="#">Messages</a></li>
-                        </ul>
+
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-xs-6">
                         <ul className="curriculum-items-list">
-                            <li className="curriculum-section-container">
-                                <ul>
-                                    <li className="section-title">
-                                        <h5>Section 1 Test Curriculumn</h5>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 1 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li className="curriculum-section-container">
-                                <ul>
-                                    <li className="section-title">
-                                        <h5>Section 2 Test Curriculumn</h5>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 2 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 3 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 4 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 5 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li className="curriculum-item-container">
-                                        <a className="curriculum-item clearfix">
-                                            <div className="ci-progress-container"></div>
-                                            <div className="ci-info">
-                                                <div className="ci-title">
-                                                    Lecture 6 : Unknow Lecture
-                                                </div>
-                                                <div className="ci-details-container clearfix">
-                                                    <span className="ci-details">
-                                                        <i className="fa fa-play-circle"></i> 10:00
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            {nodes}
                         </ul>
                     </div>
                     <div className="col-xs-6 col-align-center"></div>
