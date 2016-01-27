@@ -2,7 +2,7 @@ import './menu.scss';
 
 import React from 'react';
 import HistoryService from '../../services/HistoryService';
-import LoginStore from '../../stores/LoginStore';
+import RestService from '../../services/RestService';
 
 export default class Menu extends React.Component {
 
@@ -22,23 +22,15 @@ export default class Menu extends React.Component {
     }
 
     componentDidMount() {
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/menu')
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     render() {
-
         var self = this;
-
         var nodes = this.state.data.map(function (main, index) {
 
             var subNodes = main.childs.map(function (sub, subIndex) {

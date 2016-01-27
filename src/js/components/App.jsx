@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../components/header/Header';
+import Header from '../components/contentheader/ContentHeader';
 import Content from '../components/content/Content';
-import Footer from '../components/footer/Footer';
+import Footer from '../components/contentfooter/ContentFooter';
 import Login from '../components/login/Login';
 
 import LoginStore from '../stores/LoginStore';

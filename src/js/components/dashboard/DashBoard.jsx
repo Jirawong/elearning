@@ -1,11 +1,10 @@
-/*global $ */
 import './dashboard.scss';
 
 import React from 'react';
-import CourseBox from '../coursebox/CourseBox';
+import CourseBox from '../widget/coursebox/CourseBox';
 
 import HistoryService from '../../services/HistoryService';
-import LoginStore from '../../stores/LoginStore';
+import RestService from '../../services/RestService';
 
 export default class DashBoard extends React.Component {
 
@@ -16,58 +15,24 @@ export default class DashBoard extends React.Component {
 
     _createCourse(e) {
         e.preventDefault();
-        $.ajax({
-            url: '/api/course/create',
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/course/create')
+            .done(function (data) {
                 HistoryService
                     .get()
-                    .pushState(
-                        null,
-                        '/course-basic/' + data
-                    );
-            }.bind(this)
-        });
+                    .pushState(null, '/course-basic/' + data);
+            }.bind(this));
     }
 
     _loadCourse() {
-        $.ajax({
-            url: '/api/course',
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/course')
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     componentDidMount() {
-        //var data = {
-        //    url: '/course-manage',
-        //    title: 'Draft Course',
-        //    subtitle: 'Draft Course SubTitle',
-        //    lectures: '0 lectures',
-        //    hours: '0 hours video',
-        //    promotion: 'Draft',
-        //    classname: 'promotion recommend'
-        //}
-        //var publish = {
-        //    url: '/course-manage',
-        //    title: 'Mastering HTML5 Programming - The Easier Way',
-        //    subtitle: 'EDUmobile Academy, High Quality Mobile Training',
-        //    lectures: '35 lectures',
-        //    hours: '7 hours video',
-        //    promotion: 'Published',
-        //    classname: 'promotion new'
-        //}
-
         this._loadCourse();
     }
 
@@ -75,12 +40,13 @@ export default class DashBoard extends React.Component {
 
         var nodes = this.state.data.map(function (course) {
             course.url = '/course-basic/' + course.id;
-            if(course.status == 'Draft'){
+            if (course.status == 'DRAFT') {
                 course.classname = 'promotion recommend';
-            }else{
+            } else if (course.status == 'UNPUBLISH') {
+                course.classname = 'promotion recommend';
+            } else {
                 course.classname = 'promotion new';
             }
-
 
             return (
                 <div key={course.id} className="col-xs-3 col-align-center">

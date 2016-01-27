@@ -1,6 +1,6 @@
 /*global $ */
 
-import './header.scss';
+import './contentheader.scss';
 import logo from '../../images/logo.png';
 
 import React from 'react';

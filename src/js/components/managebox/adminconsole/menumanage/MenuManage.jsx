@@ -2,7 +2,7 @@
 import './menumanage.scss';
 
 import React from 'react'
-import LoginStore from '../../stores/LoginStore';
+import RestService from '../../../../services/RestService';
 
 export default class MenuManage extends React.Component {
 
@@ -13,18 +13,12 @@ export default class MenuManage extends React.Component {
     }
 
     componentDidMount() {
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/menu')
+            .done(function (data) {
                 this.setState({data: data});
                 this._sortable();
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     _sortable() {
@@ -86,24 +80,13 @@ export default class MenuManage extends React.Component {
     _save() {
         var $btn = $('#saveBtn').button('loading');
 
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            method: 'POST',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            data: JSON.stringify(this.state.data),
-            success: function (data) {
-                //this.setState({data: data});
+        RestService
+            .post('/api/menu', this.state.data)
+            .done(function () {
                 setTimeout(function () {
                     $btn.button('reset');
                 }, 2000);
-            }.bind(this)
-        });
-
+            }.bind(this));
     }
 
     _edit(e) {
@@ -160,7 +143,7 @@ export default class MenuManage extends React.Component {
                                 <div className="col-xs-4">
                                     <div className="btn-group pull-right">
                                         <button className="btn btn-default btn-xs" onClick={self._saveEdit.bind(self,index+'-'+subIndex)}>
-                                            Save
+                                            Done
                                         </button>
                                         <button className="btn btn-default btn-xs" onClick={self._cancle.bind(this)}>
                                             Cancle
@@ -196,9 +179,8 @@ export default class MenuManage extends React.Component {
                                 </div>
                                 <div className="col-xs-4">
                                     <div className="btn-group pull-right">
-                                        <button className="btn btn-default btn-xs"
-                                                onClick={self._saveEdit.bind(self,index+'')}>
-                                            Save
+                                        <button className="btn btn-default btn-xs" onClick={self._saveEdit.bind(self,index+'')}>
+                                            Done
                                         </button>
                                         <button className="btn btn-default btn-xs" onClick={self._cancle.bind(this)}>
                                             Cancle

@@ -3,7 +3,7 @@
 import './coursevideo.scss';
 
 import React from 'react'
-import UploadProgress from '../uploadprogress/UploadProgress';
+import UploadProgress from '../widget/uploadprogress/UploadProgress';
 
 export default class CourseVideo extends React.Component {
 

@@ -1,5 +1,6 @@
 package com.linksinnovation.elearning.model;
 
+import com.linksinnovation.elearning.utils.time.TimeConvert;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -18,4 +19,9 @@ public class Lecture {
     private Long id;
     private String name;
     private String vdo;
+    private Long duration;
+    
+    public String getDurationString(){
+        return TimeConvert.fromMilisec(this.duration);
+    }
 }

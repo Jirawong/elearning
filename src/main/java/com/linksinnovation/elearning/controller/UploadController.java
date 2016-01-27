@@ -2,10 +2,10 @@ package com.linksinnovation.elearning.controller;
 
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.repository.LectureRepository;
+import com.linksinnovation.elearning.utils.mediainfo.MediaInfo;
+import com.linksinnovation.elearning.utils.mediainfo.MediaInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -22,12 +22,14 @@ public class UploadController {
     private LectureRepository lectureRepository;
 
     @RequestMapping(value = "/upload", method = RequestMethod.PUT)
-    public void upload(@RequestBody byte[] file, HttpServletRequest request) {
+    public void upload(@RequestBody byte[] file, HttpServletRequest request) throws IOException, InterruptedException {
         InputStream chunk = new ByteArrayInputStream(file);
-        appendFile(chunk, new File("/Users/Kong/"+request.getHeader("Content-Name")));
+        appendFile(chunk, new File("/Users/Kong/upload/"+request.getHeader("Content-Name")));
         if(request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))){
+            final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/Users/Kong/upload/"+request.getHeader("Content-Name"));
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
             lecture.setVdo(request.getHeader("Content-Name"));
+            lecture.setDuration(Long.parseLong(mediaInfo.get("Video", "Duration")));
             lectureRepository.save(lecture);
         }
     }

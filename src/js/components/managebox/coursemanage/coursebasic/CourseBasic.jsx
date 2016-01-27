@@ -1,8 +1,9 @@
 /*global $ */
+
 import './coursebasic.scss';
 
 import React from 'react';
-import LoginStore from '../../stores/LoginStore';
+import RestService from '../../../../services/RestService';
 
 export default class CourseBasic extends React.Component {
 
@@ -11,7 +12,8 @@ export default class CourseBasic extends React.Component {
         this.state = {
             data: {},
             category: [],
-            subcategory: []
+            subcategory: [],
+            publishButton: 'Publish'
         };
     }
 
@@ -21,31 +23,38 @@ export default class CourseBasic extends React.Component {
     }
 
     _loadCategory() {
-        $.ajax({
-            url: '/api/menu',
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/menu')
+            .done(function (data) {
                 this.setState({category: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     _loadCourse() {
-        $.ajax({
-            url: '/api/course/basic/' + this.props.params.courseId,
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
-                this.setState({data: data});
-            }.bind(this)
-        });
+        var self = this;
+        RestService
+            .get('/api/course/basic/' + this.props.params.courseId)
+            .done(function (data) {
+                self.setState({data: data, publishButton: self._checkStatus(data.status)});
+            });
+    }
+
+    _toggleStatus(e) {
+        e.preventDefault();
+        var self = this;
+        RestService
+            .post('/api/course/status', this.state.data)
+            .done(function (data) {
+                self.setState({publishButton: self._checkStatus(data.status)});
+            }.bind(this));
+    }
+
+    _checkStatus(status) {
+        if (status == 'DRAFT' || status == 'UNPUBLISH') {
+            return 'Publish';
+        } else {
+            return 'Unpublish';
+        }
     }
 
     _onChangeCategory(e) {
@@ -78,20 +87,11 @@ export default class CourseBasic extends React.Component {
             course.subCategory = {id: this.refs.subcategory.value};
         }
 
-        $.ajax({
-            url: '/api/course/basic',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            method: 'POST',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            data: JSON.stringify(course),
-            success: function (data) {
+        RestService
+            .post('/api/course/basic', course)
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
 
     }
 
@@ -194,7 +194,7 @@ export default class CourseBasic extends React.Component {
                         <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
                     </div>
                     <div className="col-xs-1 input-group-sm col-align-center">
-                        <button className="btn btn-primary btn-sm" onClick={this._save.bind(this)}>Publish</button>
+                        <button className="btn btn-primary btn-sm" onClick={this._toggleStatus.bind(this)}>{this.state.publishButton}</button>
                     </div>
                     <div className="col-xs-5"></div>
                 </div>

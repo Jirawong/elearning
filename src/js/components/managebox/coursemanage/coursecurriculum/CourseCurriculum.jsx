@@ -1,8 +1,8 @@
 /*global $ */
 import './coursecurriculum.scss';
 import React from 'react';
-import UploadProgress from '../uploadprogress/UploadProgress';
-import LoginStore from '../../stores/LoginStore';
+import UploadProgress from '../../../widget/uploadprogress/UploadProgress';
+import RestService from '../../../../services/RestService';
 
 export default class CourseCurriculum extends React.Component {
 
@@ -19,17 +19,11 @@ export default class CourseCurriculum extends React.Component {
     }
 
     _loadCourse() {
-        $.ajax({
-            url: '/api/course/basic/' + this.props.params.courseId,
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/course/basic/' + this.props.params.courseId)
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     _addSection(e) {
@@ -89,20 +83,11 @@ export default class CourseCurriculum extends React.Component {
     }
 
     _save() {
-        $.ajax({
-            url: '/api/course/basic',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            method: 'POST',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            data: JSON.stringify(this.state.data),
-            success: function (data) {
+        RestService
+            .post('/api/course/basic', this.state.data)
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     _chooseFile(index, subIndex, e) {

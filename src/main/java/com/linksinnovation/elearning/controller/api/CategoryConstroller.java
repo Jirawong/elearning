@@ -2,6 +2,7 @@ package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.Menu;
+import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import com.linksinnovation.elearning.repository.CourseRepositroy;
 import com.linksinnovation.elearning.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,12 @@ public class CategoryConstroller {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Course> get() {
-        return courseRepositroy.findByStatus("Publish");
+        return courseRepositroy.findByStatus(CourseStatus.PUBLISH);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public List<Course> get(@PathVariable("id") Long id) {
         Menu menu = menuRepository.findOne(id);
-        return courseRepositroy.findByStatusAndCategoryOrSubCategory("Publish", menu, menu);
+        return courseRepositroy.findByStatusAndCategoryOrSubCategory(CourseStatus.PUBLISH, menu, menu);
     }
 }

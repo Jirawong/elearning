@@ -1,5 +1,5 @@
 import React from 'react';
-import HistoryService from '../../services/HistoryService';
+import HistoryService from '../../../services/HistoryService';
 
 export default class AdminConsole extends React.Component {
 

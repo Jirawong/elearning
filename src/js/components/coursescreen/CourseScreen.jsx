@@ -1,6 +1,6 @@
 import React from 'react'
-import CourseBox from '../coursebox/CourseBox';
-import LoginStore from '../../stores/LoginStore';
+import CourseBox from '../widget/coursebox/CourseBox';
+import RestService from '../../services/RestService';
 
 export default class CourseScreen extends React.Component {
 
@@ -32,17 +32,11 @@ export default class CourseScreen extends React.Component {
             url = '/api/category';
         }
 
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get(url)
+            .done(function (data) {
                 this.setState({data: data});
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     render() {

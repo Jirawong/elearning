@@ -2,7 +2,7 @@ import './coursebox.scss';
 
 import React from 'react'
 
-import HistoryService from '../../services/HistoryService';
+import HistoryService from '../../../services/HistoryService';
 
 export default class CourseScreen extends React.Component {
 
@@ -14,6 +14,10 @@ export default class CourseScreen extends React.Component {
                 null,
                 e.currentTarget.getAttribute('href')
             );
+    }
+
+    _capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
     render() {
@@ -59,7 +63,7 @@ export default class CourseScreen extends React.Component {
                                     </span>
                                     <span className="flex-align-center mh36">
                                         <span className={this.props.data.classname}>
-                                            {this.props.data.status}
+                                            {this._capitalize(this.props.data.status)}
                                         </span>
                                     </span>
                                 </span>

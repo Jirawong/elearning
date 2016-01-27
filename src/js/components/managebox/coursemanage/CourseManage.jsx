@@ -2,7 +2,7 @@ import './coursemanage.scss';
 
 import React from 'react';
 
-import HistoryService from '../../services/HistoryService';
+import HistoryService from '../../../services/HistoryService';
 
 export default class CourseManage extends React.Component {
 

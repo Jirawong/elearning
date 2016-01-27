@@ -16,12 +16,12 @@ import {createHistory} from 'history'
 import App from './components/App';
 import CourseScreen from './components/coursescreen/CourseScreen';
 import ManageBox from './components/managebox/ManageBox';
-import CourseManage from './components/coursemanage/CourseManage';
-import CourseCurriculum from './components/coursecurriculum/CourseCurriculum';
-import CourseBasic from './components/coursebasic/CourseBasic';
+import CourseManage from 'components/managebox/coursemanage/CourseManage';
+import CourseCurriculum from 'components/managebox/coursemanage/coursecurriculum/CourseCurriculum';
+import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBasic';
 import CourseVideo from './components/coursevideo/CourseVideo';
-import AdminConsole from './components/adminconsole/AdminConsole';
-import MenuManage from './components/menumanage/MenuManage';
+import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
+import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
 import DashBoard from './components/dashboard/DashBoard';
 import Curriculum from './components/curriculum/Curriculum';
 

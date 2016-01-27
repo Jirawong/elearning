@@ -1,5 +1,6 @@
 package com.linksinnovation.elearning.model;
 
+import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -21,7 +22,8 @@ public class Course {
     private String details;
     private String lectures = "0 lectures";
     private String hours = "0 hours video";
-    private String status = "Draft";
+    @Enumerated(EnumType.STRING)
+    private CourseStatus status = CourseStatus.DRAFT;
     @ManyToOne
     private Menu category;
     @ManyToOne

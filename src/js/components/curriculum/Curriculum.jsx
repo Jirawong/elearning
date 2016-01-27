@@ -2,7 +2,7 @@ import './curriculum.scss';
 import React from 'react'
 
 import HistoryService from '../../services/HistoryService';
-import LoginStore from '../../stores/LoginStore';
+import RestService from '../../services/RestService';
 
 export default class Curriculum extends React.Component {
 
@@ -16,6 +16,17 @@ export default class Curriculum extends React.Component {
 
     componentDidMount() {
         this._loadCourse();
+
+        var $vid_obj = videojs('my-video');
+        $vid_obj.ready(function(){
+            $vid_obj.pause();
+            $vid_obj.src([
+                {
+                    type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[0].lectures[0].vdo
+                }
+            ]);
+        });
+
     }
 
     _changePage(e) {
@@ -40,25 +51,11 @@ export default class Curriculum extends React.Component {
     }
 
     _loadCourse() {
-        $.ajax({
-            url: '/api/course/basic/' + this.props.params.courseId,
-            dataType: 'json',
-            cache: false,
-            headers: {
-                'Authorization': 'bearer ' + LoginStore.token
-            },
-            success: function (data) {
+        RestService
+            .get('/api/course/basic/' + this.props.params.courseId)
+            .done(function (data) {
                 this.setState({data: data, vdo: data.sections[0].lectures[0].vdo});
-
-                var $vid_obj = videojs('my-video');
-                $vid_obj.pause();
-                $vid_obj.src([
-                    {
-                        type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[0].lectures[0].vdo
-                    }
-                ]);
-            }.bind(this)
-        });
+            }.bind(this));
     }
 
     render() {
@@ -103,7 +100,6 @@ export default class Curriculum extends React.Component {
                     <div className="col-xs-6">
 
                         <video id="my-video" className="video-js" controls preload="auto" width="470" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
-                            <source src={'http://52.77.227.171/'+this.state.vdo} type='video/mp4'/>
                             <p className="vjs-no-js">
                                 To view this video please enable JavaScript, and consider upgrading to a web browser that
                                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
