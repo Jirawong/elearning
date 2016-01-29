@@ -73,7 +73,7 @@ export default class Curriculum extends React.Component {
                                 </div>
                                 <div className="ci-details-container clearfix">
                                     <span className="ci-details">
-                                        <i className="fa fa-play-circle"></i> 0:00
+                                        <i className="fa fa-play-circle"></i> {sub.durationString}
                                      </span>
                                 </div>
                             </div>
