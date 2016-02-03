@@ -1,5 +1,6 @@
 'use strict';
 
+require('es6-promise').polyfill();
 var path = require('path');
 var args = require('minimist')(process.argv.slice(2));
 
