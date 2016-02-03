@@ -39,7 +39,7 @@ export default class Curriculum extends React.Component {
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
 console.log(data);
-                this.setState({data: data, video: 'http://10.1.2.203/video-'+data.sections[0].lectures[0].id+'_480.m3u8'});
+                this.setState({data: data, video: 'http://10.1.2.203/video-'+data.sections[0].lectures[0].id+'_720.m3u8'});
             }.bind(this));
     }
 

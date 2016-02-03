@@ -39,7 +39,7 @@ public class UploadController {
             Map<String,String> map = new HashMap<>();
             map.put("input","/mnt/data/source/"+request.getHeader("Content-Name"));
             map.put("output","/mnt/data/convert/video-"+lecture.getId());
-            map.put("quality", "480");
+            map.put("quality", "720");
             rest.postForEntity("http://10.1.2.203:8080", map, String.class);
         }
     }
