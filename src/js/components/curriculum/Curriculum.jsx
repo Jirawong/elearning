@@ -31,7 +31,7 @@ export default class Curriculum extends React.Component {
 
     _changeVdo(id, e) {
         e.preventDefault();
-        this.setState({video:'http://10.1.2.203/video-'+id+'480.m3u8'});
+        this.setState({video:'http://10.1.2.203/video-'+id+'_720.m3u8'});
     }
 
     _loadCourse() {
