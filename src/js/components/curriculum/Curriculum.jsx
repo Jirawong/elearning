@@ -51,7 +51,7 @@ console.log(data);
             var subNodes = main.lectures.map(function (sub, subIndex) {
                 return (
                     <li key={subIndex} className="curriculum-item-container">
-                        <a className="curriculum-item clearfix" href="#" onClick={self._changeVdo.bind(self,index,subIndex)}>
+                        <a className="curriculum-item clearfix" href="#" onClick={self._changeVdo.bind(self,sub.id)}>
                             <div className="ci-progress-container"></div>
                             <div className="ci-info">
                                 <div className="ci-title">
