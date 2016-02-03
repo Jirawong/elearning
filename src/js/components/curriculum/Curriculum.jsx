@@ -31,15 +31,14 @@ export default class Curriculum extends React.Component {
 
     _changeVdo(id, e) {
         e.preventDefault();
-        this.setState({video:'http://10.1.2.203/video-'+id+'_720.m3u8'});
+        this.setState({video:'http://10.1.2.203/video-'+id+'_720p.m3u8'});
     }
 
     _loadCourse() {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-console.log(data);
-                this.setState({data: data, video: 'http://10.1.2.203/video-'+data.sections[0].lectures[0].id+'_720.m3u8'});
+                this.setState({data: data, video: 'http://10.1.2.203/video-'+data.sections[0].lectures[0].id+'_720p.m3u8'});
             }.bind(this));
     }
 
