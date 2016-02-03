@@ -40,7 +40,7 @@ public class MediaInfoUtil {
     return MediaInfoUtil.MEDIA_INFO_CLI_PATH;
   }
 
-  private static final String MEDIA_INFO_CLI_PATH = "/usr/local/bin/mediainfo";
+  private static final String MEDIA_INFO_CLI_PATH = "/usr/bin/mediainfo";
 
   private MediaInfoUtil() {}
 

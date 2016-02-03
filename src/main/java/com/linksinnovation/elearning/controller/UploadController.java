@@ -27,7 +27,7 @@ public class UploadController {
     @RequestMapping(value = "/upload", method = RequestMethod.PUT)
     public void upload(@RequestBody byte[] file, HttpServletRequest request) throws IOException, InterruptedException {
         InputStream chunk = new ByteArrayInputStream(file);
-        appendFile(chunk, new File("/Users/Kong/upload/"+request.getHeader("Content-Name")));
+        appendFile(chunk, new File("/mnt/data/source/"+request.getHeader("Content-Name")));
         if(request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))){
             final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/"+request.getHeader("Content-Name"));
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
