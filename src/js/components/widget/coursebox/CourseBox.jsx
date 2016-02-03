@@ -38,9 +38,7 @@ export default class CourseScreen extends React.Component {
                                     <span className="row-two">{this.props.data.hours}</span>
                                 </span>
                                 <span className="course-thumb pos-relative">
-                                    <img
-                                        src="https://udemy-images.udemy.com/course/240x135/30243_68ef_5.jpg"
-                                        alt="Mastering HTML5 Programming - The Easier Way"/>
+                                    <img src={'/images/'+this.props.data.cover}/>
                                     <span className="avatars-list">
                                         <span className="avatar">
                                             <img

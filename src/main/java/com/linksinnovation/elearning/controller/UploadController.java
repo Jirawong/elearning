@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Kong on 12/26/2015 AD.
@@ -26,11 +29,18 @@ public class UploadController {
         InputStream chunk = new ByteArrayInputStream(file);
         appendFile(chunk, new File("/Users/Kong/upload/"+request.getHeader("Content-Name")));
         if(request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))){
-            final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/Users/Kong/upload/"+request.getHeader("Content-Name"));
+            final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/"+request.getHeader("Content-Name"));
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
             lecture.setVdo(request.getHeader("Content-Name"));
             lecture.setDuration(Long.parseLong(mediaInfo.get("Video", "Duration")));
             lectureRepository.save(lecture);
+            
+            RestTemplate rest = new RestTemplate();
+            Map<String,String> map = new HashMap<>();
+            map.put("input","/mnt/data/source/"+request.getHeader("Content-Name"));
+            map.put("output","/mnt/data/convert/video-"+lecture.getId());
+            map.put("quality", "480");
+            rest.postForEntity("http://10.1.2.203:8080", map, String.class);
         }
     }
 

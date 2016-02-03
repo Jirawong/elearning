@@ -18,7 +18,8 @@ var config = _.merge(
             new webpack.NoErrorsPlugin(),
             new webpack.ProvidePlugin({
                 $: 'jquery',
-                jQuery: 'jquery'
+                jQuery: 'jquery',
+                flowplayer: 'flowplayer'
             })
         ]
     },
@@ -40,7 +41,7 @@ config.module.loaders.push(
         include: path.join(__dirname, '../src/js')
     },
     {
-        test: /\.(png|jpg|gif|eot|woff|woff2|ttf|svg|eot|eot\?v=4.5.0|woff\?v=4.5.0|woff2\?v=4.5.0|ttf\?v=4.5.0|svg\?v=4.5.0)$/,
+        test: /\.(png|jpg|gif|eot|woff|woff2|ttf|svg|eot|eot\?v=4.5.0|woff\?v=4.5.0|woff2\?v=4.5.0|ttf\?v=4.5.0|svg\?v=4.5.0|eot\?yg5dv7|eot\?#iefixyg5dv7|woff\?yg5dv7|ttf\?yg5dv7|svg\?yg5dv7|svg\?yg5dv7#fpicons)$/,
         loader: 'url-loader'
     }
 );

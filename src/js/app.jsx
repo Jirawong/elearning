@@ -8,6 +8,10 @@ import 'jquery-ui/themes/smoothness/jquery-ui';
 import 'bootstrap-sass/assets/javascripts/bootstrap';
 import 'jquery-ui/sortable';
 
+import 'flowplayer/dist/skin/functional';
+import './plugin/quality-selector.js';
+import './plugin/quality-selector.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route } from 'react-router'
@@ -18,6 +22,7 @@ import CourseScreen from './components/coursescreen/CourseScreen';
 import ManageBox from './components/managebox/ManageBox';
 import CourseManage from 'components/managebox/coursemanage/CourseManage';
 import CourseCurriculum from 'components/managebox/coursemanage/coursecurriculum/CourseCurriculum';
+import ImageCover from 'components/managebox/coursemanage/imagecover/ImageCover';
 import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBasic';
 import CourseVideo from './components/coursevideo/CourseVideo';
 import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
@@ -45,6 +50,7 @@ ReactDOM.render((
                 <Route path="/course-manage" component={CourseManage}>
                     <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
                     <Route path="/course-basic/:courseId" component={CourseBasic}/>
+                    <Route path="/image-cover/:courseId" component={ImageCover}/>
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage} />

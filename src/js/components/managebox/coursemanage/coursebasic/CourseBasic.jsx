@@ -96,6 +96,11 @@ export default class CourseBasic extends React.Component {
     }
 
     render() {
+        if (!this.state.data.id) {
+            return (
+                <div></div>
+            );
+        }
         var self = this;
         var category = this.state.category.map(function (cat) {
             if (self.state.data.category != null && self.state.data.category.id == cat.id) {
@@ -129,7 +134,7 @@ export default class CourseBasic extends React.Component {
                                    name="title"
                                    type="text"
                                    ref="title"
-                                   value={this.state.data.title}/>
+                                   defaultValue={this.state.data.title}/>
                         </div>
                     </div>
                     <div className="col-xs-1"></div>
@@ -146,7 +151,7 @@ export default class CourseBasic extends React.Component {
                                    name="title"
                                    type="text"
                                    ref="subtitle"
-                                   value={this.state.data.subTitle}/>
+                                   defaultValue={this.state.data.subTitle}/>
                         </div>
                     </div>
                     <div className="col-xs-1"></div>
@@ -158,7 +163,7 @@ export default class CourseBasic extends React.Component {
                         <div className="form-group input-group-sm">
                             <label htmlFor="detail">Details</label>
                             <textarea className="form-control" rows="5" id="detail"
-                                      ref="details" value={this.state.data.details}></textarea>
+                                      ref="details" defaultValue={this.state.data.details}></textarea>
                         </div>
                     </div>
                     <div className="col-xs-1"></div>

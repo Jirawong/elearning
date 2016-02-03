@@ -27,6 +27,7 @@
     "eslint-plugin-react": "^3.5.1",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
+    "flowplayer": "^6.0.5",
     "flux": "^2.1.1",
     "history": "1.13.1",
     "jquery": "^2.1.4",

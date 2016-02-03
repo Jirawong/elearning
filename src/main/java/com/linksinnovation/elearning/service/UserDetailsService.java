@@ -1,5 +1,6 @@
 package com.linksinnovation.elearning.service;
 
+import com.linksinnovation.elearning.model.enumuration.UserType;
 import com.linksinnovation.elearning.repository.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,6 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userDetailsRepository.findOne(s);
+        return userDetailsRepository.findByUsernameAndType(s, UserType.LOCAL);
     }
 }

@@ -16,10 +16,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(customAuthenticationProvider).userDetailsService(userDetailsService);
 //        auth
 //                .inMemoryAuthentication()
 //                .withUser("user")

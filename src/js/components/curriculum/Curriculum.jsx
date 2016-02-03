@@ -1,5 +1,6 @@
 import './curriculum.scss';
 import React from 'react'
+import VideoPlayer from '../widget/videoplayer/VideoPlayer';
 
 import HistoryService from '../../services/HistoryService';
 import RestService from '../../services/RestService';
@@ -10,23 +11,12 @@ export default class Curriculum extends React.Component {
         super(props);
         this.state = {
             data: {sections: []},
-            vdo: ''
+            video: ''
         };
     }
 
     componentDidMount() {
         this._loadCourse();
-
-        var $vid_obj = videojs('my-video');
-        $vid_obj.ready(function(){
-            $vid_obj.pause();
-            $vid_obj.src([
-                {
-                    type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[0].lectures[0].vdo
-                }
-            ]);
-        });
-
     }
 
     _changePage(e) {
@@ -39,26 +29,21 @@ export default class Curriculum extends React.Component {
             );
     }
 
-    _changeVdo(index, subIndex, e) {
+    _changeVdo(id, e) {
         e.preventDefault();
-        var $vid_obj = videojs('my-video');
-        $vid_obj.pause();
-        $vid_obj.src([
-            {
-                type: 'video/mp4',src:'http://52.77.227.171/'+this.state.data.sections[index].lectures[subIndex].vdo
-            }
-        ]);
+        this.setState({video:'http://10.1.2.203/video-'+id+'480.m3u8'});
     }
 
     _loadCourse() {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                this.setState({data: data, vdo: data.sections[0].lectures[0].vdo});
+                this.setState({data: data, video: 'http://10.1.2.203/video-'+this.state.data.sections[0].lectures[0].id+'480.m3u8'});
             }.bind(this));
     }
 
     render() {
+        console.log(this.state.data);
         var self = this;
         var nodes = this.state.data.sections.map(function (main, index) {
 
@@ -97,27 +82,25 @@ export default class Curriculum extends React.Component {
         return (
             <div className="curriculum">
                 <div className="row">
-                    <div className="col-xs-6">
+                    <div className="col-xs-8">
 
-                        <video id="my-video" className="video-js" controls preload="auto" width="470" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
-                            <p className="vjs-no-js">
-                                To view this video please enable JavaScript, and consider upgrading to a web browser that
-                                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                            </p>
-                        </video>
+                        <VideoPlayer url={this.state.video} />
 
                     </div>
-                    <div className="col-xs-6">
+                    <div className="col-xs-4">
 
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-xs-6">
+                    <div className="col-xs-8">
+                        <pre className="details">
+                            {this.state.data.details}
+                        </pre>
                         <ul className="curriculum-items-list">
                             {nodes}
                         </ul>
                     </div>
-                    <div className="col-xs-6 col-align-center"></div>
+                    <div className="col-xs-4 col-align-center"></div>
                 </div>
             </div>
         );

@@ -59,6 +59,7 @@ public class CourseController {
         String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = userDetailsRepository.findOne(userName);
         course.setUser(userDetails);
+        course.setLectures("0 lectures");
         return courseRepositroy.save(course);
     }
 

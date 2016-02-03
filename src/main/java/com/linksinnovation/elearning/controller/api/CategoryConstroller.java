@@ -33,6 +33,6 @@ public class CategoryConstroller {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public List<Course> get(@PathVariable("id") Long id) {
         Menu menu = menuRepository.findOne(id);
-        return courseRepositroy.findByStatusAndCategoryOrSubCategory(CourseStatus.PUBLISH, menu, menu);
+        return courseRepositroy.findByCategoryAndStatusOrSubCategoryAndStatus(menu, CourseStatus.PUBLISH, menu, CourseStatus.PUBLISH);
     }
 }

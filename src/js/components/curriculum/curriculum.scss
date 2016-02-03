@@ -8,6 +8,14 @@
         min-height: 264px;
     }
 
+    .details{
+        margin-left: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: left;
+        border: 0px;
+    }
+
     .curriculum-items-list {
         background: #ffffff;
         height: 100%;
@@ -98,5 +106,52 @@
                 }
             }
         }
+    }
+
+    .flowplayer .fp-playlist {
+        transition: .2s ease-in;
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        position:absolute;
+        right: 10px;
+        bottom: 40px;
+        width: 0;
+        overflow: hidden;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 12;
+    }
+    .flowplayer .fp-playlist a {
+        display: block;
+        list-style: none;
+        background-color: #333;
+        background-color: rgba(51, 51, 51, 0.6);
+        margin: 5px;
+        padding: 5px;
+        border-radius: 3px;
+        color: #fff;
+        text-shadow: 0 0 2px #000;
+        overflow: hidden;
+        text-align: center;
+    }
+    .flowplayer .fp-playlist a.is-active {
+        background-color: #00a7c8;
+        background-color: rgba(0, 167, 200, 0.6);
+        cursor: default;
+    }
+    .flowplayer .fp-playlist a.is-active:hover {
+        background-color: #00a7c8;
+        background-color: rgba(0, 167, 200, 0.6);
+    }
+    .flowplayer .fp-playlist a:hover {
+        background-color: #444;
+        background-color: rgba(51, 51, 51, 0.8);
+    }
+    .flowplayer.is-mouseover .fp-playlist,
+    .flowplayer.is-splash .fp-playlist {
+        width: 80px;
+    }
+    .flowplayer.is-disabled .fp-playlist {
+        width: 0;
     }
 }
