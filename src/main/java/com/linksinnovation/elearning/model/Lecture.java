@@ -2,7 +2,6 @@ package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.linksinnovation.elearning.utils.time.TimeConvert;
-import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

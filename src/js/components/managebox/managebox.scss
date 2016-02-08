@@ -1,13 +1,37 @@
 .manage-box {
 
+    @media (min-width: 1200px) {
+        .main {
+            width: 1000px;
+            padding-left: 195px;
+            .side-nav{
+                position: absolute;
+                width: 195px;
+            }
+        }
+    }
+    @media (min-width: 768px) and (max-width: 1199px) {
+        .main {
+            width: 680px;
+            padding-left: 195px;
+            .side-nav{
+                position: absolute;
+                width: 195px;
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        .main {
+            width: 343px;
+        }
+    }
+
     .main {
         display: inline-block;
-        width: 1000px;
         min-height: 600px;
         text-align: left;
         background-color: #FFFFFF;
         border: 1px solid #bbbbbb;
-        padding-left: 195px;
         position: relative;
 
         .side-nav {
@@ -15,8 +39,6 @@
             left: 0;
             bottom: 0;
             background: #fff;
-            position: absolute;
-            width: 195px;
             overflow: hidden;
             padding-bottom: 20px;
 

@@ -45,9 +45,9 @@ public class FileuploadController {
                     courseRepositroy.save(c);
 
                     byte[] bytes = file.getBytes();
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("/mnt/data/images/" + fileName)));
-                    stream.write(bytes);
-                    stream.close();
+                    try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("/mnt/data/images/" + fileName)))) {
+                        stream.write(bytes);
+                    }
 
                     return fileName;
                 }

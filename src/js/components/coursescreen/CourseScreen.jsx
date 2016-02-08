@@ -1,3 +1,4 @@
+import './coursescreen.scss';
 import React from 'react'
 import CourseBox from '../widget/coursebox/CourseBox';
 import RestService from '../../services/RestService';
@@ -9,7 +10,7 @@ export default class CourseScreen extends React.Component {
         this.state = {data: []};
     }
 
-    shouldComponentUpdate(){
+    shouldComponentUpdate() {
         return true;
     }
 
@@ -17,19 +18,22 @@ export default class CourseScreen extends React.Component {
         this._loadCourse();
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.params.categoryId !== this.props.params.categoryId){
+    componentDidUpdate(prevProps) {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
             this._loadCourse()
         }
     }
 
-    _loadCourse(){
-
+    _loadCourse() {
         var url;
-        if (this.props.params.categoryId) {
-            url = '/api/category/' + this.props.params.categoryId;
-        } else {
-            url = '/api/category';
+        if(this.props.location.pathname == '/wishlist'){
+            url = '/api/wishlist';
+        }else {
+            if (this.props.params.categoryId) {
+                url = '/api/category/' + this.props.params.categoryId;
+            } else {
+                url = '/api/category';
+            }
         }
 
         RestService
@@ -45,18 +49,23 @@ export default class CourseScreen extends React.Component {
             course.classname = 'promotion new';
             course.status = 'New';
             return (
-                <div key={index} className="col-xs-3 col-align-center">
+                <div key={index} className="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-align-center">
                     <CourseBox data={course}/>
                 </div>
             );
         });
 
         return (
-            <div>
-                <div className="row carousel">
-                    {nodes}
+            <div className="course-screen">
+                <div className="row">
+                    <div className="col-xs-12 col-align-center">
+                        <div className="content">
+                            <div className="row carousel">
+                                {nodes}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         );
     }

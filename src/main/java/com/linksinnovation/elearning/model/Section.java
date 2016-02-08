@@ -1,11 +1,8 @@
 package com.linksinnovation.elearning.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

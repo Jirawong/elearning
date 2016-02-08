@@ -194,14 +194,14 @@ export default class CourseBasic extends React.Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-xs-5"></div>
-                    <div className="col-xs-1 input-group-sm col-align-center">
+                    <div className="col-xs-4 col-lg-5"></div>
+                    <div className="col-xs-2 col-lg-1 input-group-sm col-align-center">
                         <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
                     </div>
-                    <div className="col-xs-1 input-group-sm col-align-center">
+                    <div className="col-xs-2 col-lg-1 input-group-sm col-align-center">
                         <button className="btn btn-primary btn-sm" onClick={this._toggleStatus.bind(this)}>{this.state.publishButton}</button>
                     </div>
-                    <div className="col-xs-5"></div>
+                    <div className="col-xs-4 col-lg-5"></div>
                 </div>
 
             </div>

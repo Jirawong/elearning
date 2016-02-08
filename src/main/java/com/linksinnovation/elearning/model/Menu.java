@@ -2,7 +2,6 @@ package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
  */
 
-@Data
 @Entity
 public class Menu {
 
@@ -32,6 +30,56 @@ public class Menu {
     @OrderBy("ordered ASC")
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> childs;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Double getOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(Double ordered) {
+        this.ordered = ordered;
+    }
+
+    public Menu getParent() {
+        return parent;
+    }
+
+    public void setParent(Menu parent) {
+        this.parent = parent;
+    }
+
+    public List<Menu> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(List<Menu> childs) {
+        this.childs = childs;
+    }
+    
+    
 
     @PrePersist
     private void updateParent() {

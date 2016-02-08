@@ -83,13 +83,17 @@
             box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 
             .sub-list {
-                overflow-y: auto;
+                overflow-y: hidden;
                 -webkit-box-flex: 1;
                 -webkit-flex: 1;
                 -ms-flex: 1;
                 flex: 1;
                 min-width: 1px;
                 padding-bottom: 25px !important;
+
+                li{
+                    width: 240px;
+                }
 
                 a {
                     color: #ffffff;

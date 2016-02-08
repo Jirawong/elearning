@@ -1,16 +1,20 @@
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.linksinnovation.elearning.model.enumuration.UserType;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -45,6 +49,13 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private String eegId;
     private String actOrgNameEn;
     private String attorneyId;
+    @Column(nullable = false)
+    private String avatar = "default.png";
+    @Column(length = 4000)
+    private String instructor;
+    @OneToMany
+    @JsonIgnore
+    private List<Wishlist> wishlists;
 
     @Override
     public String getUsername() {
@@ -276,6 +287,30 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+
+    public List<Wishlist> getWishlists() {
+        return wishlists;
+    }
+
+    public void setWishlists(List<Wishlist> wishlists) {
+        this.wishlists = wishlists;
     }
 
     @Override

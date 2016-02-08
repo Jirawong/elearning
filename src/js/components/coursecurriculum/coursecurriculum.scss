@@ -1,19 +1,55 @@
 .curriculum {
     display: inline-block;
-    width: 1000px;
     min-height: 250px;
 
-    video{
+    @media (min-width: 1200px) {
+        width: 1000px;
+    }
+
+    video {
         min-width: 470px;
         min-height: 264px;
     }
 
-    .details{
+    .details {
         margin-left: 5px;
         margin-top: 10px;
         margin-bottom: 10px;
         text-align: left;
         border: 0px;
+        word-wrap: break-word;
+    }
+
+    .instructor-title {
+        font-size: 14px;
+        color: #000;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        border-bottom: 1px solid #e5e5e5;
+        text-align: left;
+    }
+
+    .instructor-detail {
+        img {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 50px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .instructor-name {
+            font-weight: 600;
+            color: #84a949;
+        }
+
+        .instructor-profile {
+            margin-top: 10px;
+            text-align: left;
+            ul {
+                list-style: disc;
+            }
+        }
     }
 
     .curriculum-items-list {
@@ -38,7 +74,7 @@
                 border-bottom: 1px solid #E0E0E0;
                 background-color: #EDEDED;
 
-                h5{
+                h5 {
                     margin: 10px 15px;
                     font-weight: 700;
                     font-size: 14px;
@@ -110,9 +146,9 @@
 
     .flowplayer .fp-playlist {
         transition: .2s ease-in;
-        box-sizing:border-box;
-        -moz-box-sizing:border-box;
-        position:absolute;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        position: absolute;
         right: 10px;
         bottom: 40px;
         width: 0;

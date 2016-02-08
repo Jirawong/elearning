@@ -49,7 +49,7 @@ export default class DashBoard extends React.Component {
             }
 
             return (
-                <div key={course.id} className="col-xs-3 col-align-center">
+                <div key={course.id} className="col-xs-12 col-sm-6 col-lg-3 col-align-center">
                     <CourseBox data={course}/>
                 </div>
             );

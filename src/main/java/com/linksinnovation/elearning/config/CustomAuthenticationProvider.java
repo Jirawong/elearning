@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -28,7 +26,7 @@ import org.springframework.http.ResponseEntity;
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-    
+
     @Autowired
     private UserDetailsRepository userDetailsRepository;
 
@@ -37,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (iserviceAuthen(authentication)) {
             List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials().toString(), grantedAuths);
+            Authentication auth = new UsernamePasswordAuthenticationToken(this.mockKaroons(authentication.getName()), authentication.getCredentials().toString(), grantedAuths);
             return auth;
         } else {
             return null;
@@ -48,28 +46,40 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
-    
-    private boolean iserviceAuthen(Authentication authentication){
+
+    private boolean iserviceAuthen(Authentication authentication) {
         RestTemplate rest = new RestTemplate();
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("username", authentication.getName());
-        map.put("password",authentication.getCredentials().toString());
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic YWRtaW46YWRtaW4=");
-        HttpEntity<String> request = new HttpEntity<>(headers);
-        //ResponseEntity<Authen> postForEntity = rest.postForEntity("http://iservice.mitrphol.com/iAuthen/rest/authenInfo/Authen", map, Authen.class);
-        
-        if(false){
-            ResponseEntity<UserInfo> forEntity = rest.getForEntity("http://iservice.mitrphol.com/iHR/rest/personal/GetMitrpholEmployee/APPTIVIDIA_DEV/"+authentication.getName(), UserInfo.class);
-            if(forEntity.getBody().getResults().size() > 0){
+        map.put("password", authentication.getCredentials().toString());
+
+        ResponseEntity<Authen> postForEntity = rest.postForEntity("http://iservice.mitrphol.com/iAuthen/rest/authenInfo/Authen", map, Authen.class);
+
+        System.out.println(postForEntity.getBody().getResults().get(0).isAuthenStatus() + " ISERVICE STATUS");
+
+        if (postForEntity.getBody().getResults().get(0).isAuthenStatus()) {
+            ResponseEntity<UserInfo> forEntity = rest.getForEntity("http://iservice.mitrphol.com/iHR/rest/personal/GetMitrpholEmployee/APPTIVIDIA_DEV/" + this.mockKaroons(authentication.getName()), UserInfo.class);
+            if (forEntity.getBody().getResults().size() > 0) {
                 UserDetails user = forEntity.getBody().getResults().get(0);
+                UserDetails findOne = userDetailsRepository.findOne(user.getUsername());
+                if (findOne != null) {
+                    user.setAvatar(findOne.getAvatar());
+                    user.setInstructor(findOne.getInstructor());
+                }
                 user.setType(UserType.ISERVICE);
                 userDetailsRepository.save(user);
                 return true;
             }
         }
-        
+
         return false;
+    }
+
+    private String mockKaroons(String username) {
+        if (username.equals("uat54")) {
+            return "karoons";
+        } else {
+            return username;
+        }
     }
 }

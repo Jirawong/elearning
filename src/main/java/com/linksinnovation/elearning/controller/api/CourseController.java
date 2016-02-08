@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -24,18 +25,16 @@ public class CourseController {
     private UserDetailsRepository userDetailsRepository;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public Long create() {
-        String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = userDetailsRepository.findOne(userName);
+    public Long create(@AuthenticationPrincipal String username) {
+        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
         Course course = new Course();
         course.setUser(userDetails);
         return courseRepositroy.save(course).getId();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Course> get() {
-        String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = userDetailsRepository.findOne(userName);
+    public List<Course> get(@AuthenticationPrincipal String username) {
+        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
         return courseRepositroy.findByUser(userDetails);
     }
 
@@ -55,9 +54,8 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/basic", method = RequestMethod.POST)
-    public Course basic(@RequestBody Course course) {
-        String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = userDetailsRepository.findOne(userName);
+    public Course basic(@RequestBody Course course,@AuthenticationPrincipal String username) {
+        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
         course.setUser(userDetails);
         course.setLectures("0 lectures");
         return courseRepositroy.save(course);

@@ -1,5 +1,6 @@
-import './curriculum.scss';
+import './coursecurriculum.scss';
 import React from 'react'
+import marked from 'marked';
 import VideoPlayer from '../widget/videoplayer/VideoPlayer';
 
 import HistoryService from '../../services/HistoryService';
@@ -10,7 +11,13 @@ export default class Curriculum extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {sections: []},
+            data: {
+                sections: [],
+                user: {
+                    avatar: 'default.png',
+                    nameEn: ''
+                }
+            },
             video: ''
         };
     }
@@ -31,19 +38,18 @@ export default class Curriculum extends React.Component {
 
     _changeVdo(id, e) {
         e.preventDefault();
-        this.setState({video:'http://10.1.2.203/video-'+id+'_720p.m3u8'});
+        this.setState({video: 'http://10.1.2.203/video-' + id + '_720p.m3u8'});
     }
 
     _loadCourse() {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                this.setState({data: data, video: 'http://10.1.2.203/video-'+data.sections[0].lectures[0].id+'_720p.m3u8'});
+                this.setState({data: data, video: 'http://10.1.2.203/video-' + data.sections[0].lectures[0].id + '_720p.m3u8'});
             }.bind(this));
     }
 
     render() {
-        console.log(this.state.data);
         var self = this;
         var nodes = this.state.data.sections.map(function (main, index) {
 
@@ -79,28 +85,27 @@ export default class Curriculum extends React.Component {
             );
 
         });
+
+        var details = marked(this.state.data.details || '', {sanitize: true});
+        var instructor = marked(this.state.data.user.instructor || '', {sanitize: true});
         return (
             <div className="curriculum">
                 <div className="row">
-                    <div className="col-xs-8">
-
-                        <VideoPlayer url={this.state.video} />
-
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                        <VideoPlayer url={this.state.video}/>
+                        <div className="details" dangerouslySetInnerHTML={{__html: details}}></div>
+                        <ul className="curriculum-items-list">{nodes}</ul>
                     </div>
-                    <div className="col-xs-4">
-
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                        <div className="instructor-title">
+                            Instructor
+                        </div>
+                        <div className="instructor-detail">
+                            <img src={'/images/avatar/'+this.state.data.user.avatar}/>
+                            <div className="instructor-name">{this.state.data.user.nameEn}</div>
+                            <div className="instructor-profile" dangerouslySetInnerHTML={{__html: instructor}}></div>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-8">
-                        <pre className="details">
-                            {this.state.data.details}
-                        </pre>
-                        <ul className="curriculum-items-list">
-                            {nodes}
-                        </ul>
-                    </div>
-                    <div className="col-xs-4 col-align-center"></div>
                 </div>
             </div>
         );

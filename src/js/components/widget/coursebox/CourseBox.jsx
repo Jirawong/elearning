@@ -3,6 +3,7 @@ import './coursebox.scss';
 import React from 'react'
 
 import HistoryService from '../../../services/HistoryService';
+import RestService from '../../../services/RestService';
 
 export default class CourseScreen extends React.Component {
 
@@ -20,11 +21,22 @@ export default class CourseScreen extends React.Component {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
+    _toggleWishlist(e) {
+        e.preventDefault();
+        RestService
+            .post('/api/wishlist', {id: this.props.data.id})
+            .done(function () {
+                $(e.target).toggleClass('active');
+            });
+
+    }
+
     render() {
+        var active = (this.props.data.wishlist) ? 'active' : '';
         return (
             <div className="course-box">
-                <div className="wishlist btn btn-sm">
-                    <i className="fa fa-heart wish-icon"></i>
+                <div className="wishlist btn btn-sm" onClick={this._toggleWishlist.bind(this)}>
+                    <i className={'fa fa-heart wish-icon '+active}></i>
                     <div className="tooltip left">
                         <div className="tooltip-arrow"></div>
                         <div className="tooltip-inner in-wishlist none">Wishlisted</div>
@@ -42,7 +54,7 @@ export default class CourseScreen extends React.Component {
                                     <span className="avatars-list">
                                         <span className="avatar">
                                             <img
-                                                src="https://udemy-images.udemy.com/user/50x50/93556_173f_9.jpg"
+                                                src={'images/avatar/'+this.props.data.user.avatar}
                                                 alt="EDUmobile Academy"/>
                                         </span>
                                     </span>
