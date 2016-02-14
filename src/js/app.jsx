@@ -19,14 +19,17 @@ import {createHistory} from 'history'
 
 import App from './components/App';
 import CourseScreen from './components/coursescreen/CourseScreen';
-
 import ManageBox from './components/managebox/ManageBox';
+
 import CourseManage from 'components/managebox/coursemanage/CourseManage';
 import CourseCurriculum from 'components/managebox/coursemanage/coursecurriculum/CourseCurriculum';
 import ImageCover from 'components/managebox/coursemanage/imagecover/ImageCover';
 import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBasic';
+
 import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
 import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
+import UserManage from 'components/managebox/adminconsole/usermanage/UserManage';
+
 import UserProfile from './components/managebox/userprofile/UserProfile';
 import Profile from './components/managebox/userprofile/profile/Profile';
 import Avatar from './components/managebox/userprofile/avatar/Avatar';
@@ -60,6 +63,7 @@ ReactDOM.render((
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage}/>
+                    <Route path="/user-manage" component={UserManage}/>
                 </Route>
                 <Route path="/instructor-dashboard" component={DashBoard}/>
                 <Route path="/curriculum/:courseId" component={Curriculum}/>
