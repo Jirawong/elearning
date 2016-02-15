@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,6 +40,9 @@ public class Course {
     @JsonIgnore
     private List<Wishlist> wishlists;
     private boolean wishlist = false;
+    @OrderBy("id ASC")
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Topic> topics;
 
     public Long getId() {
         return id;
@@ -152,6 +156,21 @@ public class Course {
         this.wishlist = wishlist;
     }
 
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
+    
+    public void addTopic(Topic topic){
+        if(this.topics == null){
+            this.topics = new ArrayList<>();
+        }
+        this.topics.add(topic);
+    }
+
     @PrePersist
     @PreUpdate
     public void summary(){
@@ -166,6 +185,28 @@ public class Course {
 
         this.lectures = lectures + " lectures";
         this.hours = TimeUnit.MILLISECONDS.toHours(hours) + " hours video";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Course other = (Course) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }

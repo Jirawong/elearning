@@ -1,5 +1,7 @@
 import React from 'react';
 
+import LoginStore from '../../../stores/LoginStore';
+
 export default class UploadProgress extends React.Component {
 
     constructor(props) {
@@ -34,7 +36,7 @@ export default class UploadProgress extends React.Component {
 
     _onChunkComplete() {
         var uploadPercent = (this.rangeEnd / this.fileSize) * 100;
-        this.setState({uploadPercent: uploadPercent});
+        this.setState({uploadPercent: uploadPercent.toFixed(2)});
 
         if (this.rangeEnd === this.fileSize) {
             return;
@@ -54,15 +56,16 @@ export default class UploadProgress extends React.Component {
         }
 
         chunk = this.props.file[this.sliceMethod](this.rangeStart, this.rangeEnd);
-        self.uploadRequest.open('PUT', '/upload', true);
+        self.uploadRequest.open('PUT', this.props.url, true);
         self.uploadRequest.overrideMimeType('application/octet-stream');
 
-            self.uploadRequest.setRequestHeader('Content-Lecture', this.props.lecture);
-            self.uploadRequest.setRequestHeader('Content-Name', this.props.file.name);
-            self.uploadRequest.setRequestHeader('Content-End', self.rangeEnd);
-            self.uploadRequest.setRequestHeader('Content-FileSize', self.fileSize);
-            self.uploadRequest.setRequestHeader('Content-Range', 'bytes ' + self.rangeStart + '-' + self.rangeEnd + '/' + self.fileSize);
-        
+        self.uploadRequest.setRequestHeader('Authorization', 'bearer ' + LoginStore.token);
+        self.uploadRequest.setRequestHeader('Content-Lecture', this.props.lecture);
+        self.uploadRequest.setRequestHeader('Content-Name', encodeURIComponent(this.props.file.name));
+        self.uploadRequest.setRequestHeader('Content-End', self.rangeEnd);
+        self.uploadRequest.setRequestHeader('Content-FileSize', self.fileSize);
+        self.uploadRequest.setRequestHeader('Content-Range', 'bytes ' + self.rangeStart + '-' + self.rangeEnd + '/' + self.fileSize);
+
         self.uploadRequest.send(chunk);
         self.uploadRequest.onreadystatechange = function () {
             if (self.uploadRequest.readyState == 4 && self.uploadRequest.status == 200) {

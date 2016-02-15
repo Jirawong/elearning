@@ -29,6 +29,7 @@ import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBas
 import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
 import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
 import UserManage from 'components/managebox/adminconsole/usermanage/UserManage';
+import ProfileManage from 'components/managebox/adminconsole/profilemanage/ProfileManage';
 
 import UserProfile from './components/managebox/userprofile/UserProfile';
 import Profile from './components/managebox/userprofile/profile/Profile';
@@ -64,6 +65,7 @@ ReactDOM.render((
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage}/>
                     <Route path="/user-manage" component={UserManage}/>
+                    <Route path="/profile-manage/:username" component={ProfileManage}/>
                 </Route>
                 <Route path="/instructor-dashboard" component={DashBoard}/>
                 <Route path="/curriculum/:courseId" component={Curriculum}/>

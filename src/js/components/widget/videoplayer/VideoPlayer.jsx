@@ -4,6 +4,7 @@ import React from 'react'
 export default class VideoPlayer extends React.Component {
 
     componentDidMount() {
+        this._initPlayer(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -21,7 +22,7 @@ export default class VideoPlayer extends React.Component {
             sources: [
                 {
                     type: 'application/x-mpegurl',
-                    src: props.url
+                    src: 'http://10.1.2.203/video-1_720p.m3u8'
                 }
             ]
         }, function () {
@@ -34,7 +35,7 @@ export default class VideoPlayer extends React.Component {
             clip: {
                 //qualities: ['1080p', '720p'],
                 sources: [
-                    {type: 'application/x-mpegurl', src: props.url}
+                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-1_720p.m3u8'}
                 ]
             },
             embed: false

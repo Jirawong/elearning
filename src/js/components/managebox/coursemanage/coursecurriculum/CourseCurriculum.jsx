@@ -10,7 +10,8 @@ export default class CourseCurriculum extends React.Component {
         super(props);
         this.state = {
             data: {sections: []},
-            files: {}
+            files: {},
+            url: ''
         };
     }
 
@@ -90,15 +91,17 @@ export default class CourseCurriculum extends React.Component {
             }.bind(this));
     }
 
-    _chooseFile(index, subIndex, e) {
+    _chooseFile(type, index, subIndex, e) {
         e.preventDefault();
-        $('#videoupload' + index + '-' + subIndex).click();
+        $('#' + type + index + '-' + subIndex).click();
     }
 
-    _onFileSelected(index, subIndex, e) {
+    _onFileSelected(url, index, subIndex, e) {
         e.preventDefault();
-        this.state.files[index + '-' + subIndex] = e.target.files[0]
-        this.setState(this.state.files);
+        this.state.files[index + '-' + subIndex] = e.target.files[0];
+        this.state.url = url;
+
+        this.setState(this.state);
     }
 
     _toggleHide(e) {
@@ -114,12 +117,12 @@ export default class CourseCurriculum extends React.Component {
             var subNodes = main.lectures.map(function (sub, subIndex) {
 
                 var upload;
-                if (sub.vdo) {
+                if (sub.content) {
                     upload = (
                         <div className="from-progress hide">
                             <div className="progress">
                                 <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: '100%'}}>
-                                    {sub.vdo} 100 %
+                                    {sub.content} 100 %
                                 </div>
                             </div>
                         </div>
@@ -127,16 +130,32 @@ export default class CourseCurriculum extends React.Component {
                 } else if (self.state.files[index + '-' + subIndex]) {
                     upload = (
                         <div className="from-progress">
-                            <UploadProgress lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
+                            <UploadProgress url={self.state.url} lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
                         </div>
                     );
                 } else {
                     upload = (
                         <div className="form-upload hide">
-                            <input id={'videoupload'+index+'-'+subIndex} accept="video/*" type="file" onChange={self._onFileSelected.bind(self,index,subIndex)}/>
-                            <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,index,subIndex)}>
-                                <i className="fa fa-upload mr5"></i>CHOOSE FILES TO UPLOAD
-                            </button>
+                            <div className="row">
+                                <div className="col-sm-4 p20px">
+                                    <input id={'videoupload'+index+'-'+subIndex} accept="video/*" type="file" onChange={self._onFileSelected.bind(self,'/api/videoupload',index,subIndex)}/>
+                                    <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,'videoupload',index,subIndex)}>
+                                        <i className="fa fa-video-camera mr5"></i>UPLOAD VIDEO
+                                    </button>
+                                </div>
+                                <div className="col-sm-4 p20px">
+                                    <input id={'pdfupload'+index+'-'+subIndex} accept="application/pdf, application/x-pdf, application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" type="file" onChange={self._onFileSelected.bind(self,'/api/pdfupload',index,subIndex)}/>
+                                    <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,'pdfupload',index,subIndex)}>
+                                        <i className="fa fa-file-pdf-o mr5"></i>UPLOAD PDF
+                                    </button>
+                                </div>
+                                <div className="col-sm-4 p20px">
+                                    <input id={'pptupload'+index+'-'+subIndex} accept="video/*" type="file" onChange={self._onFileSelected.bind(self,'/api/pptupload',index,subIndex)}/>
+                                    <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,'pptupload',index,subIndex)}>
+                                        <i className="fa fa-file-powerpoint-o mr5"></i>UPLOAD POWER POINT
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     );
                 }
@@ -146,7 +165,7 @@ export default class CourseCurriculum extends React.Component {
                         <div>
                             <div className="btn-group pull-right">
                                 <button className="btn btn-default btn-xs" onClick={self._edit.bind(this)}>Edit</button>
-                                <button className="btn btn-default btn-xs" onClick={self._toggleHide.bind(this)}>Vdo</button>
+                                <button className="btn btn-default btn-xs" onClick={self._toggleHide.bind(this)}>Content</button>
                                 <button className="btn btn-default btn-xs" onClick={self._delete.bind(self,index+'.'+subIndex)}>Delete</button>
                             </div>
                             {sub.name}

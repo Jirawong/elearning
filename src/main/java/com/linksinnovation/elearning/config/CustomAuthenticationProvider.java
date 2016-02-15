@@ -1,5 +1,6 @@
 package com.linksinnovation.elearning.config;
 
+import com.linksinnovation.elearning.model.Authority;
 import com.linksinnovation.elearning.model.UserDetails;
 import com.linksinnovation.elearning.model.authen.Authen;
 import com.linksinnovation.elearning.model.authen.UserInfo;
@@ -65,6 +66,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 if (findOne != null) {
                     user.setAvatar(findOne.getAvatar());
                     user.setInstructor(findOne.getInstructor());
+                    user.setAuthorities((List<Authority>) findOne.getAuthorities());
+                }else{
+                    Authority authority = new Authority("User");
+                    user.addAuthority(authority);
                 }
                 user.setType(UserType.ISERVICE);
                 userDetailsRepository.save(user);
@@ -77,7 +82,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private String mockKaroons(String username) {
         if (username.equals("uat54")) {
-            return "karoons";
+            return "kittipongh";
         } else {
             return username;
         }

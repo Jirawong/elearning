@@ -1,10 +1,13 @@
 package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.utils.time.TimeConvert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -18,7 +21,9 @@ public class Lecture {
     @GeneratedValue
     private Long id;
     private String name;
-    private String vdo;
+    private String content;
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType;
     @Column(nullable = false)
     private Long duration = 0L;
 
@@ -38,12 +43,20 @@ public class Lecture {
         this.name = name;
     }
 
-    public String getVdo() {
-        return vdo;
+    public String getContent() {
+        return content;
     }
 
-    public void setVdo(String vdo) {
-        this.vdo = vdo;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 
     public Long getDuration() {

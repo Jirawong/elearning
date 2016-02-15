@@ -11,6 +11,77 @@
         min-height: 264px;
     }
 
+    .discussions {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        textarea {
+            resize: none;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            padding: 3px;
+        }
+
+        hr{
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        a{
+            color: #B3B8C1;
+        }
+
+        .topic {
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .reply {
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #eee;
+            border-radius: 10px;
+        }
+
+        .reply-box{
+            padding-top: 10px;
+        }
+
+        .btn-reply{
+            font-size: 12px;
+            color: #B3B8C1;
+        }
+
+        .topic-header {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .topic-postdate{
+            font-size: 12px;
+            font-weight: bold;
+            color: #B3B8C1;
+        }
+
+        .vcenter {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+            float: none;
+        }
+
+        .no-padding {
+            padding: 0px;
+        }
+    }
+
     .details {
         margin-left: 5px;
         margin-top: 10px;

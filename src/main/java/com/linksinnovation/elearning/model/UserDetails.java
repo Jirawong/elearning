@@ -3,6 +3,7 @@ package com.linksinnovation.elearning.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.linksinnovation.elearning.model.enumuration.UserType;
+import java.util.ArrayList;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -56,6 +59,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
     @OneToMany
     @JsonIgnore
     private List<Wishlist> wishlists;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Authority> authorities;
 
     @Override
     public String getUsername() {
@@ -92,7 +97,23 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.EMPTY_LIST;
+        return this.authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+    
+    public void setAuthority(Authority authority){
+        this.authorities = new ArrayList<>();
+        this.authorities.add(authority);
+    }
+    
+    public void addAuthority(Authority authority){
+        if(this.authorities == null){
+            this.authorities = new ArrayList<>();
+        }
+        this.authorities.add(authority);
     }
 
     @Override

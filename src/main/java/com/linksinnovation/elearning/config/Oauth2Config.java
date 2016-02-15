@@ -27,6 +27,10 @@ public class Oauth2Config {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http
+                    .headers()
+                    .frameOptions().sameOrigin()
+                    .httpStrictTransportSecurity().disable()
+                    .and()
                     .authorizeRequests()
                     .antMatchers("/api/**")
                     .authenticated()
