@@ -43,6 +43,26 @@ class RestService {
         });
     }
 
+    delete(url, data) {
+        return when(
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                method: 'DELETE',
+                cache: false,
+                headers: {
+                    'Authorization': 'bearer ' + LoginStore.token
+                },
+                data: JSON.stringify(data)
+            })
+        ).catch(function (e) {
+            if (e.status === 401) {
+                AuthenService.logout();
+            }
+        });
+    }
+
     coverUpload(data) {
         return when($.ajax({
                 url: '/api/fileupload',

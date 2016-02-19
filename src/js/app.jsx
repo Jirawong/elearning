@@ -25,6 +25,7 @@ import CourseManage from 'components/managebox/coursemanage/CourseManage';
 import CourseCurriculum from 'components/managebox/coursemanage/coursecurriculum/CourseCurriculum';
 import ImageCover from 'components/managebox/coursemanage/imagecover/ImageCover';
 import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBasic';
+import CourseInstructor from 'components/managebox/coursemanage/courseinstructor/CourseInstructor';
 
 import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
 import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
@@ -61,6 +62,7 @@ ReactDOM.render((
                     <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
                     <Route path="/course-basic/:courseId" component={CourseBasic}/>
                     <Route path="/image-cover/:courseId" component={ImageCover}/>
+                    <Route path="/course-instructor/:courseId" component={CourseInstructor} />
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage}/>

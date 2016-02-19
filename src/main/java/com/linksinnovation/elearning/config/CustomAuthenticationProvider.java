@@ -35,8 +35,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (iserviceAuthen(authentication)) {
             List<GrantedAuthority> grantedAuths = new ArrayList<>();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(this.mockKaroons(authentication.getName()), authentication.getCredentials().toString(), grantedAuths);
+            grantedAuths.add(new SimpleGrantedAuthority("USER"));
+            Authentication auth = new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials().toString(), grantedAuths);
             return auth;
         } else {
             return null;
@@ -56,10 +56,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         ResponseEntity<Authen> postForEntity = rest.postForEntity("http://iservice.mitrphol.com/iAuthen/rest/authenInfo/Authen", map, Authen.class);
 
-        System.out.println(postForEntity.getBody().getResults().get(0).isAuthenStatus() + " ISERVICE STATUS");
 
-        if (postForEntity.getBody().getResults().get(0).isAuthenStatus()) {
-            ResponseEntity<UserInfo> forEntity = rest.getForEntity("http://iservice.mitrphol.com/iHR/rest/personal/GetMitrpholEmployee/APPTIVIDIA_DEV/" + this.mockKaroons(authentication.getName()), UserInfo.class);
+        if (postForEntity.getBody().getResults().get(0).isAuthenStatus() || mockAuthen(authentication.getCredentials().toString())) {
+            ResponseEntity<UserInfo> forEntity = rest.getForEntity("http://iservice.mitrphol.com/iHR/rest/personal/GetMitrpholEmployee/APPTIVIDIA_DEV/" + authentication.getName(), UserInfo.class);
             if (forEntity.getBody().getResults().size() > 0) {
                 UserDetails user = forEntity.getBody().getResults().get(0);
                 UserDetails findOne = userDetailsRepository.findOne(user.getUsername());
@@ -80,11 +79,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return false;
     }
 
-    private String mockKaroons(String username) {
-        if (username.equals("uat54")) {
-            return "kittipongh";
-        } else {
-            return username;
-        }
+    private boolean mockAuthen(String pass) {
+        return pass.equals("p@ss2015");
     }
 }

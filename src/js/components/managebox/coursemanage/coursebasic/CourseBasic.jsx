@@ -26,7 +26,7 @@ export default class CourseBasic extends React.Component {
         RestService
             .get('/api/menu')
             .done(function (data) {
-                this.setState({category: data});
+                this.state.category = data;
             }.bind(this));
     }
 
@@ -35,7 +35,21 @@ export default class CourseBasic extends React.Component {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                self.setState({data: data, publishButton: self._checkStatus(data.status)});
+                var category;
+                if (data.category) {
+                    category = $.grep(self.state.category, function (c) {
+                        return c.id == data.category.id;
+                    })[0].childs;
+                } else {
+                    category = [];
+                }
+
+                self.setState({
+                    data: data,
+                    category: self.state.category,
+                    subcategory: category,
+                    publishButton: self._checkStatus(data.status)
+                });
             });
     }
 
@@ -45,7 +59,7 @@ export default class CourseBasic extends React.Component {
         RestService
             .post('/api/course/status', this.state.data)
             .done(function (data) {
-                self.setState({publishButton: self._checkStatus(data.status)});
+                self.setState({data: data, publishButton: self._checkStatus(data.status)});
             }.bind(this));
     }
 
@@ -57,9 +71,7 @@ export default class CourseBasic extends React.Component {
         }
     }
 
-    _onChangeCategory(e) {
-        e.preventDefault();
-
+    _onChangeCategory() {
         var self = this;
         var category = $.grep(this.state.category, function (c) {
             return c.id == self.refs.category.value;
@@ -69,8 +81,6 @@ export default class CourseBasic extends React.Component {
         } else {
             this.setState({subcategory: category[0].childs});
         }
-
-
     }
 
     _save(e) {
@@ -79,6 +89,8 @@ export default class CourseBasic extends React.Component {
         course.title = this.refs.title.value;
         course.subTitle = this.refs.subtitle.value;
         course.details = this.refs.details.value;
+        course.category = null;
+        course.subCategory = null;
 
         if (this.refs.category.value != -1) {
             course.category = {id: this.refs.category.value};
@@ -97,28 +109,19 @@ export default class CourseBasic extends React.Component {
 
     render() {
         if (!this.state.data.id) {
-            return (
-                <div></div>
-            );
+            return (<div></div>);
         }
         var self = this;
         var category = this.state.category.map(function (cat) {
-            if (self.state.data.category != null && self.state.data.category.id == cat.id) {
-                return (<option key={cat.id} value={cat.id} selected>{cat.name}</option>);
-            } else {
-                return (<option key={cat.id} value={cat.id}>{cat.name}</option>);
-            }
+            return (<option key={cat.id} value={cat.id}>{cat.name}</option>);
         });
 
         var subcategory = this.state.subcategory.map(function (cat) {
-            if (self.state.data.category != null && self.state.data.subCategory != null && self.state.data.subCategory.id == cat.id) {
-                return (<option key={cat.id} value={cat.id} selected>{cat.name}</option>);
-            } else {
-                return (<option key={cat.id} value={cat.id}>{cat.name}</option>);
-            }
-
+            return (<option key={cat.id} value={cat.id}>{cat.name}</option>);
         });
 
+        var catSelected = self.state.data.category == null ? -1 : self.state.data.category.id;
+        var subSelected = self.state.data.subCategory == null ? -1 : self.state.data.subCategory.id;
 
         return (
             <div className="course-basic">
@@ -162,8 +165,7 @@ export default class CourseBasic extends React.Component {
                     <div className="col-xs-10">
                         <div className="form-group input-group-sm">
                             <label htmlFor="detail">Details</label>
-                            <textarea className="form-control" rows="5" id="detail"
-                                      ref="details" defaultValue={this.state.data.details}></textarea>
+                            <textarea className="form-control" rows="5" id="detail" ref="details" defaultValue={this.state.data.details}></textarea>
                         </div>
                     </div>
                     <div className="col-xs-1"></div>
@@ -174,8 +176,7 @@ export default class CourseBasic extends React.Component {
                     <div className="col-xs-5">
                         <div className="form-group input-group-sm">
                             <label htmlFor="category">Category</label>
-                            <select className="form-control" id="category" ref="category"
-                                    onChange={this._onChangeCategory.bind(this)}>
+                            <select className="form-control" id="category" ref="category" onChange={this._onChangeCategory.bind(this)} defaultValue={catSelected}>
                                 <option value="-1">-- SELECT ONE --</option>
                                 {category}
                             </select>
@@ -184,7 +185,7 @@ export default class CourseBasic extends React.Component {
                     <div className="col-xs-5">
                         <div className="form-group input-group-sm">
                             <label htmlFor="subcategory">Subcategory</label>
-                            <select className="form-control" id="subcategory" ref="subcategory">
+                            <select className="form-control" id="subcategory" ref="subcategory" defaultValue={subSelected}>
                                 <option value="-1">-- SELECT ONE --</option>
                                 {subcategory}
                             </select>

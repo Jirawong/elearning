@@ -3,6 +3,7 @@ import React from 'react'
 import marked from 'marked';
 import VideoPlayer from '../widget/videoplayer/VideoPlayer';
 import ViewerJs from '../widget/viewerjs/ViewerJs';
+import Rating from '../widget/rating/Rating';
 
 import HistoryService from '../../services/HistoryService';
 import RestService from '../../services/RestService';
@@ -15,7 +16,8 @@ export default class Curriculum extends React.Component {
             data: {
                 sections: [],
                 topics: [],
-                user: {
+                instructors: [],
+                creator: {
                     avatar: 'default.png',
                     nameEn: ''
                 }
@@ -50,7 +52,6 @@ export default class Curriculum extends React.Component {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                console.log(data);
                 this.setState({data: data, content: self._contentSelector(data.sections[0].lectures[0]), contentType: data.sections[0].lectures[0].contentType});
             }.bind(this));
     }
@@ -102,9 +103,9 @@ export default class Curriculum extends React.Component {
         }
     }
 
-    _toogleReply(topic,e){
+    _toogleReply(topic, e) {
         e.preventDefault();
-        $('#reply-box-'+topic).toggleClass('hide');
+        $('#reply-box-' + topic).toggleClass('hide');
     }
 
     render() {
@@ -164,7 +165,7 @@ export default class Curriculum extends React.Component {
                             <div className="reply">
                                 <div className="row">
                                     <div className="col-xs-2 col-lg-1 no-padding">
-                                        <img src="http://localhost:8000/images/avatar/kittipongh-3a99eca.jpg"/>
+                                        <img src={'/images/avatar/'+reply.user.avatar}/>
                                     </div>
                                     <div className="col-xs-10 col-lg-11 no-padding vcenter">
                                         <span className="topic-header">{reply.user.nameEn}</span>
@@ -189,7 +190,7 @@ export default class Curriculum extends React.Component {
                             <div className="topic">
                                 <div className="row">
                                     <div className="col-xs-2 col-lg-1 no-padding">
-                                        <img src="http://localhost:8000/images/avatar/kittipongh-3a99eca.jpg"/>
+                                        <img src={'/images/avatar/'+topic.user.avatar}/>
                                     </div>
                                     <div className="col-xs-10 col-lg-11 no-padding vcenter">
                                         <span className="topic-header">{topic.user.nameEn} </span>
@@ -238,16 +239,26 @@ export default class Curriculum extends React.Component {
             );
         });
 
+        var instructor = this.state.data.instructors.map(function (user) {
+            var detail = marked(user.instructor || '', {sanitize: true});
+            return (
+                <div key={user.username} className="instructor-detail">
+                    <img src={'/images/avatar/'+user.avatar}/>
+                    <div className="instructor-name">{user.nameEn}</div>
+                    <div className="instructor-profile" dangerouslySetInnerHTML={{__html: detail}}></div>
+                </div>
+            );
+        });
+
         var player;
         if (this.state.contentType == 'PDF') {
             player = <ViewerJs key={this.state.content} url={this.state.content}/>;
         } else if (this.state.contentType == 'VIDEO') {
-            player = <VideoPlayer url={this.state.content}/>;
+            player = <VideoPlayer key={this.state.content} url={this.state.content}/>;
         }
 
 
         var details = marked(this.state.data.details || '', {sanitize: true});
-        var instructor = marked(this.state.data.user.instructor || '', {sanitize: true});
         return (
             <div className="curriculum">
 
@@ -293,13 +304,15 @@ export default class Curriculum extends React.Component {
                     </div>
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                         <div className="instructor-title">
+                            Rating
+                        </div>
+                        <Rating data={this.state.data} />
+                    </div>
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                        <div className="instructor-title">
                             Instructor
                         </div>
-                        <div className="instructor-detail">
-                            <img src={'/images/avatar/'+this.state.data.user.avatar}/>
-                            <div className="instructor-name">{this.state.data.user.nameEn}</div>
-                            <div className="instructor-profile" dangerouslySetInnerHTML={{__html: instructor}}></div>
-                        </div>
+                        {instructor}
                     </div>
                 </div>
             </div>

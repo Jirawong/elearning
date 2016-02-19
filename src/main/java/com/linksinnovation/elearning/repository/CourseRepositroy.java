@@ -14,11 +14,11 @@ import java.util.Optional;
  */
 public interface CourseRepositroy extends JpaRepository<Course, Long> {
 
-    public List<Course> findByUser(UserDetails userDetails);
+    public List<Course> findByCreator(UserDetails userDetails);
 
     public List<Course> findByStatus(CourseStatus status);
 
     public List<Course> findByCategoryAndStatusOrSubCategoryAndStatus(Menu category, CourseStatus status1, Menu subCategory, CourseStatus status2);
 
-    public Optional<Course> findByIdAndUser(Long id, UserDetails userDetails);
+    public Optional<Course> findByIdAndCreator(Long id, UserDetails userDetails);
 }

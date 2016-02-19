@@ -36,6 +36,12 @@ export default class CourseManage extends React.Component {
                         <li>
                             <a href={'/image-cover/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-picture-o"></i>Image Cover</a>
                         </li>
+                        <li>
+                            <span>INSTRUCTOR</span>
+                        </li>
+                        <li>
+                            <a href={'/course-instructor/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-users"></i>Instructor</a>
+                        </li>
                     </ul>
                 </div>
                 <div className="form-wrapper">

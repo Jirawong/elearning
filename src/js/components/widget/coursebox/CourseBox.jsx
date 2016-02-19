@@ -33,6 +33,18 @@ export default class CourseScreen extends React.Component {
 
     render() {
         var active = (this.props.data.wishlist) ? 'active' : '';
+
+        var instructor = this.props.data.instructors.map(function (user, index) {
+            if (index > 2) {
+                return;
+            }
+            return (
+                <span key={user.username} className="avatar">
+                    <img src={'/images/avatar/'+user.avatar}/>
+                </span>
+            );
+        });
+
         return (
             <div className="course-box">
                 <div className="wishlist btn btn-sm" onClick={this._toggleWishlist.bind(this)}>
@@ -52,11 +64,7 @@ export default class CourseScreen extends React.Component {
                                 <span className="course-thumb pos-relative">
                                     <img src={'/images/'+this.props.data.cover}/>
                                     <span className="avatars-list">
-                                        <span className="avatar">
-                                            <img
-                                                src={'images/avatar/'+this.props.data.user.avatar}
-                                                alt="EDUmobile Academy"/>
-                                        </span>
+                                        {instructor}
                                     </span>
                                 </span>
                                 <span className="flex">
@@ -66,9 +74,9 @@ export default class CourseScreen extends React.Component {
                                     <span className="review flex-box">
                                         <span className="review-count">
                                             <span className="rating">
-                                                <span style={{width:'0%'}}></span>
+                                                <span style={{width:this.props.data.percentRate+'%'}}></span>
                                             </span>
-                                            <span> (0)</span>
+                                            <span> ({this.props.data.vote})</span>
                                         </span>
                                     </span>
                                     <span className="flex-align-center mh36">

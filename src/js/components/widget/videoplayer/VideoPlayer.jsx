@@ -7,14 +7,14 @@ export default class VideoPlayer extends React.Component {
         this._initPlayer(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.url == '') {
-            this._initPlayer(nextProps);
-        } else {
-            this._changeUrl(nextProps);
-        }
-
-    }
+    //componentWillReceiveProps(nextProps) {
+    //    if (this.props.url == '') {
+    //        this._initPlayer(nextProps);
+    //    } else {
+    //        this._changeUrl(nextProps);
+    //    }
+    //
+    //}
 
     _changeUrl(props) {
         flowplayer('#player').load({
@@ -22,7 +22,7 @@ export default class VideoPlayer extends React.Component {
             sources: [
                 {
                     type: 'application/x-mpegurl',
-                    src: 'http://10.1.2.203/video-1_720p.m3u8'
+                    src: 'http://10.1.2.203/video-'+this.props.url+'_720p.m3u8'
                 }
             ]
         }, function () {
@@ -35,7 +35,7 @@ export default class VideoPlayer extends React.Component {
             clip: {
                 //qualities: ['1080p', '720p'],
                 sources: [
-                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-1_720p.m3u8'}
+                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-'+this.props.url+'_720p.m3u8'}
                 ]
             },
             embed: false

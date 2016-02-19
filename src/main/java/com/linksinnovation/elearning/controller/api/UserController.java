@@ -6,7 +6,9 @@
 package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.model.Authority;
+import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.UserDetails;
+import com.linksinnovation.elearning.repository.CourseRepositroy;
 import com.linksinnovation.elearning.repository.UserDetailsRepository;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -33,6 +35,8 @@ public class UserController {
 
     @Autowired
     private UserDetailsRepository userDetailsRepository;
+    @Autowired
+    private CourseRepositroy courseRepositroy;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public UserDetails get(@AuthenticationPrincipal String userDetails) {
@@ -54,6 +58,14 @@ public class UserController {
         UserDetails user = userDetailsRepository.findOne(userDetails.toUpperCase());
         user.setInstructor(params.get("instructor").toString());
         return userDetailsRepository.save(user);
+    }
+    
+    @RequestMapping(value = "/user/search/instructor", method = RequestMethod.POST)
+    public List<UserDetails> searchInstructor(@RequestBody Map<String, String> params){
+        Course course = courseRepositroy.findOne(Long.parseLong(params.get("course")));
+        List<UserDetails> users = userDetailsRepository.findByNameEnIgnoreCaseLike("%"+params.get("search")+"%");
+        users.removeAll(course.getInstructors());
+        return users;
     }
     
     @RequestMapping(value = "/user/saverole", method = RequestMethod.POST)

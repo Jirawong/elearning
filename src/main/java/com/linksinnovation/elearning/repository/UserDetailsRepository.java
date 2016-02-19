@@ -2,6 +2,7 @@ package com.linksinnovation.elearning.repository;
 
 import com.linksinnovation.elearning.model.UserDetails;
 import com.linksinnovation.elearning.model.enumuration.UserType;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserDetailsRepository extends JpaRepository<UserDetails,String> {
     public UserDetails findByUsernameAndType(String username,UserType type);
+    public List<UserDetails> findByNameEnIgnoreCaseLike(String username);
 }

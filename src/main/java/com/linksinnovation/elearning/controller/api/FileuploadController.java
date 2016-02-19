@@ -36,8 +36,8 @@ public class FileuploadController {
         if (!file.isEmpty()) {
             try {
                 String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                UserDetails userDetails = userDetailsRepository.findOne(userName);
-                Optional<Course> course = courseRepositroy.findByIdAndUser(id, userDetails);
+                UserDetails userDetails = userDetailsRepository.findOne(userName.toUpperCase());
+                Optional<Course> course = courseRepositroy.findByIdAndCreator(id, userDetails);
                 if (course.isPresent()) {
                     String fileName = "cover-"+id+"-"+name;
                     Course c = course.get();

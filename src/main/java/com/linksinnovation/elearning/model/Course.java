@@ -28,13 +28,15 @@ public class Course {
     private String hours = "0 hours video";
     @Enumerated(EnumType.STRING)
     private CourseStatus status = CourseStatus.DRAFT;
-    @ManyToOne
+    @OneToOne
     private Menu category;
-    @ManyToOne
+    @OneToOne
     private Menu subCategory;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private UserDetails user;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne
+    private UserDetails creator;
+    @ManyToMany
+    private List<UserDetails> instructors;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
     @OneToMany
     @JsonIgnore
@@ -43,6 +45,10 @@ public class Course {
     @OrderBy("id ASC")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Topic> topics;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Rating> ratings;
+    private Integer point;
 
     public Long getId() {
         return id;
@@ -124,12 +130,31 @@ public class Course {
         this.subCategory = subCategory;
     }
 
-    public UserDetails getUser() {
-        return user;
+    public UserDetails getCreator() {
+        return creator;
     }
 
-    public void setUser(UserDetails user) {
-        this.user = user;
+    public void setCreator(UserDetails creator) {
+        this.creator = creator;
+    }
+
+    public List<UserDetails> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<UserDetails> instructors) {
+        this.instructors = instructors;
+    }
+
+    public void addInstructor(UserDetails instructor) {
+        if (this.instructors == null) {
+            this.instructors = new ArrayList<>();
+        }
+        this.instructors.add(instructor);
+    }
+
+    public void removeInstructor(UserDetails instructor) {
+        this.instructors.remove(instructor);
     }
 
     public List<Section> getSections() {
@@ -163,22 +188,63 @@ public class Course {
     public void setTopics(List<Topic> topics) {
         this.topics = topics;
     }
-    
-    public void addTopic(Topic topic){
-        if(this.topics == null){
+
+    public void addTopic(Topic topic) {
+        if (this.topics == null) {
             this.topics = new ArrayList<>();
         }
         this.topics.add(topic);
     }
 
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void addRating(Rating rating) {
+        if (this.ratings == null) {
+            this.ratings = new ArrayList<>();
+        }
+        rating.setCourse(this);
+        this.ratings.add(rating);
+    }
+
+    public Integer getVote() {
+        if (this.ratings == null) {
+            return 0;
+        }
+        return this.ratings.size();
+    }
+
+    public float getPercentRate() {
+        if (this.ratings == null || 0 == this.ratings.size()) {
+            return 0f;
+        }
+        int total = this.ratings.size() * 5;
+        int sum = this.ratings.stream().mapToInt(r -> r.getPoint()).sum();
+        return ((float)sum / (float)total) * 100;
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+    
+
     @PrePersist
     @PreUpdate
-    public void summary(){
+    public void summary() {
         Long lectures = 0L;
         Long hours = 0L;
-        for(Section section : this.sections){
+        for (Section section : this.sections) {
             lectures += section.getLectures().size();
-            for(Lecture lecture : section.getLectures()){
+            for (Lecture lecture : section.getLectures()) {
                 hours += lecture.getDuration();
             }
         }

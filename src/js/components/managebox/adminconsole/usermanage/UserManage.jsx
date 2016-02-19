@@ -57,7 +57,7 @@ export default class UserManage extends React.Component {
 
         return (
             <div className="user-manage">
-                <div className="row">
+                <div className="row hide">
                     <div className="col-xs-12">
                         <div className="input-group">
                             <input type="text" className="form-control" placeholder="Search for..." />

@@ -3,7 +3,6 @@ package com.linksinnovation.elearning.controller.api;
 import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.Menu;
 import com.linksinnovation.elearning.model.UserDetails;
-import com.linksinnovation.elearning.model.Wishlist;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import com.linksinnovation.elearning.repository.CourseRepositroy;
 import com.linksinnovation.elearning.repository.MenuRepository;
@@ -22,7 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 @RestController
 @RequestMapping("/api/category")
-public class CategoryConstroller {
+public class CategoryController {
 
     @Autowired
     private CourseRepositroy courseRepositroy;
@@ -45,8 +44,15 @@ public class CategoryConstroller {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public List<Course> get(@PathVariable("id") Long id) {
+    public List<Course> get(@PathVariable("id") Long id,@AuthenticationPrincipal String user) {
         Menu menu = menuRepository.findOne(id);
-        return courseRepositroy.findByCategoryAndStatusOrSubCategoryAndStatus(menu, CourseStatus.PUBLISH, menu, CourseStatus.PUBLISH);
+        UserDetails userDetails = userDetailsRepository.findOne(user.toUpperCase());
+        List<Course> courses = courseRepositroy.findByCategoryAndStatusOrSubCategoryAndStatus(menu, CourseStatus.PUBLISH, menu, CourseStatus.PUBLISH);
+        courses.stream().forEach((course) -> {
+            course.getWishlists().stream().filter((wishlist) -> (wishlist.getUser().equals(userDetails))).forEach((_item) -> {
+                course.setWishlist(true);
+            });
+        });
+        return courses;
     }
 }
