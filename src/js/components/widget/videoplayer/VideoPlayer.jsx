@@ -1,5 +1,6 @@
 /* global flowplayer */
 import React from 'react'
+import RestService from '../../../services/RestService';
 
 export default class VideoPlayer extends React.Component {
 
@@ -16,6 +17,9 @@ export default class VideoPlayer extends React.Component {
                 self._changeUrl(self.props, event.target.innerHTML);
             });
 
+        }).on('finish',function(){
+            RestService.get('/api/viewer/'+self.props.url)
+            .done(function(){})
         });
     }
 
