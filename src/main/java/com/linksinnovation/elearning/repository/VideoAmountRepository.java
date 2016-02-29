@@ -81,7 +81,7 @@ public class VideoAmountRepository {
 
     private List<VideoAmount> mapObject(List<Object[]> resultList) {
         List<VideoAmount> videoAmounts = new ArrayList<>();
-        resultList.stream().map((o) -> new VideoAmount(o[0].toString(), o[1].toString(), o[2].toString(), o[3].toString(), o[4].toString(), o[5].toString(), o[6].toString(), o[7].toString(), (Date)o[8],(BigInteger)o[9])).forEach((videoAmount) -> {
+        resultList.stream().map((o) -> new VideoAmount(o[0].toString(), o[1].toString(), o[2].toString(), o[3].toString(), ""+o[4], ""+o[5], o[6].toString(), o[7].toString(), (Date)o[8],(BigInteger)o[9])).forEach((videoAmount) -> {
             videoAmounts.add(videoAmount);
         });
         return videoAmounts;
