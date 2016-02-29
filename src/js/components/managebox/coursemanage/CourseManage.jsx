@@ -28,13 +28,16 @@ export default class CourseManage extends React.Component {
                             <a href={'/course-curriculum/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i>Curriculum</a>
                         </li>
                         <li>
+                            <a href={'/course-quiz/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-question-circle"></i>Quiz</a>
+                        </li>
+                        <li>
                             <span>COURSE INFO</span>
                         </li>
                         <li>
                             <a href={'/course-basic/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-cube"></i>Basic</a>
                         </li>
                         <li>
-                            <a href={'/image-cover/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-picture-o"></i>Image Cover</a>
+                            <a href={'/course-cover/'+this.props.params.courseId} className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-picture-o"></i>Image Cover</a>
                         </li>
                         <li>
                             <span>INSTRUCTOR</span>

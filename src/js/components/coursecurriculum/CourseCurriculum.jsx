@@ -4,6 +4,7 @@ import marked from 'marked';
 import VideoPlayer from '../widget/videoplayer/VideoPlayer';
 import ViewerJs from '../widget/viewerjs/ViewerJs';
 import Rating from '../widget/rating/Rating';
+import Quiz from '../widget/quiz/Quiz';
 
 import HistoryService from '../../services/HistoryService';
 import RestService from '../../services/RestService';
@@ -23,6 +24,7 @@ export default class Curriculum extends React.Component {
                 }
             },
             content: '',
+            contentData: {},
             contentType: ''
         };
     }
@@ -44,7 +46,7 @@ export default class Curriculum extends React.Component {
 
     _changeContent(data, e) {
         e.preventDefault();
-        this.setState({content: this._contentSelector(data), contentType: data.contentType});
+        this.setState({content: this._contentSelector(data), contentData: data, contentType: data.contentType});
     }
 
     _loadCourse() {
@@ -52,7 +54,7 @@ export default class Curriculum extends React.Component {
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                this.setState({data: data, content: self._contentSelector(data.sections[0].lectures[0]), contentType: data.sections[0].lectures[0].contentType});
+                this.setState({data: data, content: self._contentSelector(data.sections[0].lectures[0]), contentData: data.sections[0].lectures[0], contentType: data.sections[0].lectures[0].contentType});
             }.bind(this));
     }
 
@@ -109,6 +111,9 @@ export default class Curriculum extends React.Component {
     }
 
     render() {
+        if (!this.state.data.id) {
+            return (<div></div>)
+        }
         var self = this;
         var nodes = this.state.data.sections.map(function (main, index) {
 
@@ -214,7 +219,6 @@ export default class Curriculum extends React.Component {
 
                     <div id={'reply-box-'+topic.id} className="hide">
                         {replys}
-
                         <div className="row reply-box">
                             <div className="col-xs-2"></div>
                             <div className="col-xs-10">
@@ -254,7 +258,7 @@ export default class Curriculum extends React.Component {
         if (this.state.contentType == 'PDF') {
             player = <ViewerJs key={this.state.content} url={this.state.content}/>;
         } else if (this.state.contentType == 'VIDEO') {
-            player = <VideoPlayer key={this.state.content} url={this.state.content}/>;
+            player = <VideoPlayer key={this.state.content} url={this.state.content} data={this.state.contentData}/>;
         }
 
 
@@ -265,8 +269,7 @@ export default class Curriculum extends React.Component {
                 <div className="row">
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
                         {player}
-                        <div>
-
+                        <div className="curriculum-content">
                             <ul className="nav nav-tabs" role="tablist">
                                 <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Course Details</a></li>
                                 <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Quiz</a></li>
@@ -278,7 +281,9 @@ export default class Curriculum extends React.Component {
                                     <div className="details" dangerouslySetInnerHTML={{__html: details}}></div>
                                     <ul className="curriculum-items-list">{nodes}</ul>
                                 </div>
-                                <div role="tabpanel" className="tab-pane" id="profile">Not Available</div>
+                                <div role="tabpanel" className="tab-pane" id="profile">
+                                    <Quiz data={this.state.data} course={this.props.params.courseId}/>
+                                </div>
                                 <div role="tabpanel" className="tab-pane" id="messages">
                                     <div className="discussions">
                                         <div className="row">
@@ -299,14 +304,13 @@ export default class Curriculum extends React.Component {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                         <div className="instructor-title">
                             Rating
                         </div>
-                        <Rating data={this.state.data} />
+                        <Rating data={this.state.data}/>
                     </div>
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4">
                         <div className="instructor-title">

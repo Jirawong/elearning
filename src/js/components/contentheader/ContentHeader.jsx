@@ -111,6 +111,8 @@ export default class Header extends React.Component {
                                     <li><a href="/admin-console" onClick={this._changePage.bind(this)}><i className="fa fa-user-secret fa-al"></i>Admin Console</a></li>
                                 </If>
                                 <li className="divider"></li>
+                                <li><a href="/report" onClick={this._changePage.bind(this)}><i className="fa fa-book fa-al"></i>Report</a></li>
+                                <li className="divider"></li>
                                 <li><a href="#" onClick={this._logout.bind(this)}><i className="fa fa-power-off fa-al"></i>Logout</a>
                                 </li>
                             </ul>

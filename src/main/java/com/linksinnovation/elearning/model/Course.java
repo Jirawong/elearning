@@ -49,6 +49,8 @@ public class Course {
     @JsonIgnore
     private List<Rating> ratings;
     private Integer point;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();;
 
     public Long getId() {
         return id;
@@ -234,6 +236,18 @@ public class Course {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+    
+    public void addQuiz(Quiz quiz){
+        this.quizzes.add(quiz);
     }
     
 

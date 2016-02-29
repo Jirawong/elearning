@@ -5,37 +5,44 @@ export default class VideoPlayer extends React.Component {
 
     componentDidMount() {
         this._initPlayer(this.props);
+
+        var self = this;
+
+        flowplayer('#player').on('ready', function () {
+
+            $('.fp-quality-selector').on('click', 'li', function (event) {
+                $('.fp-quality-selector>li.active').removeClass('active');
+                $(event.target).addClass('active');
+                self._changeUrl(self.props, event.target.innerHTML);
+            });
+
+        });
     }
 
-    //componentWillReceiveProps(nextProps) {
-    //    if (this.props.url == '') {
-    //        this._initPlayer(nextProps);
-    //    } else {
-    //        this._changeUrl(nextProps);
-    //    }
-    //
-    //}
-
-    _changeUrl(props) {
+    _changeUrl(props, quality) {
+        var currentTime = flowplayer('#player').video.time;
+        var defaultQuality = (quality == 'Auto') ? '720' : quality;
         flowplayer('#player').load({
-            //qualities: ['1080p', '720p'],
+            qualities: props.data.qualities,
             sources: [
                 {
                     type: 'application/x-mpegurl',
-                    src: 'http://10.1.2.203/video-'+this.props.url+'_720p.m3u8'
+                    src: 'http://10.1.2.203/video-' + this.props.url + '_' + defaultQuality + 'p.m3u8'
                 }
             ]
         }, function () {
-            flowplayer('#player').pause();
+            flowplayer('#player').seek(currentTime);
+            $('.fp-quality-selector>li.active').removeClass('active');
+            $('.fp-quality-selector').find('[data-quality=' + quality + ']').addClass('active');
         });
     }
 
     _initPlayer(props) {
         flowplayer('#player', {
             clip: {
-                //qualities: ['1080p', '720p'],
+                qualities: props.data.qualities,
                 sources: [
-                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-'+this.props.url+'_720p.m3u8'}
+                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-' + this.props.url + '_720p.m3u8'}
                 ]
             },
             embed: false

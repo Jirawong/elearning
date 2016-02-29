@@ -39,6 +39,7 @@ export default class UploadProgress extends React.Component {
         this.setState({uploadPercent: uploadPercent.toFixed(2)});
 
         if (this.rangeEnd === this.fileSize) {
+            this.props.callbackParent();
             return;
         }
 

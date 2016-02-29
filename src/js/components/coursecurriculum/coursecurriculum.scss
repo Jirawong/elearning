@@ -1,6 +1,7 @@
 .curriculum {
     display: inline-block;
     min-height: 250px;
+    min-width: 382px;
 
     @media (min-width: 1200px) {
         width: 1000px;
@@ -9,6 +10,10 @@
     video {
         min-width: 470px;
         min-height: 264px;
+    }
+
+    .curriculum-content{
+        padding-bottom: 10px;
     }
 
     .discussions {

@@ -12,14 +12,9 @@ export default class Rating extends React.Component {
     }
 
     componentDidMount() {
+        this.state.point = this.props.data.point;
+        this._drawOver(this.props.data.point);
         this._setSelected();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.data.id !== this.props.data.id) {
-            this._drawOver(nextProps.data.point);
-            this.setState({point: nextProps.data.point});
-        }
     }
 
     _onMouseOver(select) {

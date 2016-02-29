@@ -3,6 +3,7 @@ package com.linksinnovation.elearning.controller.api;
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.repository.LectureRepository;
+import com.linksinnovation.elearning.utils.QualitySelect;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfo;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.client.RestTemplate;
@@ -38,13 +40,15 @@ public class ProgressUploadController {
             lecture.setContent(filename);
             lecture.setContentType(ContentType.VIDEO);
             lecture.setDuration(Long.parseLong(mediaInfo.get("Video", "Duration")));
+            lecture.setQualities(QualitySelect.listQuality(mediaInfo.get("Video", "Height")));
+            lecture.setUpdateDate(new Date());
             lectureRepository.save(lecture);
 
             RestTemplate rest = new RestTemplate();
             Map<String, String> map = new HashMap<>();
             map.put("input", "/mnt/data/source/" + filename);
             map.put("output", "/mnt/data/convert/video-" + lecture.getId());
-            map.put("quality", "720");
+            map.put("quality", QualitySelect.select(mediaInfo.get("Video", "Height")).toString());
             rest.postForEntity("http://10.1.2.203:8080", map, String.class);
         }
     }

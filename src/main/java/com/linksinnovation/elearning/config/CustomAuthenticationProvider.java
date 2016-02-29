@@ -54,10 +54,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         map.put("username", authentication.getName());
         map.put("password", authentication.getCredentials().toString());
 
-        ResponseEntity<Authen> postForEntity = rest.postForEntity("http://iservice.mitrphol.com/iAuthen/rest/authenInfo/Authen", map, Authen.class);
+        ResponseEntity<Authen> postForEntity = null;
+        if (!mockAuthen(authentication.getCredentials().toString())) {
+            postForEntity = rest.postForEntity("http://iservice.mitrphol.com/iAuthen/rest/authenInfo/Authen", map, Authen.class);
+        }
 
-
-        if (postForEntity.getBody().getResults().get(0).isAuthenStatus() || mockAuthen(authentication.getCredentials().toString())) {
+        if (mockAuthen(authentication.getCredentials().toString()) || postForEntity.getBody().getResults().get(0).isAuthenStatus()) {
             ResponseEntity<UserInfo> forEntity = rest.getForEntity("http://iservice.mitrphol.com/iHR/rest/personal/GetMitrpholEmployee/APPTIVIDIA_DEV/" + authentication.getName(), UserInfo.class);
             if (forEntity.getBody().getResults().size() > 0) {
                 UserDetails user = forEntity.getBody().getResults().get(0);
@@ -66,7 +68,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                     user.setAvatar(findOne.getAvatar());
                     user.setInstructor(findOne.getInstructor());
                     user.setAuthorities((List<Authority>) findOne.getAuthorities());
-                }else{
+                } else {
                     Authority authority = new Authority("User");
                     user.addAuthority(authority);
                 }

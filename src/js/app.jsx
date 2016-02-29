@@ -12,6 +12,9 @@ import 'flowplayer/dist/skin/functional';
 import './plugin/quality-selector.js';
 import './plugin/quality-selector.css';
 
+import './plugin/bootstrap-datepicker.js';
+import './plugin/bootstrap-datepicker.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route } from 'react-router'
@@ -26,6 +29,7 @@ import CourseCurriculum from 'components/managebox/coursemanage/coursecurriculum
 import ImageCover from 'components/managebox/coursemanage/imagecover/ImageCover';
 import CourseBasic from 'components/managebox/coursemanage/coursebasic/CourseBasic';
 import CourseInstructor from 'components/managebox/coursemanage/courseinstructor/CourseInstructor';
+import CourseQuiz from 'components/managebox/coursemanage/coursequiz/CourseQuiz';
 
 import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
 import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
@@ -39,6 +43,10 @@ import Instructor from './components/managebox/userprofile/instructor/Instructor
 
 import DashBoard from './components/dashboard/DashBoard';
 import Curriculum from './components/coursecurriculum/CourseCurriculum';
+
+import Report from './components/managebox/report/Report';
+import VideoAmount from './components/managebox/report/videoamount/VideoAmount';
+import ViewAmount from './components/managebox/report/viewamount/ViewAmount';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -61,8 +69,9 @@ ReactDOM.render((
                 <Route path="/course-manage" component={CourseManage}>
                     <Route path="/course-curriculum/:courseId" component={CourseCurriculum}/>
                     <Route path="/course-basic/:courseId" component={CourseBasic}/>
-                    <Route path="/image-cover/:courseId" component={ImageCover}/>
+                    <Route path="/course-cover/:courseId" component={ImageCover}/>
                     <Route path="/course-instructor/:courseId" component={CourseInstructor} />
+                    <Route path="/course-quiz/:courseId" component={CourseQuiz} />
                 </Route>
                 <Route path="/admin-console" component={AdminConsole}>
                     <Route path="/menu-manage" component={MenuManage}/>
@@ -77,6 +86,9 @@ ReactDOM.render((
                     <Route path="/user-avatar" component={Avatar} />
                     <Route path="/instructor-profile" component={Instructor} />
                 </Route>
+                <Route path="/report" component={Report}/>
+                <Route path="/report/video" component={VideoAmount}/>
+                <Route path="/report/view" component={ViewAmount}/>
             </Route>
         </Route>
     </Router>

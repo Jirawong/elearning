@@ -109,6 +109,14 @@ export default class CourseCurriculum extends React.Component {
         $(e.target).parent().parent().next().next().toggleClass('hide');
     }
 
+    _uploadHandler(){
+        RestService
+            .get('/api/course/basic/' + this.props.params.courseId)
+            .done(function (data) {
+                this.state.data = data;
+            }.bind(this));
+    }
+
     render() {
         var self = this;
 
@@ -130,7 +138,7 @@ export default class CourseCurriculum extends React.Component {
                 } else if (self.state.files[index + '-' + subIndex]) {
                     upload = (
                         <div className="from-progress">
-                            <UploadProgress url={self.state.url} lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
+                            <UploadProgress callbackParent={self._uploadHandler.bind(self)} url={self.state.url} lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
                         </div>
                     );
                 } else {
