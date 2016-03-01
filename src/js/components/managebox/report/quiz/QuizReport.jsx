@@ -98,8 +98,9 @@ export default class VideoAmount extends React.Component {
 
     _null2zero(value){
         if(value==null){
-            return 0;
+            value = 0;
         }
+        return value;
     }
 
 
