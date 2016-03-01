@@ -5,6 +5,7 @@ import VideoPlayer from '../widget/videoplayer/VideoPlayer';
 import ViewerJs from '../widget/viewerjs/ViewerJs';
 import Rating from '../widget/rating/Rating';
 import Quiz from '../widget/quiz/Quiz';
+import If from '../widget/if/If';
 
 import HistoryService from '../../services/HistoryService';
 import RestService from '../../services/RestService';
@@ -132,7 +133,11 @@ export default class Curriculum extends React.Component {
                 return (
                     <li key={subIndex} className="curriculum-item-container">
                         <a className="curriculum-item clearfix" href="#" onClick={self._changeContent.bind(self,sub)}>
-                            <div className="ci-progress-container"></div>
+                            <div className="ci-progress-container">
+                                <If test={sub.view}>
+                                    <span className="ci-progress-mask"></span>
+                                </If>
+                            </div>
                             <div className="ci-info">
                                 <div className="ci-title">
                                     {sub.name}

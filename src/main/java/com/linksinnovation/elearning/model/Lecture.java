@@ -35,6 +35,7 @@ public class Lecture {
     private List<String> qualities;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date updateDate;
+    private boolean view;
 
     public Long getId() {
         return id;
@@ -91,8 +92,14 @@ public class Lecture {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-    
-    
+
+    public boolean isView() {
+        return view;
+    }
+
+    public void setView(boolean view) {
+        this.view = view;
+    }
 
     @JsonProperty
     public String getDurationString(){

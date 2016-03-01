@@ -8,6 +8,7 @@ package com.linksinnovation.elearning.repository;
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.UserDetails;
 import com.linksinnovation.elearning.model.Viewer;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -15,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Jirawong Wongdokpuang <jirawong@linksinnovation.com>
  */
 public interface ViewerRepository extends JpaRepository<Viewer, Long>{
-    public Viewer findByLectureAndUser(Lecture lecture,UserDetails user);
+    public Optional<Viewer> findByLectureAndUser(Lecture lecture,UserDetails user);
 }

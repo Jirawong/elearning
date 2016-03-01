@@ -168,6 +168,11 @@
             -moz-transition: background 0.15s ease-in-out;
             -o-transition: background 0.15s ease-in-out;
             transition: background 0.15s ease-in-out;
+            text-decoration: none;
+            &:hover{
+                color: #335d82;
+                background: #f1f1f1;
+            }
         }
 
         .ci-progress-container {
@@ -182,6 +187,20 @@
             z-index: 1;
             width: 20px;
             height: 20px;
+
+            .ci-progress-mask:before {
+                font-family: 'FontAwesome';
+                content: "\f00c";
+                background: #54b551;
+                border-radius: 50%;
+                float: left;
+                height: 16px;
+                width: 16px;
+                color: #fff;
+                text-align: center;
+                line-height: 18px;
+                font-size: 11px;
+            }
         }
 
         .ci-info {

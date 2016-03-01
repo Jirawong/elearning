@@ -1,17 +1,22 @@
 package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.model.Course;
+import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.Rating;
+import com.linksinnovation.elearning.model.Section;
 import com.linksinnovation.elearning.model.UserDetails;
+import com.linksinnovation.elearning.model.Viewer;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import com.linksinnovation.elearning.repository.CourseRepositroy;
 import com.linksinnovation.elearning.repository.RatingRepository;
 import com.linksinnovation.elearning.repository.UserDetailsRepository;
+import com.linksinnovation.elearning.repository.ViewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
@@ -27,6 +32,8 @@ public class CourseController {
     private UserDetailsRepository userDetailsRepository;
     @Autowired
     private RatingRepository ratingRepository;
+    @Autowired
+    private ViewerRepository viewerRepository;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public Long create(@AuthenticationPrincipal String username) {
@@ -59,6 +66,14 @@ public class CourseController {
         Course course = courseRepositroy.findOne(id);
         UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
         List<Rating> ratings = ratingRepository.findByUserAndCourse(userDetails, course);
+        course.getSections().stream().forEach((section) -> {
+            section.getLectures().stream().forEach((lecture) -> {
+                Optional<Viewer> optional = viewerRepository.findByLectureAndUser(lecture,userDetails);
+                if (optional.isPresent()) {
+                    lecture.setView(true);
+                }
+            });
+        });
         if(ratings.isEmpty()){
             course.setPoint(0);
         }else{
