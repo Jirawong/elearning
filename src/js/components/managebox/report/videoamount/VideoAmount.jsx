@@ -150,7 +150,8 @@ export default class VideoAmount extends React.Component {
                         </div>
                         <div className="row">
                             <div className="col-xs-1"></div>
-                            <div className="col-xs-10 col-align-center">
+                            <div className="col-xs-10">
+                                <label htmlFor="title">Date Range</label>
                                 <div className="input-daterange form-group input-group" id="datepicker">
                                     <input type="text" className="input-sm form-control" ref="start" name="start"/>
                                     <span className="input-group-addon">to</span>

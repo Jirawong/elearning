@@ -17,6 +17,15 @@ export default class VideoAmount extends React.Component {
 
     componentDidMount() {
         this._loadCategory();
+        this._dateRange();
+    }
+
+    _dateRange() {
+        $('.input-daterange').datepicker({
+            format: 'dd/mm/yyyy',
+            clearBtn: true,
+            todayHighlight: true
+        });
     }
 
     _loadCategory() {
@@ -69,6 +78,12 @@ export default class VideoAmount extends React.Component {
         }
         if (this.refs.course.value != -1) {
             condition.course = this.refs.course.value;
+        }
+        if (this.refs.start.value != '') {
+            condition.start = this.refs.start.value;
+        }
+        if (this.refs.end.value != '') {
+            condition.end = this.refs.end.value;
         }
 
         e.preventDefault();
@@ -183,6 +198,18 @@ export default class VideoAmount extends React.Component {
                                         <option value="-1">-- All Course --</option>
                                         {courselist}
                                     </select>
+                                </div>
+                            </div>
+                            <div className="col-xs-1"></div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-1"></div>
+                            <div className="col-xs-10">
+                                <label htmlFor="title">Date Range</label>
+                                <div className="input-daterange form-group input-group" id="datepicker">
+                                    <input type="text" className="input-sm form-control" ref="start" name="start"/>
+                                    <span className="input-group-addon">to</span>
+                                    <input type="text" className="input-sm form-control" ref="end" name="end"/>
                                 </div>
                             </div>
                             <div className="col-xs-1"></div>

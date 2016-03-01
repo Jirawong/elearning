@@ -17,6 +17,15 @@ export default class VideoAmount extends React.Component {
 
     componentDidMount() {
         this._loadCategory();
+        this._dateRange();
+    }
+
+    _dateRange() {
+        $('.input-daterange').datepicker({
+            format: 'dd/mm/yyyy',
+            clearBtn: true,
+            todayHighlight: true
+        });
     }
 
     _loadCategory() {
@@ -70,6 +79,13 @@ export default class VideoAmount extends React.Component {
         if (this.refs.course.value != -1) {
             condition.course = this.refs.course.value;
         }
+        if (this.refs.start.value != '') {
+            condition.start = this.refs.start.value;
+        }
+        if (this.refs.end.value != '') {
+            condition.end = this.refs.end.value;
+        }
+        condition.name = this.refs.name.value
 
         e.preventDefault();
         RestService
@@ -137,6 +153,7 @@ export default class VideoAmount extends React.Component {
                 <tr key={key}>
                     {domCourse}
                     <td>{data.name}</td>
+                    <td>{data.updateDate}</td>
                     <td>{self._null2zero(data.pass)} of {self._null2zero(data.total)} ({self._toPercent(self._null2zero(data.pass), self._null2zero(data.total))}%)</td>
                 </tr>
             );
@@ -185,6 +202,31 @@ export default class VideoAmount extends React.Component {
                             <div className="col-xs-1"></div>
                         </div>
                         <div className="row">
+                            <div className="col-xs-1"></div>
+                            <div className="col-xs-10">
+                                <div className="form-group input-group-sm">
+                                    <label htmlFor="name">Name</label>
+                                    <input id="name"
+                                           className="form-control"
+                                           type="text"
+                                           ref="name"/>
+                                </div>
+                            </div>
+                            <div className="col-xs-1"></div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-1"></div>
+                            <div className="col-xs-10">
+                                <label htmlFor="title">Date Range</label>
+                                <div className="input-daterange form-group input-group" id="datepicker">
+                                    <input type="text" className="input-sm form-control" ref="start" name="start"/>
+                                    <span className="input-group-addon">to</span>
+                                    <input type="text" className="input-sm form-control" ref="end" name="end"/>
+                                </div>
+                            </div>
+                            <div className="col-xs-1"></div>
+                        </div>
+                        <div className="row">
                             <div className="col-xs-12 col-align-center">
                                 <button className="btn btn-success btn-sm" onClick={this._viewReport.bind(this)}>View Report</button>
                             </div>
@@ -197,13 +239,14 @@ export default class VideoAmount extends React.Component {
                     <tr className="info">
                         <th>Course</th>
                         <th>Name</th>
+                        <th>Date</th>
                         <th>Quiz Score</th>
                     </tr>
                     </thead>
                     <tbody>
                     {nodes}
                     <tr className="success summary-report">
-                        <td colSpan="2">Total</td>
+                        <td colSpan="3">Total</td>
                         <td>{this.state.data.length} Users</td>
                     </tr>
                     </tbody>

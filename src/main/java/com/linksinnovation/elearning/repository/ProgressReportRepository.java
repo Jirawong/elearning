@@ -5,6 +5,7 @@
  */
 package com.linksinnovation.elearning.repository;
 
+import com.linksinnovation.elearning.dto.QuizConditionDTO;
 import com.linksinnovation.elearning.model.report.ProgressReport;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -22,64 +23,105 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Repository
 public class ProgressReportRepository {
+
     @PersistenceContext
     private EntityManager em;
-    
+
     private static final String query = "select name,course,pass,total,view,total_lecture from report_progress where creator=:creator";
     private static final String queryUser = "select name,course,pass,total,view,total_lecture from report_progress where username=:username";
-    
-    public List<ProgressReport> findReport(@RequestBody Map<String,Long> map,String username){
-        if(null != map.get("category")){
-            String queryString = query+" AND category_id=:cat";
-            if(null != map.get("subcategory")){
-                queryString = queryString+" AND sub_category_id=:subcat";
+
+    public List<ProgressReport> findReport(QuizConditionDTO conditionDTO, String username) {
+        if (null != conditionDTO.getCategory()) {
+            String queryString = query + " AND category_id=:cat";
+            if (null != conditionDTO.getSubcategory()) {
+                queryString = queryString + " AND sub_category_id=:subcat";
             }
-            if(null != map.get("course")){
-                queryString = queryString+" AND course_id=:course";
+            if (null != conditionDTO.getCourse()) {
+                queryString = queryString + " AND course_id=:course";
             }
-            queryString = queryString+" ORDER BY name,course_id ASC";
-            
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                queryString = queryString + " AND update_date BETWEEN :start AND :end";
+            }
+            queryString = queryString + " ORDER BY name,course_id ASC";
+
             Query q = em.createNativeQuery(queryString);
-            q.setParameter("cat", map.get("category"));
+            q.setParameter("cat", conditionDTO.getCategory());
             q.setParameter("creator", username);
-            if(null != map.get("subcategory")){
-                q.setParameter("subcat", map.get("subcategory"));
+            if (null != conditionDTO.getSubcategory()) {
+                q.setParameter("subcat", conditionDTO.getSubcategory());
             }
-            if(null != map.get("course")){
-                q.setParameter("course", map.get("course"));
+            if (null != conditionDTO.getCourse()) {
+                q.setParameter("course", conditionDTO.getCourse());
+            }
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                q.setParameter("start", conditionDTO.getStart());
+                q.setParameter("end", conditionDTO.getEnd());
             }
             return mapObject(q.getResultList());
-        }else{
-            String queryString = query+" ORDER BY name,course_id ASC";
+        } else if (null == conditionDTO.getCategory()) {
+            String queryString = query;
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                queryString = queryString + " AND update_date BETWEEN :start AND :end";
+            }
+            queryString = queryString + " ORDER BY name,course_id ASC";
+            Query q = em.createNativeQuery(queryString);
+            q.setParameter("creator", username);
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                q.setParameter("start", conditionDTO.getStart());
+                q.setParameter("end", conditionDTO.getEnd());
+            }
+            return mapObject(q.getResultList());
+        } else {
+            String queryString = query + " ORDER BY name,course_id ASC";
             Query q = em.createNativeQuery(queryString);
             q.setParameter("creator", username);
             return mapObject(q.getResultList());
         }
     }
-    
-    public List<ProgressReport> findUserReport(@RequestBody Map<String,Long> map,String username){
-        if(null != map.get("category")){
-            String queryString = queryUser+" AND category_id=:cat";
-            if(null != map.get("subcategory")){
-                queryString = queryString+" AND sub_category_id=:subcat";
+
+    public List<ProgressReport> findUserReport(QuizConditionDTO conditionDTO, String username) {
+        if (null != conditionDTO.getCategory()) {
+            String queryString = queryUser + " AND category_id=:cat";
+            if (null != conditionDTO.getSubcategory()) {
+                queryString = queryString + " AND sub_category_id=:subcat";
             }
-            if(null != map.get("course")){
-                queryString = queryString+" AND course_id=:course";
+            if (null != conditionDTO.getCourse()) {
+                queryString = queryString + " AND course_id=:course";
             }
-            queryString = queryString+" ORDER BY name,course_id ASC";
-            
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                queryString = queryString + " AND update_date BETWEEN :start AND :end";
+            }
+            queryString = queryString + " ORDER BY name,course_id ASC";
+
             Query q = em.createNativeQuery(queryString);
-            q.setParameter("cat", map.get("category"));
+            q.setParameter("cat", conditionDTO.getCategory());
             q.setParameter("username", username);
-            if(null != map.get("subcategory")){
-                q.setParameter("subcat", map.get("subcategory"));
+            if (null != conditionDTO.getSubcategory()) {
+                q.setParameter("subcat", conditionDTO.getSubcategory());
             }
-            if(null != map.get("course")){
-                q.setParameter("course", map.get("course"));
+            if (null != conditionDTO.getCourse()) {
+                q.setParameter("course", conditionDTO.getCourse());
+            }
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                q.setParameter("start", conditionDTO.getStart());
+                q.setParameter("end", conditionDTO.getEnd());
             }
             return mapObject(q.getResultList());
-        }else{
-            String queryString = queryUser+" ORDER BY name,course_id ASC";
+        } else if (null == conditionDTO.getCategory()) {
+            String queryString = queryUser;
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                queryString = queryString + " AND update_date BETWEEN :start AND :end";
+            }
+            queryString = queryString + " ORDER BY name,course_id ASC";
+            Query q = em.createNativeQuery(queryString);
+            q.setParameter("username", username);
+            if (null != conditionDTO.getStart() && null != conditionDTO.getEnd()) {
+                q.setParameter("start", conditionDTO.getStart());
+                q.setParameter("end", conditionDTO.getEnd());
+            }
+            return mapObject(q.getResultList());
+        } else {
+            String queryString = queryUser + " ORDER BY name,course_id ASC";
             Query q = em.createNativeQuery(queryString);
             q.setParameter("username", username);
             return mapObject(q.getResultList());
@@ -88,8 +130,8 @@ public class ProgressReportRepository {
 
     private List<ProgressReport> mapObject(List<Object[]> resultList) {
         List<ProgressReport> instructorReports = new ArrayList<>();
-        for(Object[] o : resultList){
-            instructorReports.add(new ProgressReport(""+o[0], ""+o[1], (Integer)o[2], (Integer)o[3], (BigInteger)o[4], (BigInteger)o[5]));
+        for (Object[] o : resultList) {
+            instructorReports.add(new ProgressReport("" + o[0], "" + o[1], (Integer) o[2], (Integer) o[3], (BigInteger) o[4], (BigInteger) o[5]));
         }
         return instructorReports;
     }

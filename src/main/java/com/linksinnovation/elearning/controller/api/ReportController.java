@@ -7,6 +7,7 @@ package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.dto.BasicConditionDTO;
 import com.linksinnovation.elearning.dto.CourseDTO;
+import com.linksinnovation.elearning.dto.QuizConditionDTO;
 import com.linksinnovation.elearning.model.report.ProgressReport;
 import com.linksinnovation.elearning.model.report.QuizReport;
 import com.linksinnovation.elearning.model.report.VideoAmount;
@@ -60,17 +61,17 @@ public class ReportController {
     }
     
     @RequestMapping(value="/quizreport",method = RequestMethod.POST)
-    public List<QuizReport> quizreport(@RequestBody Map<String,Long> map){
-        return quizReportRepository.findQuizReport(map);
+    public List<QuizReport> quizreport(@RequestBody QuizConditionDTO quizConditionDTO){
+        return quizReportRepository.findQuizReport(quizConditionDTO);
     }
     
     @RequestMapping(value="/instructor",method = RequestMethod.POST)
-    public List<ProgressReport> instructorReport(@RequestBody Map<String,Long> map,@AuthenticationPrincipal String username){
-        return instructorReportRepository.findReport(map, username);
+    public List<ProgressReport> instructorReport(@RequestBody QuizConditionDTO conditionDTO,@AuthenticationPrincipal String username){
+        return instructorReportRepository.findReport(conditionDTO, username);
     }
     
     @RequestMapping(value="/user",method = RequestMethod.POST)
-    public List<ProgressReport> userReport(@RequestBody Map<String,Long> map,@AuthenticationPrincipal String username){
-        return instructorReportRepository.findUserReport(map, username);
+    public List<ProgressReport> userReport(@RequestBody QuizConditionDTO conditionDTO,@AuthenticationPrincipal String username){
+        return instructorReportRepository.findUserReport(conditionDTO, username);
     }
 }
