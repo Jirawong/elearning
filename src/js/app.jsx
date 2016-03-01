@@ -47,6 +47,9 @@ import Curriculum from './components/coursecurriculum/CourseCurriculum';
 import Report from './components/managebox/report/Report';
 import VideoAmount from './components/managebox/report/videoamount/VideoAmount';
 import ViewAmount from './components/managebox/report/viewamount/ViewAmount';
+import QuizReport from './components/managebox/report/quiz/QuizReport';
+import InstructorReport from './components/managebox/report/instructor/InstructorReport';
+import UserReport from './components/managebox/report/user/UserReport';
 
 import LoginAction from './actions/LoginAction';
 import HistoryService from './services/HistoryService';
@@ -89,6 +92,9 @@ ReactDOM.render((
                 <Route path="/report" component={Report}/>
                 <Route path="/report/video" component={VideoAmount}/>
                 <Route path="/report/view" component={ViewAmount}/>
+                <Route path="/report/quiz" component={QuizReport} />
+                <Route path="/report/instructor" component={InstructorReport} />
+                <Route path="/report/user" component={UserReport} />
             </Route>
         </Route>
     </Router>

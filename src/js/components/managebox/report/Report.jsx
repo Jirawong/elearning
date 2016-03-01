@@ -29,19 +29,19 @@ export default class Report extends React.Component {
                             <a href="/report/view" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i> รายงานแสดงจำนวนและรายชื่อผู้เข้าชมสื่อการสอน</a>
                         </li>
                         <li>
-                            <a href="#" className="no-underline"><i className="fa fa-book"></i> รายงานผลการทำแบบทดสอบ</a>
+                            <a href="/report/quiz" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i> รายงานผลการทำแบบทดสอบ</a>
                         </li>
                         <li>
                             <span>Instructor Report</span>
                         </li>
                         <li>
-                            <a href="#" className="no-underline"><i className="fa fa-book"></i> รายงานความคืบหน้าการเข้าชมสื่อการสอนของผู้สอน</a>
+                            <a href="/report/instructor" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i> รายงานความคืบหน้าการเข้าชมสื่อการสอนของผู้สอน</a>
                         </li>
                         <li>
                             <span>User Report</span>
                         </li>
                         <li>
-                            <a href="#" className="no-underline"><i className="fa fa-book"></i> รายงานความคืบหน้าการเข้าชมสื่อการสอน</a>
+                            <a href="/report/user" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-book"></i> รายงานความคืบหน้าการเข้าชมสื่อการสอน</a>
                         </li>
                     </ul>
                 </div>
