@@ -90,7 +90,16 @@ export default class VideoAmount extends React.Component {
     }
 
     _toPercent(value, total) {
+        if(total == 0){
+            total = 1;
+        }
         return ((value / total) * 100).toFixed(2);
+    }
+
+    _null2zero(value){
+        if(value==null){
+            return 0;
+        }
     }
 
 
@@ -130,7 +139,7 @@ export default class VideoAmount extends React.Component {
                     {domCourse}
                     <td>{data.name}</td>
                     <td>{data.view} of {data.totalLecture} ({self._toPercent(data.view, data.totalLecture)}%)</td>
-                    <td>{data.pass} of {data.total} ({self._toPercent(data.pass, data.total)}%)</td>
+                    <td>{self._null2zero(data.pass)} of {self._null2zero(data.total)} ({self._toPercent(self._null2zero(data.pass), self._null2zero(data.total))}%)</td>
                 </tr>
             );
         })
