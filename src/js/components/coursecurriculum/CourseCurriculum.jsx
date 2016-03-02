@@ -276,20 +276,22 @@ export default class Curriculum extends React.Component {
                         {player}
                         <div className="curriculum-content">
                             <ul className="nav nav-tabs" role="tablist">
-                                <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Course Details</a></li>
-                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Quiz</a></li>
-                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Discussions</a></li>
+                                <li role="presentation" className="active"><a href="#course" aria-controls="course" role="tab" data-toggle="tab">Course Details</a></li>
+                                <If test={this.state.data.quizzes.length != 0}>
+                                    <li role="presentation"><a href="#quiz" aria-controls="quiz" role="tab" data-toggle="tab">Quiz</a></li>
+                                </If>
+                                <li role="presentation"><a href="#discussions" aria-controls="discussions" role="tab" data-toggle="tab">Discussions</a></li>
                             </ul>
 
                             <div className="tab-content">
-                                <div role="tabpanel" className="tab-pane active" id="home">
+                                <div role="tabpanel" className="tab-pane active" id="course">
                                     <div className="details" dangerouslySetInnerHTML={{__html: details}}></div>
                                     <ul className="curriculum-items-list">{nodes}</ul>
                                 </div>
-                                <div role="tabpanel" className="tab-pane" id="profile">
+                                <div role="tabpanel" className="tab-pane" id="quiz">
                                     <Quiz data={this.state.data} course={this.props.params.courseId}/>
                                 </div>
-                                <div role="tabpanel" className="tab-pane" id="messages">
+                                <div role="tabpanel" className="tab-pane" id="discussions">
                                     <div className="discussions">
                                         <div className="row">
                                             <div className="col-xs-12">
