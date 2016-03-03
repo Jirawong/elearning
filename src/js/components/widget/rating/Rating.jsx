@@ -24,7 +24,7 @@ export default class Rating extends React.Component {
     _onClick(point, e) {
         e.preventDefault();
         var data = {
-            course: 1,
+            course: this.props.data.id,
             point: point
         }
         RestService

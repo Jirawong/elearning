@@ -108,5 +108,10 @@ public class CourseController {
         course.removeInstructor(userDetails);
         return courseRepositroy.save(course);
     }
+    
+    @RequestMapping(value = "/search/{search}", method = RequestMethod.GET)
+    public List<Course> search(@PathVariable("search")String search){
+        return courseRepositroy.findByTitleLikeOrSubTitleLike("%"+search+"%","%"+search+"%");
+    }
 
 }

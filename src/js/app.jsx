@@ -67,6 +67,7 @@ ReactDOM.render((
         <Route component={App}>
             <Route path="/" component={CourseScreen}/>
             <Route path="/category/:categoryId" component={CourseScreen}/>
+            <Route path="/search/:search" component={CourseScreen}/>
             <Route path="/wishlist" component={CourseScreen}/>
             <Route component={ManageBox}>
                 <Route path="/course-manage" component={CourseManage}>

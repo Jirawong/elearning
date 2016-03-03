@@ -48,6 +48,18 @@ export default class Header extends React.Component {
                 e.currentTarget.getAttribute('href')
             );
     }
+    _search(input,e){
+        e.preventDefault();
+        if(this.refs[input].value == ''){
+            return;
+        }
+        HistoryService
+            .get()
+            .pushState(
+                null,
+                '/search/'+this.refs[input].value
+            );
+    }
 
     _loadUser() {
         var self = this;
@@ -56,6 +68,11 @@ export default class Header extends React.Component {
             .done(function (data) {
                 self.setState({data: data});
             });
+    }
+
+    _searchDropdownToggle(e){
+        e.preventDefault();
+        $('.search-rps').toggleClass('hide');
     }
 
     render() {
@@ -76,13 +93,13 @@ export default class Header extends React.Component {
                         <div className="search-wrap">
                             <div className="search">
                                 <form>
-                                    <input type="text" placeholder="Search for Courses" autoComplete="off" className="search-input"/>
-                                    <button type="submit" className="fa fa-search search-btn"></button>
+                                    <input type="text" ref="search" placeholder="Search for Courses" autoComplete="off" className="search-input"/>
+                                    <button type="submit" className="fa fa-search search-btn" onClick={this._search.bind(this,'search')}></button>
                                 </form>
                             </div>
                         </div>
 
-                        <div className="search-dropdown">
+                        <div className="search-dropdown" onClick={this._searchDropdownToggle.bind(this)}>
                             <i className="fa fa-search"></i>
                         </div>
                     </div>
@@ -116,6 +133,16 @@ export default class Header extends React.Component {
                                 <li><a href="#" onClick={this._logout.bind(this)}><i className="fa fa-power-off fa-al"></i>Logout</a>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="search-rps hide">
+                    <div className="search-rps-wrap">
+                        <div className="search">
+                            <form>
+                                <input type="text" ref="searchrps" placeholder="Search for Courses" autoComplete="off" className="search-input"/>
+                                <button type="submit" className="fa fa-search search-btn" onClick={this._search.bind(this,'searchrps')}></button>
+                            </form>
                         </div>
                     </div>
                 </div>

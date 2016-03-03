@@ -31,8 +31,11 @@
             width: 240px;
         }
 
+        
+
         .wrapper-right {
-            overflow: hidden;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
             min-height: calc(100vh - 132px);
 
             .row {

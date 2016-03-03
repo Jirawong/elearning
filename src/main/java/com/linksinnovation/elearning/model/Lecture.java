@@ -33,7 +33,7 @@ public class Lecture {
     private Long duration = 0L;
     @ElementCollection
     private List<String> qualities;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date updateDate;
     private boolean view;
 

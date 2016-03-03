@@ -21,4 +21,6 @@ public interface CourseRepositroy extends JpaRepository<Course, Long> {
     public List<Course> findByCategoryAndStatusOrSubCategoryAndStatus(Menu category, CourseStatus status1, Menu subCategory, CourseStatus status2);
 
     public Optional<Course> findByIdAndCreator(Long id, UserDetails userDetails);
+
+    public List<Course> findByTitleLikeOrSubTitleLike(String string, String string0);
 }
