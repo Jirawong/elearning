@@ -64,7 +64,7 @@ export default class CourseScreen extends React.Component {
                     <div className="col-xs-12 col-align-center">
                         <div className="content">
 
-                            <div className="row">
+                            <div className="row hide">
                                 <div id="carousel-example-generic" className="carousel slide" data-ride="carousel">
                                     <ol className="carousel-indicators">
                                         <li data-target="#carousel-example-generic" data-slide-to="0" className="active"></li>

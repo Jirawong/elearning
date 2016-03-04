@@ -19,7 +19,6 @@ export default class CourseBasic extends React.Component {
 
     componentDidMount() {
         this._loadCategory();
-        this._loadCourse();
     }
 
     _loadCategory() {
@@ -27,6 +26,7 @@ export default class CourseBasic extends React.Component {
             .get('/api/menu')
             .done(function (data) {
                 this.state.category = data;
+                this._loadCourse();
             }.bind(this));
     }
 
