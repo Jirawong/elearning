@@ -27,18 +27,19 @@ export default class VideoPlayer extends React.Component {
     _changeUrl(props, quality) {
         var currentTime = flowplayer('#player').video.time;
         var defaultQuality = (quality == 'Auto') ? '720' : quality;
+        var nameQuality = (quality == 'Auto') ? 'abr' : quality;
         flowplayer('#player').load({
             qualities: props.data.qualities,
             sources: [
                 {
                     type: 'application/x-mpegurl',
-                    src: 'http://10.1.2.203/' + this.props.uuid + '/' + defaultQuality + 'p.m3u8'
+                    src: 'http://10.1.2.203/' + props.data.uuid + '/' + defaultQuality + 'p.m3u8'
                 }
             ]
         }, function () {
             flowplayer('#player').seek(currentTime);
             $('.fp-quality-selector>li.active').removeClass('active');
-            $('.fp-quality-selector').find('[data-quality=' + quality + ']').addClass('active');
+            $('.fp-quality-selector').find('[data-quality=' + nameQuality + ']').addClass('active');
         });
     }
 
