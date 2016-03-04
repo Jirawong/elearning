@@ -263,7 +263,7 @@ export default class Curriculum extends React.Component {
         if (this.state.contentType == 'PDF') {
             player = <ViewerJs key={this.state.content} url={this.state.content}/>;
         } else if (this.state.contentType == 'VIDEO') {
-            player = <VideoPlayer key={this.state.content} url={this.state.content} data={this.state.contentData}/>;
+            player = <VideoPlayer key={this.state.content} data={this.state.contentData}/>;
         }
 
 

@@ -36,6 +36,7 @@ public class Lecture {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date updateDate;
     private boolean view;
+    private String uuid;
 
     public Long getId() {
         return id;
@@ -99,6 +100,14 @@ public class Lecture {
 
     public void setView(boolean view) {
         this.view = view;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @JsonProperty

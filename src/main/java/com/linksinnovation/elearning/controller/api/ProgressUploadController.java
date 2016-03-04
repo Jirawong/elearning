@@ -3,6 +3,7 @@ package com.linksinnovation.elearning.controller.api;
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.repository.LectureRepository;
+import com.linksinnovation.elearning.utils.MD5;
 import com.linksinnovation.elearning.utils.QualitySelect;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfo;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfoUtil;
@@ -33,7 +34,8 @@ public class ProgressUploadController {
     public void upload(@RequestBody byte[] file, HttpServletRequest request) throws IOException, InterruptedException {
         InputStream chunk = new ByteArrayInputStream(file);
         String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
-        appendFile(chunk, new File("/mnt/data/source/"+ filename));
+        String hexFile = MD5.getMd5(filename);
+        appendFile(chunk, new File("/mnt/data/source/"+ hexFile));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
             final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/" + filename);
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
@@ -42,12 +44,13 @@ public class ProgressUploadController {
             lecture.setDuration(Long.parseLong(mediaInfo.get("Video", "Duration")));
             lecture.setQualities(QualitySelect.listQuality(mediaInfo.get("Video", "Height")));
             lecture.setUpdateDate(new Date());
+            lecture.setUuid(hexFile);
             lectureRepository.save(lecture);
 
             RestTemplate rest = new RestTemplate();
-            Map<String, String> map = new HashMap<>();
-            map.put("input", "/mnt/data/source/" + filename);
-            map.put("output", "/mnt/data/convert/video-" + lecture.getId());
+            Map<String, Object> map = new HashMap<>();
+            map.put("uuid", hexFile);
+            map.put("lecture", lecture.getId());
             map.put("quality", QualitySelect.select(mediaInfo.get("Video", "Height")).toString());
             rest.postForEntity("http://10.1.2.203:8080", map, String.class);
         }

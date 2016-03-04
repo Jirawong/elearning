@@ -17,9 +17,10 @@ export default class VideoPlayer extends React.Component {
                 self._changeUrl(self.props, event.target.innerHTML);
             });
 
-        }).on('finish',function(){
-            RestService.get('/api/viewer/'+self.props.url)
-            .done(function(){})
+        }).on('finish', function () {
+            RestService.get('/api/viewer/' + self.props.url)
+                .done(function () {
+                })
         });
     }
 
@@ -31,7 +32,7 @@ export default class VideoPlayer extends React.Component {
             sources: [
                 {
                     type: 'application/x-mpegurl',
-                    src: 'http://10.1.2.203/video-' + this.props.url + '_' + defaultQuality + 'p.m3u8'
+                    src: 'http://10.1.2.203/' + this.props.uuid + '/' + defaultQuality + 'p.m3u8'
                 }
             ]
         }, function () {
@@ -46,7 +47,7 @@ export default class VideoPlayer extends React.Component {
             clip: {
                 qualities: props.data.qualities,
                 sources: [
-                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/video-' + this.props.url + '_720p.m3u8'}
+                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/' + props.data.uuid + '/720p.m3u8'}
                 ]
             },
             embed: false
