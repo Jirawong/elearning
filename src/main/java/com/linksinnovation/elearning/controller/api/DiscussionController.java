@@ -43,7 +43,8 @@ public class DiscussionController {
         topic.setUser(user);
         Course course = courseRepositroy.findOne(Long.parseLong(params.get("course")));
         course.addTopic(topic);
-        return courseRepositroy.save(course);
+        courseRepositroy.save(course);
+        return courseRepositroy.findOne(Long.parseLong(params.get("course")));
     }
     
     @RequestMapping(value = "/savereply",method = RequestMethod.POST)

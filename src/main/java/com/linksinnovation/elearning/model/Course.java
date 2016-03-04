@@ -42,7 +42,7 @@ public class Course {
     @JsonIgnore
     private List<Wishlist> wishlists;
     private boolean wishlist = false;
-    @OrderBy("id ASC")
+    @OrderBy("id DESC")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Topic> topics;
     @OneToMany(cascade = CascadeType.ALL)

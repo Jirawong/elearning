@@ -81,6 +81,7 @@ export default class Curriculum extends React.Component {
             RestService
                 .post('/api/savetopic', data)
                 .done(function (data) {
+                    data.topics.sort(self._compareTopic);
                     self.setState({data: data});
                     self.refs.topic.value = ''
                 });
@@ -109,6 +110,15 @@ export default class Curriculum extends React.Component {
     _toogleReply(topic, e) {
         e.preventDefault();
         $('#reply-box-' + topic).toggleClass('hide');
+    }
+
+    _compareTopic(a, b) {
+        if (a.id < b.id)
+            return 1;
+        else if (a.id > b.id)
+            return -1;
+        else
+            return 0;
     }
 
     render() {
