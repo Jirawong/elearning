@@ -98,6 +98,24 @@ class RestService {
             }
         });
     }
+
+    carouselUpload(data){
+        return when($.ajax({
+                url: '/api/carousel/save',
+                data: data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                headers: {
+                    'Authorization': 'bearer ' + LoginStore.token
+                }
+            })
+        ).catch(function (e) {
+            if (e.status === 401) {
+                AuthenService.logout();
+            }
+        });
+    }
 }
 
 export default new RestService();

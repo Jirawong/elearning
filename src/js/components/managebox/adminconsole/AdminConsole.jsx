@@ -27,6 +27,9 @@ export default class AdminConsole extends React.Component {
                         <li>
                             <a href="/user-manage" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-users"></i>User Manage</a>
                         </li>
+                        <li>
+                            <a href="/carousel" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-picture-o"></i>Carousel Images</a>
+                        </li>
                     </ul>
                 </div>
                 <div className="form-wrapper">

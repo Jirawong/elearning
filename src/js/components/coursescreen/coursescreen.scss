@@ -4,6 +4,12 @@
         display: inline-block;
     }
 
+    .carousel-inner{
+        img{
+            cursor: pointer;
+        }
+    }
+
     @media (min-width: 1200px) {
         .content {
             width: 1000px;

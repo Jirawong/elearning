@@ -26,6 +26,12 @@ public class CourseDTORepository {
     private EntityManager em;
     
     private static final String query = "SELECT id,title FROM course";
+    
+    public List<CourseDTO> findAll(){
+        String queryString = query+" WHERE status = 'PUBLISH'";
+        Query q = em.createNativeQuery(queryString);
+        return mapObject(q.getResultList());
+    }
 
     public List<CourseDTO> findByCategory(Map<String, Long> map) {
         List<Object[]> result;

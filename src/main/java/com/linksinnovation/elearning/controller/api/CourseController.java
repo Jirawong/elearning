@@ -1,9 +1,7 @@
 package com.linksinnovation.elearning.controller.api;
 
 import com.linksinnovation.elearning.model.Course;
-import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.Rating;
-import com.linksinnovation.elearning.model.Section;
 import com.linksinnovation.elearning.model.UserDetails;
 import com.linksinnovation.elearning.model.Viewer;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;

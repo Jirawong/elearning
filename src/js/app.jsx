@@ -15,6 +15,9 @@ import './plugin/quality-selector.css';
 import './plugin/bootstrap-datepicker.js';
 import './plugin/bootstrap-datepicker.css';
 
+import './plugin/select2.js';
+import './plugin/select2.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route } from 'react-router'
@@ -35,6 +38,8 @@ import AdminConsole from 'components/managebox/adminconsole/AdminConsole';
 import MenuManage from 'components/managebox/adminconsole/menumanage/MenuManage';
 import UserManage from 'components/managebox/adminconsole/usermanage/UserManage';
 import ProfileManage from 'components/managebox/adminconsole/profilemanage/ProfileManage';
+import Carousel from 'components/managebox/adminconsole/carouselimages/Carousel';
+import CarouselEdit from 'components/managebox/adminconsole/carouselimages/carouseledit/CarouselEdit';
 
 import UserProfile from './components/managebox/userprofile/UserProfile';
 import Profile from './components/managebox/userprofile/profile/Profile';
@@ -81,6 +86,8 @@ ReactDOM.render((
                     <Route path="/menu-manage" component={MenuManage}/>
                     <Route path="/user-manage" component={UserManage}/>
                     <Route path="/profile-manage/:username" component={ProfileManage}/>
+                    <Route path="/carousel" component={Carousel} />
+                    <Route path="/carousel/:id" component={CarouselEdit} />
                 </Route>
                 <Route path="/instructor-dashboard" component={DashBoard}/>
                 <Route path="/curriculum/:courseId" component={Curriculum}/>
