@@ -64,7 +64,7 @@ export default class CarouselEdit extends React.Component {
 
     }
 
-    _delete(e){
+    _delete(e) {
         e.preventDefault();
         RestService.delete('/api/carousel/' + this.props.params.id).done(function () {
             HistoryService
@@ -89,6 +89,11 @@ export default class CarouselEdit extends React.Component {
                 <div className="row">
                     <div className="slide">
                         <img src={'/images/slide/'+this.state.data.images}/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="alert alert-warning" role="alert">
+                        Best Image quality for slide is 1000x250 pixel.
                     </div>
                 </div>
                 <div className="row">

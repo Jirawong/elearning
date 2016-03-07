@@ -37,7 +37,7 @@ public class ProgressUploadController {
         String hexFile = MD5.getMd5(filename);
         appendFile(chunk, new File("/mnt/data/source/"+ hexFile));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
-            final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/" + filename);
+            final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/" + hexFile);
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
             lecture.setContent(filename);
             lecture.setContentType(ContentType.VIDEO);
