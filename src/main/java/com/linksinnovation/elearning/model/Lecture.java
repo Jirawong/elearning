@@ -1,11 +1,13 @@
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.utils.time.TimeConvert;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,6 +16,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Temporal;
 
 /**
@@ -111,7 +115,7 @@ public class Lecture {
     }
 
     @JsonProperty
-    public String getDurationString(){
+    public String getDurationString() {
         return TimeConvert.fromMilisec(this.duration);
     }
 
@@ -136,6 +140,5 @@ public class Lecture {
         }
         return true;
     }
-    
-    
+
 }

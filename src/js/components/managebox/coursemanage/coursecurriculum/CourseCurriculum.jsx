@@ -151,7 +151,7 @@ export default class CourseCurriculum extends React.Component {
                                         </button>
                                     </div>
                                     <div className="col-sm-4 p20px">
-                                        <input id={'pptupload'+index+'-'+subIndex} accept="application/pdf, application/x-pdf, application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" type="file" onChange={self._onFileSelected.bind(self,'/api/pptupload',index,subIndex)}/>
+                                        <input id={'pptupload'+index+'-'+subIndex} accept="application/vnd.openxmlformats-officedocument.presentationml.presentation" type="file" onChange={self._onFileSelected.bind(self,'/api/pptupload',index,subIndex)}/>
                                         <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,'pptupload',index,subIndex)}>
                                             <i className="fa fa-file-powerpoint-o mr5"></i>UPLOAD POWER POINT
                                         </button>
@@ -184,7 +184,7 @@ export default class CourseCurriculum extends React.Component {
                                     </button>
                                 </div>
                                 <div className="col-sm-4 p20px">
-                                    <input id={'pptupload'+index+'-'+subIndex} accept="application/pdf, application/x-pdf, application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" type="file" onChange={self._onFileSelected.bind(self,'/api/pptupload',index,subIndex)}/>
+                                    <input id={'pptupload'+index+'-'+subIndex} accept="application/vnd.openxmlformats-officedocument.presentationml.presentation" type="file" onChange={self._onFileSelected.bind(self,'/api/pptupload',index,subIndex)}/>
                                     <button className="btn btn-primary btn-xs" onClick={self._chooseFile.bind(this,'pptupload',index,subIndex)}>
                                         <i className="fa fa-file-powerpoint-o mr5"></i>UPLOAD POWER POINT
                                     </button>

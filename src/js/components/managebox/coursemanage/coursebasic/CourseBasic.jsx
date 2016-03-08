@@ -4,6 +4,7 @@ import './coursebasic.scss';
 
 import React from 'react';
 import RestService from '../../../../services/RestService';
+import HistoryService from '../../../../services/HistoryService';
 
 export default class CourseBasic extends React.Component {
 
@@ -50,6 +51,8 @@ export default class CourseBasic extends React.Component {
                     subcategory: category,
                     publishButton: self._checkStatus(data.status)
                 });
+
+                $('#permission').selectpicker();
             });
     }
 
@@ -91,6 +94,7 @@ export default class CourseBasic extends React.Component {
         course.details = this.refs.details.value;
         course.category = null;
         course.subCategory = null;
+        course.permission = $('#permission').val();
 
         if (this.refs.category.value != -1) {
             course.category = {id: this.refs.category.value};
@@ -105,6 +109,24 @@ export default class CourseBasic extends React.Component {
                 this.setState({data: data});
             }.bind(this));
 
+    }
+
+    _deleteCourse(e) {
+        e.preventDefault();
+        var data = {
+            id: this.props.params.courseId
+        }
+
+        RestService
+            .delete('/api/course', data)
+            .done(function () {
+                HistoryService
+                    .get()
+                    .pushState(
+                        null,
+                        '/instructor-dashboard'
+                    );
+            });
     }
 
     render() {
@@ -193,16 +215,48 @@ export default class CourseBasic extends React.Component {
                     </div>
                     <div className="col-xs-1"></div>
                 </div>
+                <div className="row">
+                    <div className="col-xs-1"></div>
+                    <div className="col-xs-10">
+                        <div className="form-group input-group-sm">
+                            <label htmlFor="permission">Permission Level</label>
+                            <select id="permission" ref="permission" className="form-control selectpicker" multiple data-actions-box="true" defaultValue={this.state.data.permission}>
+                                <option value="C 1">C 1</option>
+                                <option value="C 2">C 2</option>
+                                <option value="C 3">C 3</option>
+                                <option value="C 4">C 4</option>
+                                <option value="C 5">C 5</option>
+                                <option value="C 6">C 6</option>
+                                <option value="C 7">C 7</option>
+                                <option value="C 8">C 8</option>
+                                <option value="C 9">C 9</option>
+                                <option value="C 10">C 10</option>
+                                <option value="C 11">C 11</option>
+                                <option value="C 12">C 12</option>
+                                <option value="C 13">C 13</option>
+                                <option value="UC1">UC1</option>
+                                <option value="UC2">UC2</option>
+                                <option value="UC3">UC3</option>
+                                <option value="COO">COO</option>
+                                <option value="CEO">CEO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-xs-1"></div>
+                </div>
 
                 <div className="row">
-                    <div className="col-xs-4 col-lg-5"></div>
-                    <div className="col-xs-2 col-lg-1 input-group-sm col-align-center">
+                    <div className="col-xs-1 col-lg-3"></div>
+                    <div className="col-xs-3 col-lg-2 input-group-sm col-align-center">
                         <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
                     </div>
-                    <div className="col-xs-2 col-lg-1 input-group-sm col-align-center">
+                    <div className="col-xs-4 col-lg-2 input-group-sm col-align-center">
                         <button className="btn btn-primary btn-sm" onClick={this._toggleStatus.bind(this)}>{this.state.publishButton}</button>
                     </div>
-                    <div className="col-xs-4 col-lg-5"></div>
+                    <div className="col-xs-3 col-lg-2 input-group-sm col-align-center">
+                        <button className="btn btn-warning btn-sm" onClick={this._deleteCourse.bind(this)}>Deletes</button>
+                    </div>
+                    <div className="col-xs-1 col-lg-3"></div>
                 </div>
 
             </div>

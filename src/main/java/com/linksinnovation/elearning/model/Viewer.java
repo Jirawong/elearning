@@ -5,6 +5,7 @@
  */
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;

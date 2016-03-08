@@ -93,7 +93,7 @@ export default class CarouselEdit extends React.Component {
                 </div>
                 <div className="row">
                     <div className="alert alert-warning" role="alert">
-                        Best Image quality for slide is 1000x250 pixel.
+                        Best Image quality for slide 1000x250 pixel.
                     </div>
                 </div>
                 <div className="row">

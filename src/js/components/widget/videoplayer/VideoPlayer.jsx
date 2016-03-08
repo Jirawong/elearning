@@ -18,7 +18,7 @@ export default class VideoPlayer extends React.Component {
             });
 
         }).on('finish', function () {
-            RestService.get('/api/viewer/' + self.props.url)
+            RestService.get('/api/viewer/' + self.props.data.id)
                 .done(function () {
                 })
         });

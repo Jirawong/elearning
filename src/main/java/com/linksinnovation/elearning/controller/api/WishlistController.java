@@ -16,7 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,9 +41,9 @@ public class WishlistController {
     private UserDetailsRepository userDetailsRepository;
     @Autowired
     private CourseRepositroy courseRepositroy;
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Course> get(@AuthenticationPrincipal String username){
+
+    @RequestMapping(value = "/p/{page}", method = RequestMethod.GET)
+    public Page<Course> get(@PathVariable("page") Integer page, @AuthenticationPrincipal String username) {
         UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
         List<Wishlist> findByUser = wishlistRepository.findByUser(userDetails);
         List<Course> courses = new ArrayList<>();
@@ -47,7 +52,13 @@ public class WishlistController {
             course.setWishlist(true);
             courses.add(course);
         });
-        return courses;
+
+        int pageSize = 16;
+        int first = page * pageSize;
+        int last = first + (pageSize);
+        last = (last > courses.size()) ? courses.size() : last;
+
+        return new PageImpl<>(courses.subList(first, last), new PageRequest(page, pageSize, Sort.Direction.DESC, "id"), courses.size());
     }
 
     @RequestMapping(method = RequestMethod.POST)

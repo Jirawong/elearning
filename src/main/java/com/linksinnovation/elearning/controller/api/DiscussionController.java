@@ -9,7 +9,9 @@ import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.Reply;
 import com.linksinnovation.elearning.model.Topic;
 import com.linksinnovation.elearning.model.UserDetails;
+import com.linksinnovation.elearning.repository.AnswerRepository;
 import com.linksinnovation.elearning.repository.CourseRepositroy;
+import com.linksinnovation.elearning.repository.ReplyRepository;
 import com.linksinnovation.elearning.repository.TopicRepository;
 import com.linksinnovation.elearning.repository.UserDetailsRepository;
 import java.util.Map;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Jirawong Wongdokpuang <jirawong@linksinnovation.com>
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/discussion")
 public class DiscussionController {
     
     @Autowired
@@ -34,6 +36,8 @@ public class DiscussionController {
     private CourseRepositroy courseRepositroy;
     @Autowired
     private TopicRepository topicRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
     
     @RequestMapping(value = "/savetopic",method = RequestMethod.POST)
     public Course saveTopic(@RequestBody Map<String,String> params,@AuthenticationPrincipal String username){
@@ -50,15 +54,22 @@ public class DiscussionController {
     @RequestMapping(value = "/savereply",method = RequestMethod.POST)
     public Course saveReply(@RequestBody Map<String,String> params,@AuthenticationPrincipal String username){
         UserDetails user = userDetailsRepository.findOne(username.toUpperCase());
-        Course course = courseRepositroy.findOne(Long.parseLong(params.get("course")));
+        Topic topic = topicRepository.findOne(Long.parseLong(params.get("topic")));
         Reply reply = new Reply();
         reply.setMessage(params.get("message"));
         reply.setUser(user);
-        for(Topic topic : course.getTopics()){
-            if(Long.parseLong(params.get("topic")) == topic.getId()){
-                topic.addReply(reply);
-            }
-        }
-        return courseRepositroy.save(course);
+        topic.addReply(reply);
+        topicRepository.save(topic);
+        return courseRepositroy.findOne(Long.parseLong(params.get("course")));
+    }
+    
+    @RequestMapping(value = "/delete/topic",method = RequestMethod.POST)
+    public void deleteTopic(@RequestBody Map<String,Long> params){
+        topicRepository.delete(params.get("id"));
+    }
+    
+    @RequestMapping(value = "/delete/answer",method = RequestMethod.POST)
+    public void deleteAnswer(@RequestBody Map<String,Long> params){
+        replyRepository.delete(params.get("id"));
     }
 }

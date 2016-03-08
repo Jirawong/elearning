@@ -18,6 +18,9 @@ import './plugin/bootstrap-datepicker.css';
 import './plugin/select2.js';
 import './plugin/select2.css';
 
+import './plugin/bootstrap-select.js';
+import './plugin/bootstrap-select.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route } from 'react-router'

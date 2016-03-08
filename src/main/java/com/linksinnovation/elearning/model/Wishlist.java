@@ -8,7 +8,9 @@ package com.linksinnovation.elearning.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -41,7 +43,7 @@ public class Wishlist {
 
     public void setCourse(Course course) {
         if(course.getWishlists() == null){
-            ArrayList<Wishlist> arrayList = new ArrayList<>();
+            Set<Wishlist> arrayList = new HashSet<>();
             arrayList.add(this);
             course.setWishlists(arrayList);
         }else{
@@ -89,7 +91,6 @@ public class Wishlist {
     
     @PreRemove
     public void preRemove(){
-        this.getCourse().getWishlists().remove(this);
         this.getUser().getWishlists().remove(this);
     }
 

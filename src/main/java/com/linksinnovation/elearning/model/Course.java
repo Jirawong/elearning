@@ -1,12 +1,16 @@
 package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,19 +42,24 @@ public class Course {
     private List<UserDetails> instructors;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "course")
     @JsonIgnore
-    private List<Wishlist> wishlists;
+    private Set<Wishlist> wishlists;
     private boolean wishlist = false;
+    @JsonManagedReference
     @OrderBy("id DESC")
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Topic> topics;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+    private Set<Topic> topics;
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Rating> ratings;
     private Integer point;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Quiz> quizzes = new ArrayList<>();;
+    private List<Quiz> quizzes = new ArrayList<>();
+    @ElementCollection
+    private List<String> permission;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
 
     public Long getId() {
         return id;
@@ -167,11 +176,11 @@ public class Course {
         this.sections = sections;
     }
 
-    public List<Wishlist> getWishlists() {
+    public Set<Wishlist> getWishlists() {
         return wishlists;
     }
 
-    public void setWishlists(List<Wishlist> wishlists) {
+    public void setWishlists(Set<Wishlist> wishlists) {
         this.wishlists = wishlists;
     }
 
@@ -183,18 +192,19 @@ public class Course {
         this.wishlist = wishlist;
     }
 
-    public List<Topic> getTopics() {
+    public Set<Topic> getTopics() {
         return topics;
     }
 
-    public void setTopics(List<Topic> topics) {
+    public void setTopics(Set<Topic> topics) {
         this.topics = topics;
     }
 
     public void addTopic(Topic topic) {
         if (this.topics == null) {
-            this.topics = new ArrayList<>();
+            this.topics = new HashSet<>();
         }
+        topic.setCourse(this);
         this.topics.add(topic);
     }
 
@@ -227,7 +237,7 @@ public class Course {
         }
         int total = this.ratings.size() * 5;
         int sum = this.ratings.stream().mapToInt(r -> r.getPoint()).sum();
-        return ((float)sum / (float)total) * 100;
+        return ((float) sum / (float) total) * 100;
     }
 
     public Integer getPoint() {
@@ -245,11 +255,26 @@ public class Course {
     public void setQuizzes(List<Quiz> quizzes) {
         this.quizzes = quizzes;
     }
-    
-    public void addQuiz(Quiz quiz){
+
+    public void addQuiz(Quiz quiz) {
         this.quizzes.add(quiz);
     }
-    
+
+    public List<String> getPermission() {
+        return permission;
+    }
+
+    public void setPermission(List<String> permission) {
+        this.permission = permission;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
 
     @PrePersist
     @PreUpdate
@@ -263,6 +288,7 @@ public class Course {
             }
         }
 
+        this.updateDate = new Date();
         this.lectures = lectures + " lectures";
         this.hours = TimeUnit.MILLISECONDS.toHours(hours) + " hours video";
     }

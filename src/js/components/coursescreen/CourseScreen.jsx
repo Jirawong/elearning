@@ -9,7 +9,7 @@ export default class CourseScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: [], slide: []};
+        this.state = {data: {content: []}, slide: []};
     }
 
     shouldComponentUpdate() {
@@ -37,7 +37,7 @@ export default class CourseScreen extends React.Component {
         }
     }
 
-    _loadCourse() {
+    _getUrl() {
         var url;
         if (this.props.location.pathname == '/wishlist') {
             url = '/api/wishlist';
@@ -50,12 +50,37 @@ export default class CourseScreen extends React.Component {
                 url = '/api/category';
             }
         }
+        return url;
+    }
 
+    _loadCourse() {
         RestService
-            .get(url)
+            .get(this._getUrl() + '/p/0')
             .done(function (data) {
                 this.setState({data: data});
             }.bind(this));
+    }
+
+    _nextPage(e) {
+        e.preventDefault();
+        if (!this.state.data.last) {
+            RestService
+                .get(this._getUrl() + '/p/' + (this.state.data.number + 1))
+                .done(function (data) {
+                    this.setState({data: data});
+                }.bind(this));
+        }
+    }
+
+    _previousPage(e) {
+        e.preventDefault();
+        if (!this.state.data.first) {
+            RestService
+                .get(this._getUrl() + '/p/' + (this.state.data.number - 1))
+                .done(function (data) {
+                    this.setState({data: data});
+                }.bind(this));
+        }
     }
 
     _loadSlide() {
@@ -69,7 +94,7 @@ export default class CourseScreen extends React.Component {
 
     render() {
         var self = this;
-        var nodes = this.state.data.map(function (course, index) {
+        var nodes = this.state.data.content.map(function (course, index) {
             course.url = '/curriculum/' + course.id;
             course.classname = 'promotion new';
             course.status = 'New';
@@ -81,17 +106,17 @@ export default class CourseScreen extends React.Component {
         });
 
         var slide = this.state.slide.map(function (data, index) {
-            var course = (data.course==null)?'':data.course;
             if (index == 0) {
+
                 return (
                     <div key={data.id} className="item active">
-                        <img href={'/curriculum/'+course} src={'/images/slide/'+data.images} onClick={self._changePage.bind(self)} />
+                        <img href={'/curriculum/'+data.course} src={'/images/slide/'+data.images} onClick={self._changePage.bind(self)}/>
                     </div>
                 );
             } else {
                 return (
                     <div key={data.id} className="item">
-                        <img href={'/curriculum/'+course} src={'/images/slide/'+data.images} onClick={self._changePage.bind(self)}/>
+                        <img href={'/curriculum/'+data.course} src={'/images/slide/'+data.images} onClick={self._changePage.bind(self)}/>
                     </div>
                 );
             }
@@ -127,6 +152,13 @@ export default class CourseScreen extends React.Component {
                             <div className="row carousel">
                                 {nodes}
                             </div>
+
+                            <nav>
+                                <ul className="pager">
+                                    <li className={'previous'+(this.state.data.first?' disabled':'')}><a href="#" onClick={this._previousPage.bind(this)}><span aria-hidden="true">&larr;</span> Previous</a></li>
+                                    <li className={'next'+(this.state.data.last?' disabled':'')}><a href="#" onClick={this._nextPage.bind(this)}>Next <span aria-hidden="true">&rarr;</span></a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

@@ -17,4 +17,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface QuizScoreRepository extends JpaRepository<QuizScore, Long>{
     Optional<QuizScore> findByUserAndCourse(UserDetails user,Course course);
+
+    public void deleteByCourseAndUser(Course course, UserDetails userDetails);
 }

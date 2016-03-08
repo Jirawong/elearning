@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 /**
@@ -30,25 +33,25 @@ public class CategoryController {
     @Autowired
     private UserDetailsRepository userDetailsRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Course> get(@AuthenticationPrincipal String user) {
-        List<Course> courses = courseRepositroy.findByStatus(CourseStatus.PUBLISH);
+    @RequestMapping(value = "/p/{page}", method = RequestMethod.GET)
+    public Page<Course> get(@PathVariable("page") Integer page, @AuthenticationPrincipal String user) {
         UserDetails userDetails = userDetailsRepository.findOne(user.toUpperCase());
-        courses.stream().forEach((course) -> {
+        Page<Course> courses = courseRepositroy.findByStatusAndPermission(CourseStatus.PUBLISH, userDetails.getEesgName(), new PageRequest(page, 16, Sort.Direction.DESC, "id"));
+        courses.getContent().stream().forEach((course) -> {
             course.getWishlists().stream().filter((wishlist) -> (wishlist.getUser().equals(userDetails))).forEach((_item) -> {
                 course.setWishlist(true);
             });
         });
-        
+
         return courses;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public List<Course> get(@PathVariable("id") Long id,@AuthenticationPrincipal String user) {
+    @RequestMapping(value = "/{id}/p/{page}", method = RequestMethod.GET)
+    public Page<Course> get(@PathVariable("id") Long id, @PathVariable("page") Integer page, @AuthenticationPrincipal String user) {
         Menu menu = menuRepository.findOne(id);
         UserDetails userDetails = userDetailsRepository.findOne(user.toUpperCase());
-        List<Course> courses = courseRepositroy.findByCategoryAndStatusOrSubCategoryAndStatus(menu, CourseStatus.PUBLISH, menu, CourseStatus.PUBLISH);
-        courses.stream().forEach((course) -> {
+        Page<Course> courses = courseRepositroy.findByCategoryOrSubCategoryAndStatusAndPermission(menu, CourseStatus.PUBLISH, userDetails.getEesgName(), new PageRequest(page, 16, Sort.Direction.DESC, "id"));
+        courses.getContent().stream().forEach((course) -> {
             course.getWishlists().stream().filter((wishlist) -> (wishlist.getUser().equals(userDetails))).forEach((_item) -> {
                 course.setWishlist(true);
             });

@@ -17,4 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ViewerRepository extends JpaRepository<Viewer, Long>{
     public Optional<Viewer> findByLectureAndUser(Lecture lecture,UserDetails user);
+
+    public void deleteByLectureAndUser(Lecture lecture, UserDetails userDetails);
+
+    public void deleteByLecture(Lecture lecture);
 }

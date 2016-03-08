@@ -1,6 +1,14 @@
 import React from 'react';
+import RestService from '../../../services/RestService';
 
 export default class ViewerJs extends React.Component{
+
+    componentDidMount() {
+        RestService
+            .get('/api/viewer/' + this.props.data.id)
+            .done(function () {
+            }.bind(this))
+    }
 
     render(){
         return (

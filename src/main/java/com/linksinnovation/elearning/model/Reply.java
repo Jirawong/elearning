@@ -5,12 +5,15 @@
  */
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -29,6 +32,9 @@ public class Reply {
     private String message;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+    @JsonBackReference
+    @ManyToOne
+    private Topic topic;
     @OneToOne
     private UserDetails user;
 
@@ -54,6 +60,14 @@ public class Reply {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     public UserDetails getUser() {

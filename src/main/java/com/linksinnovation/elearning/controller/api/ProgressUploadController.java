@@ -1,5 +1,6 @@
 package com.linksinnovation.elearning.controller.api;
 
+import com.itextpdf.text.DocumentException;
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.repository.LectureRepository;
@@ -7,6 +8,7 @@ import com.linksinnovation.elearning.utils.MD5;
 import com.linksinnovation.elearning.utils.QualitySelect;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfo;
 import com.linksinnovation.elearning.utils.mediainfo.MediaInfoUtil;
+import com.linksinnovation.elearning.utils.ppt2pdf.Ppt2Pdf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +37,7 @@ public class ProgressUploadController {
         InputStream chunk = new ByteArrayInputStream(file);
         String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
         String hexFile = MD5.getMd5(filename);
-        appendFile(chunk, new File("/mnt/data/source/"+ hexFile));
+        appendFile(chunk, new File("/mnt/data/source/" + hexFile));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
             final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/" + hexFile);
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
@@ -65,6 +67,23 @@ public class ProgressUploadController {
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
             lecture.setContent(filename);
             lecture.setContentType(ContentType.PDF);
+            lectureRepository.save(lecture);
+        }
+    }
+
+    @RequestMapping(value = "/pptupload", method = RequestMethod.PUT)
+    public void pptUpload(@RequestBody byte[] file, HttpServletRequest request) throws UnsupportedEncodingException, IOException, DocumentException {
+        InputStream chunk = new ByteArrayInputStream(file);
+        String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
+        appendFile(chunk, new File("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename));
+        if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
+            Ppt2Pdf.convert(
+                    new FileInputStream("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename),
+                    new FileOutputStream("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename + ".pdf")
+            );
+            Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
+            lecture.setContent(filename);
+            lecture.setContentType(ContentType.PPT);
             lectureRepository.save(lecture);
         }
     }

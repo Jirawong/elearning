@@ -26,12 +26,13 @@ export default class Curriculum extends React.Component {
             },
             content: '',
             contentData: {},
-            contentType: ''
+            contentType: '',
+            user: {}
         };
     }
 
     componentDidMount() {
-        this._loadCourse();
+        this._loadUser();
     }
 
 
@@ -50,12 +51,27 @@ export default class Curriculum extends React.Component {
         this.setState({content: this._contentSelector(data), contentData: data, contentType: data.contentType});
     }
 
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                this.state.user = data;
+                this._loadCourse();
+            }.bind(this));
+    }
+
     _loadCourse() {
         var self = this;
         RestService
             .get('/api/course/basic/' + this.props.params.courseId)
             .done(function (data) {
-                this.setState({data: data, content: self._contentSelector(data.sections[0].lectures[0]), contentData: data.sections[0].lectures[0], contentType: data.sections[0].lectures[0].contentType});
+                this.setState({
+                    data: data,
+                    content: self._contentSelector(data.sections[0].lectures[0]),
+                    contentData: data.sections[0].lectures[0],
+                    contentType: data.sections[0].lectures[0].contentType,
+                    user: self.state.user
+                });
             }.bind(this));
     }
 
@@ -79,7 +95,7 @@ export default class Curriculum extends React.Component {
 
         if (this.refs.topic.value !== '') {
             RestService
-                .post('/api/savetopic', data)
+                .post('/api/discussion/savetopic', data)
                 .done(function (data) {
                     data.topics.sort(self._compareTopic);
                     self.setState({data: data});
@@ -99,7 +115,7 @@ export default class Curriculum extends React.Component {
 
         if ($('#reply-' + topic).val() !== '') {
             RestService
-                .post('/api/savereply', data)
+                .post('/api/discussion/savereply', data)
                 .done(function (data) {
                     self.setState({data: data});
                     $('#reply-' + topic).val('')
@@ -121,6 +137,30 @@ export default class Curriculum extends React.Component {
             return 0;
     }
 
+    _deleteTopic(id, e) {
+        e.preventDefault();
+        var data = {
+            id: id
+        }
+        RestService
+            .post('/api/discussion/delete/topic', data)
+            .done(function () {
+                this._loadCourse();
+            }.bind(this));
+    }
+
+    _deleteReply(id, e) {
+        e.preventDefault();
+        var data = {
+            id: id
+        }
+        RestService
+            .post('/api/discussion/delete/answer', data)
+            .done(function () {
+                this._loadCourse();
+            }.bind(this));
+    }
+
     render() {
         if (!this.state.data.id) {
             return (<div></div>)
@@ -138,6 +178,9 @@ export default class Curriculum extends React.Component {
                 } else if (sub.contentType == 'PDF') {
                     content = (<i className="fa fa-file-pdf-o"></i>);
                     detail = 'PDF';
+                } else if (sub.contentType == 'PPT') {
+                    content = (<i className="fa fa-file-powerpoint-o"></i>);
+                    detail = 'Power Point';
                 }
 
                 return (
@@ -197,6 +240,16 @@ export default class Curriculum extends React.Component {
                                         {reply.message}
                                     </div>
                                 </div>
+                                <If test={self.state.user.authorities[0].authority == 'Administrator'}>
+                                    <div className="row">
+                                        <div className="col-xs-12 vcenter btn-reply">
+                                            <hr />
+                                        <span className="remove-topic">
+                                            <i className="fa fa-trash-o"></i> <a href="#" onClick={self._deleteReply.bind(self,reply.id)}>Delete</a>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </If>
                             </div>
                         </div>
                     </div>
@@ -225,7 +278,14 @@ export default class Curriculum extends React.Component {
                                 <div className="row">
                                     <div className="col-xs-12 vcenter btn-reply">
                                         <hr />
-                                        <i className="fa fa-commenting-o"></i> <a href="#" onClick={self._toogleReply.bind(self,topic.id)}>Reply</a>
+                                        <span>
+                                            <i className="fa fa-commenting-o"></i> <a href="#" onClick={self._toogleReply.bind(self,topic.id)}>Reply</a>
+                                        </span>
+                                        <If test={self.state.user.authorities[0].authority == 'Administrator'}>
+                                            <span className="remove-topic">
+                                                <i className="fa fa-trash-o"></i> <a href="#" onClick={self._deleteTopic.bind(self,topic.id)}>Delete</a>
+                                            </span>
+                                        </If>
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +331,9 @@ export default class Curriculum extends React.Component {
 
         var player;
         if (this.state.contentType == 'PDF') {
-            player = <ViewerJs key={this.state.content} url={this.state.content}/>;
+            player = <ViewerJs key={this.state.content} url={this.state.content} data={this.state.contentData}/>;
+        } else if (this.state.contentType == 'PPT') {
+            player = <ViewerJs key={this.state.content} url={this.state.content+'.pdf'} data={this.state.contentData}/>;
         } else if (this.state.contentType == 'VIDEO') {
             player = <VideoPlayer key={this.state.content} data={this.state.contentData}/>;
         }

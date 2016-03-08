@@ -27,4 +27,12 @@
             margin-bottom: 0px;
         }
     }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 75px;
+    }
+
+    .iconpicker{
+        padding-right: 5px;
+    }
 }

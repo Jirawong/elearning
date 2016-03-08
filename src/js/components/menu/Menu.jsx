@@ -37,7 +37,7 @@ export default class Menu extends React.Component {
                 return (
                     <li key={subIndex}>
                         <a href={'/category/'+sub.id} className="no-underline" onClick={self._changePage.bind(this)}>
-                            <i className="cat-icon fa fa-university"></i>{sub.name}
+                            <i className={'cat-icon fa '+sub.icon}></i>{sub.name}
                         </a>
                     </li>
                 );
@@ -61,7 +61,7 @@ export default class Menu extends React.Component {
             return (
                 <li key={index}>
                     <a href={'/category/'+main.id} className="no-underline" onClick={self._changePage.bind(this)}>
-                        <i className="cat-icon fa fa-university"></i>
+                        <i className={'cat-icon fa '+main.icon}></i>
                         <span className="cat-title">{main.name}</span>
                         <i className="fa fa-angle-right"></i>
                     </a>

@@ -5,15 +5,18 @@
  */
 package com.linksinnovation.elearning.model;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -34,11 +37,15 @@ public class Topic {
     private String message;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+    @JsonManagedReference
     @OrderBy("id ASC")
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Reply> replys = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "topic",orphanRemoval = true)
+    private Set<Reply> replys = new HashSet<>();
     @OneToOne
     private UserDetails user;
+    @JsonBackReference
+    @ManyToOne
+    private Course course;
 
     public Long getId() {
         return id;
@@ -64,19 +71,24 @@ public class Topic {
         this.createDate = createDate;
     }
 
-    public List<Reply> getReplys() {
+    public Set<Reply> getReplys() {
         return replys;
     }
 
-    public void setReplys(List<Reply> replys) {
+    public void setReplys(Set<Reply> replys) {
         this.replys = replys;
     }
     
     public void addReply(Reply reply){
         if(this.replys == null){
-            this.replys = new ArrayList<>();
+            this.replys = new HashSet<>();
         }
+        reply.setTopic(this);
         this.replys.add(reply);
+    }
+    
+    public void removeReply(Reply reply){
+        this.replys = null;
     }
 
     public UserDetails getUser() {
@@ -85,6 +97,14 @@ public class Topic {
 
     public void setUser(UserDetails user) {
         this.user = user;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
     
     @PrePersist

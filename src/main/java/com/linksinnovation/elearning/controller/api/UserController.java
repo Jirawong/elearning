@@ -16,6 +16,9 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,9 +51,14 @@ public class UserController {
         return userDetailsRepository.findOne(username);
     }
 
-    @RequestMapping(value = "/listusers", method = RequestMethod.GET)
-    public List<UserDetails> get() {
-        return userDetailsRepository.findAll();
+    @RequestMapping(value = "/listusers/p/{page}", method = RequestMethod.GET)
+    public Page<UserDetails> get(@PathVariable("page") Integer page) {
+        return userDetailsRepository.findAll(new PageRequest(page, 10,Sort.Direction.ASC,"username"));
+    }
+    
+    @RequestMapping(value = "/user/search", method = RequestMethod.POST)
+    public Page<UserDetails> search(@RequestBody Map<String, Object> params){
+        return userDetailsRepository.findByNameEnIgnoreCaseLike("%"+params.get("name")+"%",new PageRequest((Integer)params.get("page"), 10,Sort.Direction.ASC,"username"));
     }
 
     @RequestMapping(value = "/user/instructor", method = RequestMethod.POST)

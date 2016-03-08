@@ -18,6 +18,7 @@ public class Menu {
     private Long id;
     private String name;
     private String url;
+    private String icon;
     @Column(nullable = false)
     private Double ordered = 999999D;
 
@@ -78,8 +79,14 @@ public class Menu {
     public void setChilds(List<Menu> childs) {
         this.childs = childs;
     }
-    
-    
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     @PrePersist
     private void updateParent() {
