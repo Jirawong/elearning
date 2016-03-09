@@ -1,7 +1,6 @@
 package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.linksinnovation.elearning.model.enumuration.UserType;
 import java.util.ArrayList;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -56,7 +54,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private String avatar = "default.png";
     @Column(length = 4000)
     private String instructor;
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Wishlist> wishlists;
     @ManyToMany(fetch = FetchType.EAGER)

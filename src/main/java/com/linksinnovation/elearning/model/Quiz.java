@@ -5,13 +5,18 @@
  */
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -23,9 +28,16 @@ public class Quiz {
     @Id
     @GeneratedValue
     private Long id;
+    
     private String question;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Answer> answers = new ArrayList<>();;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "quiz")
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
+    
+    @ManyToOne
+    @JsonBackReference
+    private Course course;
 
     public Long getId() {
         return id;
@@ -47,8 +59,19 @@ public class Quiz {
         return answers;
     }
 
-    public void setAnswers(List<Answer> answers) {
+    public void setAnswers(List<Answer> answers) { 
+        answers.stream().forEach((ans) -> {
+            ans.setQuiz(this);
+        });
         this.answers = answers;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override

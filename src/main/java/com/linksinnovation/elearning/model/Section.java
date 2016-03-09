@@ -1,9 +1,13 @@
 package com.linksinnovation.elearning.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -15,8 +19,12 @@ public class Section {
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lecture> lectures = new ArrayList<>();
+    @ManyToOne
+    @JsonBackReference
+    private Course course;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "section")
+    private Set<Lecture> lectures = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -34,13 +42,26 @@ public class Section {
         this.name = name;
     }
 
-    public List<Lecture> getLectures() {
+    public Set<Lecture> getLectures() {
         return lectures;
     }
 
-    public void setLectures(List<Lecture> lectures) {
+    public void setLectures(Set<Lecture> lectures) {
+        lectures.stream().forEach((lecture) -> {
+            lecture.setSection(this);
+        });
         this.lectures = lectures;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {

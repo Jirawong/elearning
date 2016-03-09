@@ -2,6 +2,8 @@ package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,44 +24,69 @@ public class Course {
     @Id
     @GeneratedValue
     private Long id;
+
     private String title;
+
     private String subTitle;
+
     @Column(length = 4000)
     private String details;
+
     @Column(nullable = false)
     private String cover = "draft.jpg";
+
     private String lectures = "0 lectures";
+
     private String hours = "0 hours video";
+
+    private Integer point;
+
     @Enumerated(EnumType.STRING)
     private CourseStatus status = CourseStatus.DRAFT;
+
     @OneToOne
     private Menu category;
+
     @OneToOne
     private Menu subCategory;
+
     @OneToOne
     private UserDetails creator;
+
     @ManyToMany
     private List<UserDetails> instructors;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Section> sections = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "course")
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "course")
+    private Set<Section> sections = new HashSet<>();
+
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "course")
     private Set<Wishlist> wishlists;
-    private boolean wishlist = false;
+
     @JsonManagedReference
     @OrderBy("id DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
     private Set<Topic> topics;
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
     @JsonIgnore
-    private List<Rating> ratings;
-    private Integer point;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Quiz> quizzes = new ArrayList<>();
+    private Set<Rating> ratings;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "course")
+    private Set<Quiz> quizzes = new HashSet<>();
+
     @ElementCollection
     private List<String> permission;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+
+    @Transient
+    @JsonSerialize
+    @JsonDeserialize
+    private boolean wishlist = false;
 
     public Long getId() {
         return id;
@@ -168,11 +195,14 @@ public class Course {
         this.instructors.remove(instructor);
     }
 
-    public List<Section> getSections() {
+    public Set<Section> getSections() {
         return sections;
     }
 
-    public void setSections(List<Section> sections) {
+    public void setSections(Set<Section> sections) {
+        sections.stream().forEach((section) -> {
+            section.setCourse(this);
+        });
         this.sections = sections;
     }
 
@@ -208,17 +238,17 @@ public class Course {
         this.topics.add(topic);
     }
 
-    public List<Rating> getRatings() {
+    public Set<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<Rating> ratings) {
+    public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
     }
 
     public void addRating(Rating rating) {
         if (this.ratings == null) {
-            this.ratings = new ArrayList<>();
+            this.ratings = new HashSet<>();
         }
         rating.setCourse(this);
         this.ratings.add(rating);
@@ -248,15 +278,16 @@ public class Course {
         this.point = point;
     }
 
-    public List<Quiz> getQuizzes() {
+    public Set<Quiz> getQuizzes() {
         return quizzes;
     }
 
-    public void setQuizzes(List<Quiz> quizzes) {
+    public void setQuizzes(Set<Quiz> quizzes) {
         this.quizzes = quizzes;
     }
 
     public void addQuiz(Quiz quiz) {
+        quiz.setCourse(this);
         this.quizzes.add(quiz);
     }
 

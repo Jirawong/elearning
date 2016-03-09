@@ -7,7 +7,6 @@ import com.linksinnovation.elearning.utils.time.TimeConvert;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -16,8 +15,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PreRemove;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -41,6 +39,9 @@ public class Lecture {
     private Date updateDate;
     private boolean view;
     private String uuid;
+    @ManyToOne
+    @JsonBackReference
+    private Section section;
 
     public Long getId() {
         return id;
@@ -113,6 +114,14 @@ public class Lecture {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    } 
 
     @JsonProperty
     public String getDurationString() {

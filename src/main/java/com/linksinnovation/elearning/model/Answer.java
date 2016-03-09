@@ -5,10 +5,12 @@
  */
 package com.linksinnovation.elearning.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,6 +23,9 @@ public class Answer {
     private Long id;
     private boolean checked;
     private String answer;
+    @ManyToOne
+    @JsonBackReference
+    private Quiz quiz;
 
     public Long getId() {
         return id;
@@ -44,6 +49,14 @@ public class Answer {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
     }
 
     @Override
