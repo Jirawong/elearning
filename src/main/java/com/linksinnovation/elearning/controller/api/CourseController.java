@@ -84,6 +84,8 @@ public class CourseController {
                 Optional<Viewer> optional = viewerRepository.findByLectureAndUser(lecture, userDetails);
                 if (optional.isPresent()) {
                     lecture.setView(true);
+                }else{
+                    lecture.setView(false);
                 }
             });
         });

@@ -2,6 +2,8 @@ package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.linksinnovation.elearning.model.enumuration.ContentType;
 import com.linksinnovation.elearning.utils.time.TimeConvert;
 import java.util.Date;
@@ -17,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -37,6 +40,9 @@ public class Lecture {
     private List<String> qualities;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date updateDate;
+    @Transient
+    @JsonSerialize
+    @JsonDeserialize
     private boolean view;
     private String uuid;
     @ManyToOne
