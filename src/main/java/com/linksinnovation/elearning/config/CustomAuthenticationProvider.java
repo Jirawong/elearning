@@ -34,8 +34,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (iserviceAuthen(authentication)) {
-            List<GrantedAuthority> grantedAuths = new ArrayList<>();
-            grantedAuths.add(new SimpleGrantedAuthority("USER"));
+            UserDetails findOne = userDetailsRepository.findOne(authentication.getName().toUpperCase());
+            List<GrantedAuthority> grantedAuths;
+            if (findOne != null) {
+                grantedAuths = (List<GrantedAuthority>) findOne.getAuthorities();
+            } else {
+                grantedAuths = new ArrayList<>();
+                grantedAuths.add(new SimpleGrantedAuthority("User"));
+            }
             Authentication auth = new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials().toString(), grantedAuths);
             return auth;
         } else {

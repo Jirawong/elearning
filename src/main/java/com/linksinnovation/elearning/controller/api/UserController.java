@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,7 +78,7 @@ public class UserController {
         return users;
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value = "/user/saverole", method = RequestMethod.POST)
     public UserDetails saveRole(@RequestBody Map<String,String> params){
         UserDetails userDetails = userDetailsRepository.findOne(params.get("username").toUpperCase());

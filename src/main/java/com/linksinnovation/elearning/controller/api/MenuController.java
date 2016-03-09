@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * @author Jirawong Wongdokpuang <jiraowng@linksinnovation.com>
@@ -28,14 +29,14 @@ public class MenuController {
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
     }
 
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(method = RequestMethod.POST)
     public List<Menu> post(@RequestBody List<Menu> menus) {
         menuService.update(menus);
         return menuRepository.findByParentIsNullOrderByOrderedAsc();
     }
 
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(method = RequestMethod.DELETE)
     public List<Menu> delete(@RequestBody Map<String,Long> map){
         menuRepository.delete(map.get("id"));

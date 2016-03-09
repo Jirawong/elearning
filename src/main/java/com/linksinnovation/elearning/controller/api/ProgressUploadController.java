@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -33,7 +34,7 @@ public class ProgressUploadController {
     @Autowired
     private LectureRepository lectureRepository;
 
-    @Secured({"Administrator","Instructor"})
+    @PreAuthorize("hasAuthority('Administrator') or hasAuthority('Instructor')")
     @RequestMapping(value = "/videoupload", method = RequestMethod.PUT)
     public void upload(@RequestBody byte[] file, HttpServletRequest request) throws IOException, InterruptedException {
         InputStream chunk = new ByteArrayInputStream(file);
@@ -60,7 +61,7 @@ public class ProgressUploadController {
         }
     }
 
-    @Secured({"Administrator","Instructor"})
+    @PreAuthorize("hasAuthority('Administrator') or hasAuthority('Instructor')")
     @RequestMapping(value = "/pdfupload", method = RequestMethod.PUT)
     public void pdfUpload(@RequestBody byte[] file, HttpServletRequest request) throws UnsupportedEncodingException {
         InputStream chunk = new ByteArrayInputStream(file);
@@ -74,7 +75,7 @@ public class ProgressUploadController {
         }
     }
 
-    @Secured({"Administrator","Instructor"})
+    @PreAuthorize("hasAuthority('Administrator') or hasAuthority('Instructor')")
     @RequestMapping(value = "/pptupload", method = RequestMethod.PUT)
     public void pptUpload(@RequestBody byte[] file, HttpServletRequest request) throws UnsupportedEncodingException, IOException, DocumentException {
         InputStream chunk = new ByteArrayInputStream(file);

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,25 +52,25 @@ public class ReportController {
         return courseDTORepository.findByCategory(map);
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value="/videoamount",method = RequestMethod.POST)
     public List<VideoAmount> videoAmount(@RequestBody BasicConditionDTO amountDTO){
         return videoAmountRepository.findByCondition(amountDTO);
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value="/viewamount",method = RequestMethod.POST)
     public List<ViewAmount> viewAmount(@RequestBody BasicConditionDTO amountDTO){
         return viewAmountRepository.findByCondition(amountDTO);
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value="/quizreport",method = RequestMethod.POST)
     public List<QuizReport> quizreport(@RequestBody QuizConditionDTO quizConditionDTO){
         return quizReportRepository.findQuizReport(quizConditionDTO);
     }
     
-    @Secured({"Administrator","Instructor"})
+    @PreAuthorize("hasAuthority('Administrator') or hasAuthority('Instructor')")
     @RequestMapping(value="/instructor",method = RequestMethod.POST)
     public List<ProgressReport> instructorReport(@RequestBody QuizConditionDTO conditionDTO,@AuthenticationPrincipal String username){
         return instructorReportRepository.findReport(conditionDTO, username);

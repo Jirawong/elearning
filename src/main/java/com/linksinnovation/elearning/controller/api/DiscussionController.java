@@ -17,6 +17,7 @@ import com.linksinnovation.elearning.repository.UserDetailsRepository;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,13 +65,13 @@ public class DiscussionController {
         return courseRepositroy.findOne(Long.parseLong(params.get("course")));
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value = "/delete/topic",method = RequestMethod.POST)
     public void deleteTopic(@RequestBody Map<String,Long> params){
         topicRepository.delete(params.get("id"));
     }
     
-    @Secured({"Administrator"})
+    @PreAuthorize("hasAuthority('Administrator')")
     @RequestMapping(value = "/delete/answer",method = RequestMethod.POST)
     public void deleteAnswer(@RequestBody Map<String,Long> params){
         replyRepository.delete(params.get("id"));
