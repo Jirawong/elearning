@@ -97,7 +97,7 @@ public class Course {
 
     @JsonView({View.DEFAULT.class})
     @ElementCollection
-    private List<String> permission;
+    private List<String> permission = new ArrayList<>();
 
     @JsonView({View.DEFAULT.class})
     @Temporal(TemporalType.TIMESTAMP)

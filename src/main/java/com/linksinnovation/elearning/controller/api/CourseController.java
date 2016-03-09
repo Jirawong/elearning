@@ -84,7 +84,10 @@ public class CourseController {
     @RequestMapping(value = "/basic/{id}", method = RequestMethod.GET)
     public Course basic(@PathVariable("id") Long id, @AuthenticationPrincipal String username) {
         Course course = courseRepositroy.findOne(id);
-        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
+        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());    
+        if(!course.getPermission().contains(userDetails.getEesgName())){
+            return null;
+        }      
         List<Rating> ratings = ratingRepository.findByUserAndCourse(userDetails, course);
         course.getSections().stream().forEach((section) -> {
             section.getLectures().stream().forEach((lecture) -> {
