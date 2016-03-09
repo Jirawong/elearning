@@ -25,6 +25,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,7 @@ public class CourseController {
     @Autowired
     private QuizScoreRepository quizScoreRepository;
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public Long create(@AuthenticationPrincipal String username) {
         UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
@@ -66,6 +68,7 @@ public class CourseController {
         return courseRepositroy.findByCreator(userDetails);
     }
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/status", method = RequestMethod.POST)
     public Course toggleStatus(@RequestBody Course course) {
         Course findOne = courseRepositroy.findOne(course.getId());
@@ -101,6 +104,7 @@ public class CourseController {
         return course;
     }
     
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/basic/info/{id}", method = RequestMethod.GET)
     public Course basicInfo(@PathVariable("id") Long id, @AuthenticationPrincipal String username) {
         Course course = courseRepositroy.findOne(id);
@@ -125,6 +129,7 @@ public class CourseController {
     }
     
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/basic", method = RequestMethod.POST)
     public Course basic(@RequestBody Course course, @AuthenticationPrincipal String username) {
         Course findOne = courseRepositroy.findOne(course.getId());
@@ -137,6 +142,7 @@ public class CourseController {
         return courseRepositroy.save(course);
     }
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/instructor", method = RequestMethod.POST)
     public Course addInstructor(@RequestBody Map<String, String> params) {
         UserDetails userDetails = userDetailsRepository.findOne(params.get("username").toUpperCase());
@@ -145,6 +151,7 @@ public class CourseController {
         return courseRepositroy.save(course);
     }
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/instructor", method = RequestMethod.DELETE)
     public Course removeInstructor(@RequestBody Map<String, String> params) {
         UserDetails userDetails = userDetailsRepository.findOne(params.get("username").toUpperCase());
@@ -166,6 +173,7 @@ public class CourseController {
         return courses;
     }
 
+    @Secured({"Administrator","Instructor"})
     @Transactional(propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.DELETE)
     public void deleteCourse(@RequestBody Map<String, Long> params, @AuthenticationPrincipal String user) {

@@ -8,11 +8,13 @@ export default class Login extends React.Component {
 
     login(e) {
         e.preventDefault();
+        var $btn = $('#login-btn').button('loading');
         AuthenService.login(
             this.refs.username.value,
             this.refs.password.value
         ).catch(function () {
             alert('Please check username and password!!');
+            $btn.button('reset');
         });
     }
 
@@ -42,6 +44,8 @@ export default class Login extends React.Component {
                                         </div>
                                         <button type="submit"
                                                 className="btn btn-lg btn-success btn-block"
+                                                data-loading-text="Login..."
+                                                id="login-btn"
                                                 onClick={this.login.bind(this)}>
                                             Login
                                         </button>

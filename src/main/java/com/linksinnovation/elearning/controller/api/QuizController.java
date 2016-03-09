@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +49,7 @@ public class QuizController {
     @Autowired
     private QuizScoreRepository quizScoreRepository;
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/{courseId}", method = RequestMethod.POST)
     public Course save(@PathVariable("courseId") Long courseId, @RequestBody Quiz quiz) {
         if (quiz.getId() != null) {
@@ -60,6 +62,7 @@ public class QuizController {
         }
     }
     
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/{courseId}",method = RequestMethod.DELETE)
     public Course delete(@PathVariable("courseId") Long courseId,@RequestBody Quiz quiz){
         Course course = courseRepositroy.findOne(courseId);

@@ -36,6 +36,7 @@ export default class Avatar extends React.Component{
     _save(e) {
         e.preventDefault();
         var self = this;
+        var $btn = $('#loading-btn').button('loading');
 
         if (!$('#file-upload')[0].files[0]) {
             alert('File is empty!');
@@ -50,6 +51,7 @@ export default class Avatar extends React.Component{
             .avatarUpload(data)
             .done(function (url) {
                 self.setState({avatar: url});
+                $btn.button('reset');
             });
     }
 
@@ -92,7 +94,7 @@ export default class Avatar extends React.Component{
               <div className="row">
                   <div className="col-xs-5"></div>
                   <div className="col-xs-2 input-group-sm col-align-center">
-                      <button className="btn btn-success btn-sm" onClick={this._save.bind(self)}>Save</button>
+                      <button className="btn btn-success btn-sm" id="loading-btn" data-loading-text="Save..." onClick={this._save.bind(self)}>Save</button>
                   </div>
                   <div className="col-xs-5"></div>
               </div>

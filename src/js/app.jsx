@@ -21,6 +21,9 @@ import './plugin/select2.css';
 import './plugin/bootstrap-select.js';
 import './plugin/bootstrap-select.css';
 
+import './plugin/bootstrap-colorpicker.js';
+import './plugin/bootstrap-colorpicker.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route } from 'react-router'

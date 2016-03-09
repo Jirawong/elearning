@@ -63,6 +63,7 @@ export default class UploadProgress extends React.Component {
         self.uploadRequest.setRequestHeader('Authorization', 'bearer ' + LoginStore.token);
         self.uploadRequest.setRequestHeader('Content-Lecture', this.props.lecture);
         self.uploadRequest.setRequestHeader('Content-Name', encodeURIComponent(this.props.file.name));
+        self.uploadRequest.setRequestHeader('Content-Start', self.rangeStart);
         self.uploadRequest.setRequestHeader('Content-End', self.rangeEnd);
         self.uploadRequest.setRequestHeader('Content-FileSize', self.fileSize);
         self.uploadRequest.setRequestHeader('Content-Range', 'bytes ' + self.rangeStart + '-' + self.rangeEnd + '/' + self.fileSize);

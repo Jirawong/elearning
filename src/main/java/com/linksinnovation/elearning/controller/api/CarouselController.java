@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,16 +45,19 @@ public class CarouselController {
         return carouselRepository.findAll();
     }
     
+    @Secured("Administrator")
     @RequestMapping(value= "/{id}" ,method = RequestMethod.GET)
     public Carousel get(@PathVariable("id") Long id){
         return carouselRepository.findOne(id);
     }
     
+    @Secured("Administrator")
     @RequestMapping(value= "/{id}" ,method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id){
         carouselRepository.delete(id);
     }
     
+    @Secured("Administrator")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public List<Carousel> create(){
         Carousel carousel = new Carousel();
@@ -62,6 +66,7 @@ public class CarouselController {
         return carouselRepository.findAll();
     }
 
+    @Secured("Administrator")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Carousel save(@RequestParam("id") Long id,@RequestParam("course") Long course, @RequestParam(value="name",required = false) String name, @RequestParam(value="file",required = false) MultipartFile file) throws Exception {
         Carousel carousel = carouselRepository.findOne(id);

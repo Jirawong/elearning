@@ -19,6 +19,7 @@ public class Menu {
     private String name;
     private String url;
     private String icon;
+    private String color;
     @Column(nullable = false)
     private Double ordered = 999999D;
 
@@ -86,6 +87,14 @@ public class Menu {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @PrePersist

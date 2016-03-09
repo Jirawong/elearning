@@ -2,6 +2,7 @@ import './InstructorReport.scss';
 import React from 'react';
 
 import RestService from '../../../../services/RestService';
+import HistoryService from '../../../../services/HistoryService';
 
 export default class VideoAmount extends React.Component {
 
@@ -16,8 +17,24 @@ export default class VideoAmount extends React.Component {
     }
 
     componentDidMount() {
+        this._loadUser();
         this._loadCategory();
         this._dateRange();
+    }
+
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (data.authorities[0].authority == 'User') {
+                    HistoryService
+                        .get()
+                        .pushState(
+                            null,
+                            '/'
+                        );
+                }
+            });
     }
 
     _dateRange() {
@@ -105,14 +122,14 @@ export default class VideoAmount extends React.Component {
     }
 
     _toPercent(value, total) {
-        if(total == 0){
+        if (total == 0) {
             total = 1;
         }
         return ((value / total) * 100).toFixed(2);
     }
 
-    _null2zero(value){
-        if(value==null){
+    _null2zero(value) {
+        if (value == null) {
             value = 0;
         }
         return value;

@@ -88,6 +88,7 @@ export default class CourseBasic extends React.Component {
 
     _save(e) {
         e.preventDefault();
+        var $btn = $('#loading-btn').button('loading');
         var course = this.state.data;
         course.title = this.refs.title.value;
         course.subTitle = this.refs.subtitle.value;
@@ -107,6 +108,7 @@ export default class CourseBasic extends React.Component {
             .post('/api/course/basic', course)
             .done(function (data) {
                 this.setState({data: data});
+                $btn.button('reset');
             }.bind(this));
 
     }
@@ -248,7 +250,7 @@ export default class CourseBasic extends React.Component {
                 <div className="row">
                     <div className="col-xs-1 col-lg-3"></div>
                     <div className="col-xs-3 col-lg-2 input-group-sm col-align-center">
-                        <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
+                        <button className="btn btn-success btn-sm" id="loading-btn" data-loading-text="Save..." onClick={this._save.bind(this)}>Save</button>
                     </div>
                     <div className="col-xs-4 col-lg-2 input-group-sm col-align-center">
                         <button className="btn btn-primary btn-sm" onClick={this._toggleStatus.bind(this)}>{this.state.publishButton}</button>

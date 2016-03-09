@@ -27,10 +27,12 @@ export default class Instructor extends React.Component {
 
     _save() {
         var self = this;
+        var $btn = $('#loading-btn').button('loading');
         RestService
             .post('/api/user/instructor', {instructor: this.refs.detail.value})
             .done(function (data) {
                 self.setState({data: data});
+                $btn.button('reset');
             });
 
     }
@@ -54,7 +56,7 @@ export default class Instructor extends React.Component {
                 <div className="row">
                     <div className="col-xs-5"></div>
                     <div className="col-xs-2 input-group-sm col-align-center">
-                        <button className="btn btn-success btn-sm" onClick={this._save.bind(this)}>Save</button>
+                        <button className="btn btn-success btn-sm" id="loading-btn" data-loading-text="Save..." onClick={this._save.bind(this)}>Save</button>
                     </div>
                     <div className="col-xs-5"></div>
                 </div>

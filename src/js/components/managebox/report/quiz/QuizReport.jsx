@@ -2,6 +2,7 @@ import './quizreport.scss';
 import React from 'react';
 
 import RestService from '../../../../services/RestService';
+import HistoryService from '../../../../services/HistoryService';
 
 export default class VideoAmount extends React.Component {
 
@@ -16,9 +17,25 @@ export default class VideoAmount extends React.Component {
     }
 
     componentDidMount() {
+        this._loadUser();
         this._loadCategory();
         this._dateRange();
     }
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (!(data.authorities[0].authority == 'Administrator')) {
+                    HistoryService
+                        .get()
+                        .pushState(
+                            null,
+                            '/'
+                        );
+                }
+            });
+    }
+
 
     _dateRange() {
         $('.input-daterange').datepicker({

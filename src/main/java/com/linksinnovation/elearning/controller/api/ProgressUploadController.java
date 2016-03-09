@@ -18,6 +18,7 @@ import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -32,12 +33,13 @@ public class ProgressUploadController {
     @Autowired
     private LectureRepository lectureRepository;
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/videoupload", method = RequestMethod.PUT)
     public void upload(@RequestBody byte[] file, HttpServletRequest request) throws IOException, InterruptedException {
         InputStream chunk = new ByteArrayInputStream(file);
         String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
         String hexFile = MD5.getMd5(filename);
-        appendFile(chunk, new File("/mnt/data/source/" + hexFile));
+        appendFile(request.getHeader("Content-Start"),chunk, new File("/mnt/data/source/" + hexFile));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
             final MediaInfo mediaInfo = MediaInfoUtil.getMediaInfo("/mnt/data/source/" + hexFile);
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
@@ -58,11 +60,12 @@ public class ProgressUploadController {
         }
     }
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/pdfupload", method = RequestMethod.PUT)
     public void pdfUpload(@RequestBody byte[] file, HttpServletRequest request) throws UnsupportedEncodingException {
         InputStream chunk = new ByteArrayInputStream(file);
         String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
-        appendFile(chunk, new File("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename));
+        appendFile(request.getHeader("Content-Start"),chunk, new File("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
             Lecture lecture = lectureRepository.findOne(Long.parseLong(request.getHeader("Content-Lecture")));
             lecture.setContent(filename);
@@ -71,11 +74,12 @@ public class ProgressUploadController {
         }
     }
 
+    @Secured({"Administrator","Instructor"})
     @RequestMapping(value = "/pptupload", method = RequestMethod.PUT)
     public void pptUpload(@RequestBody byte[] file, HttpServletRequest request) throws UnsupportedEncodingException, IOException, DocumentException {
         InputStream chunk = new ByteArrayInputStream(file);
         String filename = URLDecoder.decode(request.getHeader("Content-Name"), "UTF-8");
-        appendFile(chunk, new File("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename));
+        appendFile(request.getHeader("Content-Start"),chunk, new File("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename));
         if (request.getHeader("Content-End") != null && request.getHeader("Content-End").equals(request.getHeader("Content-FileSize"))) {
             Ppt2Pdf.convert(
                     new FileInputStream("/mnt/data/files/" + request.getHeader("Content-Lecture") + "-" + filename),
@@ -88,11 +92,16 @@ public class ProgressUploadController {
         }
     }
 
-    private void appendFile(InputStream in, File dest) {
+    private void appendFile(String start,InputStream in, File dest) {
         OutputStream out = null;
 
         try {
             if (dest.exists()) {
+                if(start.equals("0")){
+                    if(dest.delete()){
+                        out = new BufferedOutputStream(new FileOutputStream(dest), BUFFER_SIZE);
+                    }
+                }
                 out = new BufferedOutputStream(new FileOutputStream(dest, true), BUFFER_SIZE);
             } else {
                 out = new BufferedOutputStream(new FileOutputStream(dest), BUFFER_SIZE);

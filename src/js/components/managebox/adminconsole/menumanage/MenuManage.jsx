@@ -19,6 +19,7 @@ export default class MenuManage extends React.Component {
                 this.setState({data: data});
                 this._sortable();
                 this._initIconpicker();
+                this._initPickerColor();
             }.bind(this));
         this._iconList();
     }
@@ -29,6 +30,10 @@ export default class MenuManage extends React.Component {
             return (<option key={data} value={data} data-icon={data}></option>);
         });
         return options;
+    }
+
+    _initPickerColor(){
+        $('.color-picker').colorpicker();
     }
 
     _initIconpicker() {
@@ -125,6 +130,7 @@ export default class MenuManage extends React.Component {
 
         menu.name = $('#editbox-' + index).val();
         menu.icon = $('#iconbox-' + index).val();
+        menu.color = $('#colorbox-' + index).val();
         this.setState(this.state.data);
         this._cancle(e);
     }
@@ -197,9 +203,12 @@ export default class MenuManage extends React.Component {
                                 <div className="col-xs-8">
                                     <div className="form-inline">
                                         <div className="form-group">
-                                            <select id={'iconbox-'+index} className="iconpicker form-control" defaultValue={main.icon}>
+                                            <select id={'iconbox-'+index} className="iconpicker form-control" defaultValue={main.icon} >
                                                 {self._iconList()}
                                             </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <input type="text" id={'colorbox-'+index} className="color-picker form-control" defaultValue="#5367ce" />
                                         </div>
                                         <div className="form-group">
                                             <input id={'editbox-'+index} className="form-control" type="text" defaultValue={main.name} onChange={function(){}}/>

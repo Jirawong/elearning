@@ -46,7 +46,7 @@ export default class Menu extends React.Component {
             var completeSub;
             if (subNodes.length > 0) {
                 completeSub = (
-                    <div className="dropdown-menu sub skin4">
+                    <div className="dropdown-menu sub " style={{backgroundColor:main.color}}>
                         <div className="flex-direction-column h100p">
                             <h4>{main.name}</h4>
                             <ul className="sub-list">
