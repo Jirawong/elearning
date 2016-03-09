@@ -35,7 +35,7 @@ public class VideoAmountRepository {
     
     public List<VideoAmount> findByCondition(BasicConditionDTO amountDTO){
         if(null == amountDTO.getCategory() && null == amountDTO.getStart()){
-            Query query = em.createNativeQuery(queryString);
+            Query query = em.createNativeQuery(queryString+" ORDER BY update_date ASC");
             List<Object[]> resultList = query.getResultList();
             return mapObject(resultList);
         }else if(null != amountDTO.getCategory() && null == amountDTO.getStart()){
@@ -43,7 +43,7 @@ public class VideoAmountRepository {
             if(null != amountDTO.getSubCategory()){
                 queryAppend = queryAppend+" AND sub_category_id=:subcat";
             }
-            Query query = em.createNativeQuery(queryAppend);
+            Query query = em.createNativeQuery(queryAppend+" ORDER BY update_date ASC");
             query.setParameter("cat", amountDTO.getCategory());
             if(null != amountDTO.getSubCategory()){
                 query.setParameter("subcat", amountDTO.getSubCategory());
@@ -55,7 +55,7 @@ public class VideoAmountRepository {
             if(null != amountDTO.getSubCategory()){
                 queryAppend = queryAppend+" AND sub_category_id=:subcat";
             }
-            Query query = em.createNativeQuery(queryAppend);
+            Query query = em.createNativeQuery(queryAppend+" ORDER BY update_date ASC");
             query.setParameter("start", amountDTO.getStart());
             query.setParameter("end", amountDTO.getEnd());
             query.setParameter("cat", amountDTO.getCategory());
@@ -67,13 +67,13 @@ public class VideoAmountRepository {
             return mapObject(resultList);
         }else if(null == amountDTO.getCategory() && null != amountDTO.getStart() && null != amountDTO.getEnd()){
             String queryAppend = queryString+" WHERE update_date BETWEEN :start AND :end";
-            Query query = em.createNativeQuery(queryAppend);
+            Query query = em.createNativeQuery(queryAppend +" ORDER BY update_date ASC");
             query.setParameter("start", amountDTO.getStart());
             query.setParameter("end", amountDTO.getEnd());
             List<Object[]> resultList = query.getResultList();
             return mapObject(resultList);
         }else{
-            Query query = em.createNativeQuery(queryString);
+            Query query = em.createNativeQuery(queryString+" ORDER BY update_date ASC");
             List<Object[]> resultList = query.getResultList();
             return mapObject(resultList);
         }
