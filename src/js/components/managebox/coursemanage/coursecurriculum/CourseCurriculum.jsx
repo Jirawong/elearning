@@ -111,7 +111,7 @@ export default class CourseCurriculum extends React.Component {
 
     _uploadHandler() {
         RestService
-            .get('/api/course/basic/' + this.props.params.courseId)
+            .get('/api/course/basic/info/' + this.props.params.courseId)
             .done(function (data) {
                 this.setState({data:data});
             }.bind(this));

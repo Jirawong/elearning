@@ -1,5 +1,7 @@
 package com.linksinnovation.elearning.controller.api;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.linksinnovation.elearning.controller.jsonview.View;
 import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.Lecture;
 import com.linksinnovation.elearning.model.Rating;
@@ -57,6 +59,7 @@ public class CourseController {
 
     }
 
+    @JsonView(View.SCREEN.class)
     @RequestMapping(method = RequestMethod.GET)
     public List<Course> get(@AuthenticationPrincipal String username) {
         UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
@@ -74,6 +77,7 @@ public class CourseController {
         return courseRepositroy.save(findOne);
     }
 
+    @JsonView(View.DEFAULT.class)
     @RequestMapping(value = "/basic/{id}", method = RequestMethod.GET)
     public Course basic(@PathVariable("id") Long id, @AuthenticationPrincipal String username) {
         Course course = courseRepositroy.findOne(id);
@@ -96,6 +100,30 @@ public class CourseController {
         }
         return course;
     }
+    
+    @RequestMapping(value = "/basic/info/{id}", method = RequestMethod.GET)
+    public Course basicInfo(@PathVariable("id") Long id, @AuthenticationPrincipal String username) {
+        Course course = courseRepositroy.findOne(id);
+        UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());
+        List<Rating> ratings = ratingRepository.findByUserAndCourse(userDetails, course);
+        course.getSections().stream().forEach((section) -> {
+            section.getLectures().stream().forEach((lecture) -> {
+                Optional<Viewer> optional = viewerRepository.findByLectureAndUser(lecture, userDetails);
+                if (optional.isPresent()) {
+                    lecture.setView(true);
+                }else{
+                    lecture.setView(false);
+                }
+            });
+        });
+        if (ratings.isEmpty()) {
+            course.setPoint(0);
+        } else {
+            course.setPoint(ratings.get(0).getPoint());
+        }
+        return course;
+    }
+    
 
     @RequestMapping(value = "/basic", method = RequestMethod.POST)
     public Course basic(@RequestBody Course course, @AuthenticationPrincipal String username) {
@@ -125,6 +153,7 @@ public class CourseController {
         return courseRepositroy.save(course);
     }
 
+    @JsonView(View.SCREEN.class)
     @RequestMapping(value = "/search/{search}/p/{page}", method = RequestMethod.GET)
     public Page<Course> search(@PathVariable("search") String search, @PathVariable("page") Integer page, @AuthenticationPrincipal String user) {
         UserDetails userDetails = userDetailsRepository.findOne(user.toUpperCase());

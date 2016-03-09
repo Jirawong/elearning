@@ -20,7 +20,7 @@ export default class CourseInstructor extends React.Component {
     _loadCourse() {
         var self = this;
         RestService
-            .get('/api/course/basic/' + this.props.params.courseId)
+            .get('/api/course/basic/info/' + this.props.params.courseId)
             .done(function (data) {
                 self.setState({data: data});
             });

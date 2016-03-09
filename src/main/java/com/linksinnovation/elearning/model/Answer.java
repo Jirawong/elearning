@@ -6,6 +6,8 @@
 package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.linksinnovation.elearning.controller.jsonview.View;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ public class Answer {
     @Id
     @GeneratedValue
     private Long id;
+    @JsonView(View.INFO.class)
     private boolean checked;
     private String answer;
     @ManyToOne

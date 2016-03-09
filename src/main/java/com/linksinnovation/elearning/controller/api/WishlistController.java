@@ -5,6 +5,8 @@
  */
 package com.linksinnovation.elearning.controller.api;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.linksinnovation.elearning.controller.jsonview.View;
 import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.UserDetails;
 import com.linksinnovation.elearning.model.Wishlist;
@@ -42,6 +44,7 @@ public class WishlistController {
     @Autowired
     private CourseRepositroy courseRepositroy;
 
+    @JsonView(View.SCREEN.class)
     @RequestMapping(value = "/p/{page}", method = RequestMethod.GET)
     public Page<Course> get(@PathVariable("page") Integer page, @AuthenticationPrincipal String username) {
         UserDetails userDetails = userDetailsRepository.findOne(username.toUpperCase());

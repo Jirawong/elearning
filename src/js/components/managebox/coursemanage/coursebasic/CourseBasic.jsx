@@ -34,7 +34,7 @@ export default class CourseBasic extends React.Component {
     _loadCourse() {
         var self = this;
         RestService
-            .get('/api/course/basic/' + this.props.params.courseId)
+            .get('/api/course/basic/info/' + this.props.params.courseId)
             .done(function (data) {
                 var category;
                 if (data.category) {

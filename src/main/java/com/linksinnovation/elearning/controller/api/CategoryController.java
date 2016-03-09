@@ -1,5 +1,7 @@
 package com.linksinnovation.elearning.controller.api;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.linksinnovation.elearning.controller.jsonview.View;
 import com.linksinnovation.elearning.model.Course;
 import com.linksinnovation.elearning.model.Menu;
 import com.linksinnovation.elearning.model.UserDetails;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,6 +34,7 @@ public class CategoryController {
     @Autowired
     private UserDetailsRepository userDetailsRepository;
 
+    @JsonView(View.SCREEN.class)
     @RequestMapping(value = "/p/{page}", method = RequestMethod.GET)
     public Page<Course> get(@PathVariable("page") Integer page, @AuthenticationPrincipal String user) {
         UserDetails userDetails = userDetailsRepository.findOne(user.toUpperCase());
@@ -46,6 +48,7 @@ public class CategoryController {
         return courses;
     }
 
+    @JsonView(View.SCREEN.class)
     @RequestMapping(value = "/{id}/p/{page}", method = RequestMethod.GET)
     public Page<Course> get(@PathVariable("id") Long id, @PathVariable("page") Integer page, @AuthenticationPrincipal String user) {
         Menu menu = menuRepository.findOne(id);

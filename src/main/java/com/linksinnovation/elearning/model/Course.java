@@ -2,8 +2,10 @@ package com.linksinnovation.elearning.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.linksinnovation.elearning.controller.jsonview.View;
 import com.linksinnovation.elearning.model.enumuration.CourseStatus;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,39 +25,53 @@ public class Course {
 
     @Id
     @GeneratedValue
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private Long id;
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private String title;
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private String subTitle;
 
+    @JsonView({View.DEFAULT.class})
     @Column(length = 4000)
     private String details;
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     @Column(nullable = false)
     private String cover = "draft.jpg";
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private String lectures = "0 lectures";
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private String hours = "0 hours video";
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private Integer point;
 
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     @Enumerated(EnumType.STRING)
     private CourseStatus status = CourseStatus.DRAFT;
 
     @OneToOne
+    @JsonView({View.DEFAULT.class})
     private Menu category;
 
     @OneToOne
+    @JsonView({View.DEFAULT.class})
     private Menu subCategory;
 
     @OneToOne
+    @JsonView({View.DEFAULT.class})
     private UserDetails creator;
 
     @ManyToMany
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private List<UserDetails> instructors;
 
+    @JsonView({View.DEFAULT.class})
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "course")
     private Set<Section> sections = new HashSet<>();
@@ -64,6 +80,7 @@ public class Course {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "course")
     private Set<Wishlist> wishlists;
 
+    @JsonView({View.DEFAULT.class})
     @JsonManagedReference
     @OrderBy("id DESC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
@@ -73,19 +90,23 @@ public class Course {
     @JsonIgnore
     private Set<Rating> ratings;
 
+    @JsonView({View.DEFAULT.class})
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "course")
     private Set<Quiz> quizzes = new HashSet<>();
 
+    @JsonView({View.DEFAULT.class})
     @ElementCollection
     private List<String> permission;
 
+    @JsonView({View.DEFAULT.class})
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
     @Transient
     @JsonSerialize
     @JsonDeserialize
+    @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private boolean wishlist = false;
 
     public Long getId() {
