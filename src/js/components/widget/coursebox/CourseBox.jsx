@@ -81,7 +81,7 @@ export default class CourseScreen extends React.Component {
                                         </span>
                                     </span>
                                     <span className="flex-align-center mh36">
-                                        <If test={this.props.data.newStatus}>
+                                        <If test={this.props.data.newStatus || this.props.data.status != 'New'}>
                                             <span className={this.props.data.classname}>
                                                 {this._capitalize(this.props.data.status)}
                                             </span>
