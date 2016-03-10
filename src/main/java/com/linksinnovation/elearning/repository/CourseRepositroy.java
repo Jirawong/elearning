@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,4 +36,8 @@ public interface CourseRepositroy extends JpaRepository<Course, Long> {
     public Page<Course> findByCategoryOrSubCategoryAndStatusAndPermission(Menu cat, CourseStatus status, String permission, Pageable pageable);
 
     public void deleteByIdAndCreator(Long get, UserDetails userDetails);
+
+    public List<Course> findByNewStatus(boolean b);
+
+    public Page<Course> findByStatusOrderByUpdateDateDesc(CourseStatus courseStatus, Pageable pageRequest);
 }

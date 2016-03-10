@@ -4,6 +4,7 @@ import React from 'react'
 
 import HistoryService from '../../../services/HistoryService';
 import RestService from '../../../services/RestService';
+import If from '../../widget/if/If';
 
 export default class CourseScreen extends React.Component {
 
@@ -80,9 +81,11 @@ export default class CourseScreen extends React.Component {
                                         </span>
                                     </span>
                                     <span className="flex-align-center mh36">
-                                        <span className={this.props.data.classname}>
-                                            {this._capitalize(this.props.data.status)}
-                                        </span>
+                                        <If test={this.props.data.newStatus}>
+                                            <span className={this.props.data.classname}>
+                                                {this._capitalize(this.props.data.status)}
+                                            </span>
+                                        </If>
                                     </span>
                                 </span>
                             </span>

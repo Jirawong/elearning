@@ -108,6 +108,8 @@ public class Course {
     @JsonDeserialize
     @JsonView({View.DEFAULT.class,View.SCREEN.class})
     private boolean wishlist = false;
+    
+    private boolean newStatus = false;
 
     public Long getId() {
         return id;
@@ -327,6 +329,16 @@ public class Course {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    public boolean isNewStatus() {
+        return newStatus;
+    }
+
+    public void setNewStatus(boolean newStatus) {
+        this.newStatus = newStatus;
+    }
+    
+    
 
     @PrePersist
     @PreUpdate

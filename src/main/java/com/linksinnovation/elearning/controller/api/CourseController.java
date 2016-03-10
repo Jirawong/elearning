@@ -14,6 +14,7 @@ import com.linksinnovation.elearning.repository.QuizScoreRepository;
 import com.linksinnovation.elearning.repository.RatingRepository;
 import com.linksinnovation.elearning.repository.UserDetailsRepository;
 import com.linksinnovation.elearning.repository.ViewerRepository;
+import com.linksinnovation.elearning.service.CourseService;
 import java.util.Arrays;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ public class CourseController {
     private ViewerRepository viewerRepository;
     @Autowired
     private QuizScoreRepository quizScoreRepository;
+    @Autowired
+    private CourseService courseService;
 
     @PreAuthorize("hasAuthority('Administrator') or hasAuthority('Instructor')")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -78,7 +81,9 @@ public class CourseController {
         } else {
             findOne.setStatus(CourseStatus.UNPUBLISH);
         }
-        return courseRepositroy.save(findOne);
+        Course save = courseRepositroy.save(findOne);
+        courseService.setNewStatus();
+        return save;
     }
 
     @JsonView(View.DEFAULT.class)
