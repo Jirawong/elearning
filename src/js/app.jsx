@@ -46,6 +46,7 @@ import UserManage from 'components/managebox/adminconsole/usermanage/UserManage'
 import ProfileManage from 'components/managebox/adminconsole/profilemanage/ProfileManage';
 import Carousel from 'components/managebox/adminconsole/carouselimages/Carousel';
 import CarouselEdit from 'components/managebox/adminconsole/carouselimages/carouseledit/CarouselEdit';
+import AddUser from 'components/managebox/adminconsole/adduser/AddUser';
 
 import UserProfile from './components/managebox/userprofile/UserProfile';
 import Profile from './components/managebox/userprofile/profile/Profile';
@@ -94,6 +95,7 @@ ReactDOM.render((
                     <Route path="/profile-manage/:username" component={ProfileManage}/>
                     <Route path="/carousel" component={Carousel} />
                     <Route path="/carousel/:id" component={CarouselEdit} />
+                    <Route path="/add-user" component={AddUser} />
                 </Route>
                 <Route path="/instructor-dashboard" component={DashBoard}/>
                 <Route path="/curriculum/:courseId" component={Curriculum}/>

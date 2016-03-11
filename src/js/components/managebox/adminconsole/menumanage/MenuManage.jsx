@@ -2,6 +2,7 @@
 import './menumanage.scss';
 
 import React from 'react'
+import HistoryService from '../../../../services/HistoryService';
 import RestService from '../../../../services/RestService';
 
 export default class MenuManage extends React.Component {
@@ -22,6 +23,16 @@ export default class MenuManage extends React.Component {
                 this._initPickerColor();
             }.bind(this));
         this._iconList();
+    }
+
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (!(data.authorities[0].authority == 'Administrator')) {
+                    HistoryService.get().pushState(null,'/');
+                }
+            });
     }
 
     _iconList() {

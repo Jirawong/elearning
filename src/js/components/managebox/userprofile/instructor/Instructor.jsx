@@ -2,6 +2,7 @@ import './instructor.scss';
 import React from 'react';
 
 import RestService from '../../../../services/RestService';
+import HistoryService from '../../../../services/HistoryService';
 
 export default class Instructor extends React.Component {
 
@@ -21,7 +22,11 @@ export default class Instructor extends React.Component {
         RestService
             .get('/api/user')
             .done(function (data) {
-                self.setState({data: data});
+                if(data.type == 'LOCAL'){
+                    HistoryService.get().pushState(null,'/');
+                }else{
+                    self.setState({data: data});
+                }
             });
     }
 

@@ -12,6 +12,7 @@ export default class UserList extends React.Component {
                         <div className="details-cols">
                             <div>{this.props.user.nameEn}</div>
                             <div className="grant">{this.props.user.authorities[0].authority}</div>
+                            <div className="type">{this.props.user.type}</div>
                         </div>
                     </div>
                 </div>

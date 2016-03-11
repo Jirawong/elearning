@@ -17,7 +17,18 @@ export default class UserManage extends React.Component {
     }
 
     componentDidMount() {
+        this._user();
         this._loadUser();
+    }
+
+    _user() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (!(data.authorities[0].authority == 'Administrator')) {
+                    HistoryService.get().pushState(null,'/');
+                }
+            });
     }
 
     _loadUser() {

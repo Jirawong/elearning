@@ -15,9 +15,20 @@ export default class CarouselEdit extends React.Component {
     }
 
     componentDidMount() {
+        this._loadUser();
         this._loadCourse();
         this._loadSlide();
         this._initSelect();
+    }
+
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (!(data.authorities[0].authority == 'Administrator')) {
+                    HistoryService.get().pushState(null,'/');
+                }
+            });
     }
 
     _onFileChange(e) {

@@ -2,6 +2,7 @@ import './profile.scss'
 
 import React from 'react';
 import RestService from '../../../../services/RestService';
+import If from '../../../widget/if/If';
 
 export default class Profile extends React.Component{
 
@@ -43,27 +44,44 @@ export default class Profile extends React.Component{
                     <div className="col-xs-1"></div>
                 </div>
 
-                <div className="row">
-                    <div className="col-xs-1"></div>
-                    <div className="col-xs-10">
-                        <div className="form-group input-group-sm">
-                            <label htmlFor="title">Position</label>
-                            <input id="title" className="form-control" type="text" readOnly="true" defaultValue={this.state.data.positionTh}/>
+                <If test={this.state.data.type == 'ISERVICE'}>
+                    <div className="row">
+                        <div className="col-xs-1"></div>
+                        <div className="col-xs-10">
+                            <div className="form-group input-group-sm">
+                                <label htmlFor="title">Position</label>
+                                <input id="title" className="form-control" type="text" readOnly="true" defaultValue={this.state.data.positionTh}/>
+                            </div>
                         </div>
+                        <div className="col-xs-1"></div>
                     </div>
-                    <div className="col-xs-1"></div>
-                </div>
+                </If>
 
-                <div className="row">
-                    <div className="col-xs-1"></div>
-                    <div className="col-xs-10">
-                        <div className="form-group input-group-sm">
-                            <label htmlFor="title">Email</label>
-                            <input id="title" className="form-control" type="text" readOnly="true" defaultValue={this.state.data.email}/>
+                <If test={this.state.data.type == 'ISERVICE'}>
+                    <div className="row">
+                        <div className="col-xs-1"></div>
+                        <div className="col-xs-10">
+                            <div className="form-group input-group-sm">
+                                <label htmlFor="title">Email</label>
+                                <input id="title" className="form-control" type="text" readOnly="true" defaultValue={this.state.data.email}/>
+                            </div>
                         </div>
+                        <div className="col-xs-1"></div>
                     </div>
-                    <div className="col-xs-1"></div>
-                </div>
+                </If>
+
+                <If test={this.state.data.type == 'LOCAL'}>
+                    <div className="row">
+                        <div className="col-xs-1"></div>
+                        <div className="col-xs-10">
+                            <div className="form-group input-group-sm">
+                                <label htmlFor="title">Level</label>
+                                <input id="title" className="form-control" type="text" readOnly="true" defaultValue={this.state.data.eesgName}/>
+                            </div>
+                        </div>
+                        <div className="col-xs-1"></div>
+                    </div>
+                </If>
             </div>
         );
     }

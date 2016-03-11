@@ -1,7 +1,22 @@
 import React from 'react';
 import HistoryService from '../../../services/HistoryService';
+import RestService from '../../../services/RestService';
 
 export default class AdminConsole extends React.Component {
+
+    componentDidMount(){
+        this._loadUser();
+    }
+
+    _loadUser() {
+        RestService
+            .get('/api/user')
+            .done(function (data) {
+                if (!(data.authorities[0].authority == 'Administrator')) {
+                    HistoryService.get().pushState(null,'/');
+                }
+            });
+    }
 
     _changePage(e) {
         e.preventDefault();
@@ -32,6 +47,9 @@ export default class AdminConsole extends React.Component {
                         </li>
                         <li>
                             <a href="/user-manage" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-users"></i>User Manage</a>
+                        </li>
+                        <li>
+                            <a href="/add-user" className="no-underline" onClick={this._changePage.bind(this)}><i className="fa fa-users"></i>Add User</a>
                         </li>
                     </ul>
                 </div>

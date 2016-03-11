@@ -87,7 +87,7 @@ export default class CourseScreen extends React.Component {
         RestService.get('/api/carousel').done(function (data) {
             this.setState({slide: data});
             $('.carousel').carousel({
-                interval: 2000
+                interval: 10000
             })
         }.bind(this));
     }
