@@ -92,6 +92,7 @@ public class Course {
 
     @JsonView({View.DEFAULT.class})
     @JsonManagedReference
+    @OrderBy("id ASC")
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "course")
     private Set<Quiz> quizzes = new HashSet<>();
 

@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  *
@@ -33,6 +34,7 @@ public class Quiz {
     
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "quiz")
     @JsonManagedReference
+    @OrderBy("id ASC")
     private List<Answer> answers = new ArrayList<>();
     
     @ManyToOne
