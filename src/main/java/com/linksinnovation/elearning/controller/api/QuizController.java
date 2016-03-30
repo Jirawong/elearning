@@ -54,6 +54,8 @@ public class QuizController {
     @RequestMapping(value = "/{courseId}", method = RequestMethod.POST)
     public Course save(@PathVariable("courseId") Long courseId, @RequestBody Quiz quiz) {
         if (quiz.getId() != null) {
+            Course course = courseRepositroy.findOne(courseId);
+            quiz.setCourse(course);
             quizRepository.save(quiz);
             return courseRepositroy.findOne(courseId);
         } else {

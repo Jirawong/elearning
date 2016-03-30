@@ -23,6 +23,7 @@ public class Section {
     @JsonBackReference
     private Course course;
     @JsonManagedReference
+    @OrderBy("id ASC")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "section")
     private Set<Lecture> lectures = new HashSet<>();
 

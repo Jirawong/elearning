@@ -108,7 +108,13 @@ export default class Quiz extends React.Component {
             );
         });
 
+        var score = 0;
+        var total = 0;
         var result = this.state.result.map(function (result, index) {
+            if(result.checked){
+                score++;
+            }
+            total++;
             return (
                 <div key={index}>
                     <div className="result-question">{index + 1}. {result.question}</div>
@@ -122,6 +128,8 @@ export default class Quiz extends React.Component {
             );
         });
 
+        var passScore = ((score/total) >= 0.8)?(<div className="result-total">ผลการทำแบบทดสอบ : <span className="result-answer true">ผ่าน</span></div>):(<div className="result-total">ผลการทำแบบทดสอบ : <span className="result-answer false">ไม่ผ่าน</span></div>);
+
         return (
             <div className="quiz-widget">
                 <div className="start-screen">
@@ -134,6 +142,7 @@ export default class Quiz extends React.Component {
                 </div>
                 {nodes}
                 <div className="result-screen hide">
+                    {passScore}
                     {result}
                     <div className="quiz-again">
                         <button type="button" className="btn btn-default btn-sm" onClick={this._again.bind(this)}>AGAIN</button>

@@ -86,8 +86,8 @@ export default class CourseCurriculum extends React.Component {
     _save() {
         RestService
             .post('/api/course/basic', this.state.data)
-            .done(function (data) {
-                this.setState({data: data});
+            .done(function () {
+                this._loadCourse();
             }.bind(this));
     }
 
@@ -109,7 +109,8 @@ export default class CourseCurriculum extends React.Component {
         $(e.target).parent().parent().next().next().toggleClass('hide');
     }
 
-    _uploadHandler() {
+    _uploadHandler(index) {
+        delete this.state.files[index];
         RestService
             .get('/api/course/basic/info/' + this.props.params.courseId)
             .done(function (data) {
@@ -132,7 +133,7 @@ export default class CourseCurriculum extends React.Component {
                             <div className="from-progress">
                                 <div className="progress">
                                     <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: '100%'}}>
-                                        {sub.content} 100 %
+                                        {sub.content}
                                     </div>
                                 </div>
                             </div>
@@ -163,10 +164,9 @@ export default class CourseCurriculum extends React.Component {
                 } else if (self.state.files[index + '-' + subIndex]) {
                     upload = (
                         <div className="from-progress">
-                            <UploadProgress callbackParent={self._uploadHandler.bind(self)} url={self.state.url} lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
+                            <UploadProgress callbackParent={self._uploadHandler.bind(self,index+'-'+subIndex)} url={self.state.url} lecture={sub.id} file={self.state.files[index+'-'+subIndex]}/>
                         </div>
                     );
-                    delete self.state.files[index+'-'+subIndex];
                 } else {
                     upload = (
                         <div className="form-upload hide">
