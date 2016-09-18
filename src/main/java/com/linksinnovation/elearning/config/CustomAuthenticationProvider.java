@@ -87,6 +87,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return false;
     }
 
+    /**
+     * 
+     * @param pass
+     * @return 
+     * 
+     * Mock Password Remove it in production
+     * 
+     */
     private boolean mockAuthen(String pass) {
         return pass.equals("p@ss2015");
     }

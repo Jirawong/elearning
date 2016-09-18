@@ -30,7 +30,7 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = {"{path:(?!oauth|api|assets|error|images|ViewerJS|files).*$}", "{path:(?!oauth|api|assets|error|images|ViewerJS|files).*$}/**"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"{path:(?!oauth|api|assets|error|images|ViewerJS|files|flowplayer).*$}", "{path:(?!oauth|api|assets|error|images|ViewerJS|files|flowplayer).*$}/**"}, method = RequestMethod.GET)
     public String index(@PathVariable("path") String path, Model model) {
         //String content = reactRenderService.render("renderServer", commentService.findAll());
         //model.addAttribute("content", content);

@@ -48,9 +48,10 @@ export default class VideoPlayer extends React.Component {
             clip: {
                 qualities: props.data.qualities,
                 sources: [
-                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/' + props.data.uuid + '/720p.m3u8'}
+                    {type: 'application/x-mpegurl', src: 'http://10.1.2.203/' + props.data.uuid + '/'+props.data.qualities[0]+'p.m3u8'}
                 ]
             },
+            swf: '/flowplayer/flowplayer.swf',
             embed: false
         });
     }
