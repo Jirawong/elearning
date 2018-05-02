@@ -56,7 +56,7 @@ public class ProgressUploadController {
             map.put("uuid", hexFile);
             map.put("lecture", lecture.getId());
             map.put("quality", QualitySelect.select(mediaInfo.get("Video", "Height")).toString());
-            rest.postForEntity("http://10.1.2.203:8080", map, String.class);
+            rest.postForEntity("http://10.1.2.202:8080", map, String.class);
         }
     }
 
